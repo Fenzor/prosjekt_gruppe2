@@ -1,0 +1,8 @@
+Evt. Steg 0: Sjekk at i prosjekt-egenskaper (properties) under Run, at riktig fil er merket som "Main Class" (her gui.Klient)
+
+Steg 1: Kjør "Clean and Build" i NetBeans.
+
+Steg 2: Kopier mappene "res" og "lib" til mappen "dist". 
+- Disse mappen sammen med .jar fila utgjør den kjørbare applikasjonen.
+
+Mappen "dist" kan man kopiere med seg hvor som helst, og navnet "dist" er ikke viktig for kjørbarheten.

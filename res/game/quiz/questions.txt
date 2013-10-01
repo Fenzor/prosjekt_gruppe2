@@ -1,0 +1,4 @@
+Question1: What is scrum?
+Question2: What is UP?
+Question3: what is RUP?
+Question4: Is the waterfall the best model?

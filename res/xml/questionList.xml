@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:questionMaster xmlns:ns2="listOfQuestions">
+    <questionkList>
+        <question imageFilePath="/image.png">
+            <text>Er 5 mer enn 1?</text>
+            <answerList>
+                <answer>
+                    <answerText>ja</answerText>
+                    <score>0</score>
+                </answer>
+                <answer>
+                    <answerText>nei</answerText>
+                    <score>10</score>
+                </answer>
+            </answerList>
+        </question>
+        <question imageFilePath="">
+            <text>2+2 er?</text>
+            <answerList>
+                <answer>
+                    <answerText>5</answerText>
+                    <score>0</score>
+                </answer>
+                <answer>
+                    <answerText>4</answerText>
+                    <score>10</score>
+                </answer>
+            </answerList>
+        </question>
+    </questionkList>
+</ns2:questionMaster>

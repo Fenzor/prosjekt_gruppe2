@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:employeeMaster xmlns:ns2="listOfEmployees">
+    <employeekList>
+        <employee>
+            <name>Walther</name>
+            <sex>male</sex>
+            <skill>50</skill>
+            <xp>500</xp>
+            <pay>100</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Bob</name>
+            <sex>male</sex>
+            <skill>40</skill>
+            <xp>30</xp>
+            <pay>50</pay>
+            <isSick>false</isSick>
+        </employee>
+    </employeekList>
+</ns2:employeeMaster>
