@@ -5,6 +5,7 @@
 package gui;
 
 import java.io.File;
+import javax.swing.JOptionPane;
 import org.lwjgl.*;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
@@ -56,12 +57,11 @@ public class Client implements Runnable {
         initGL(); // init OpenGL
         MenuWindow menu = new MenuWindow(gHandle);
         GameWindow gw = new GameWindow(gHandle);
-        boolean running = true;
-        while (running) {
+        while (isRunning) {
             switch (menu.run()) {
                 case NEWGAME: 
                     
-                    if (gw.run() == Choices.EXIT) running = false;
+                    if (gw.run() == Choices.EXIT) isRunning = false;
                     break;
                 case LOADGAME:
                     // loading game...
@@ -71,15 +71,13 @@ public class Client implements Runnable {
                     // saving game...
                     break;
                 case EXIT:
-                    running = false;
+                    isRunning = false;
                     break;
                 default:
                     break;
             }
         }
-        gHandle.getMusicLib().destroy();
-        AL.destroy();
-        Display.destroy();
+        this.destroy();
     }
        
     /*
@@ -108,8 +106,15 @@ public class Client implements Runnable {
             System.setProperty("org.lwjgl.librarypath", new File("lib//natives//linux").getAbsolutePath());
         } else {
             System.err.println("Your OS is not supported!");
+            JOptionPane.showMessageDialog(null, "Your OS is not supported!", "Warning!", JOptionPane.WARNING_MESSAGE);
             System.exit(1);
         }
+    }
+  
+    private void destroy() {
+        gHandle.getMusicLib().destroy();
+        AL.destroy();
+        Display.destroy();
     }
     
     /*

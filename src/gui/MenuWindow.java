@@ -73,7 +73,7 @@ public class MenuWindow extends Window {
                 this.gHandle.getMusicLib().getMusic(0).pause();
                 this.gHandle.getMusicLib().getMusic(0).stop();
                 JOptionPane.showMessageDialog(null, "\'Load game\' er ikke implementert...", "Advarsel!", JOptionPane.WARNING_MESSAGE);
-                return Choices.LOADGAME;
+                return Choices.EXIT;
             }
             else if (quitGame.isInside(x, y)) {
                 System.out.println("Quit game!!!");
