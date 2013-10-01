@@ -31,7 +31,7 @@ public class GameWindow extends Window {
         sprites.add(new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight()));
         sprites.add(new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight()));
         sprites.get(0).loadTexture("png", "res/images/street.png");
-        sprites.get(1).loadTexture("png", "res/images/PlainOffice.png");
+        sprites.get(1).loadTexture("png", "res/images/plainOffice.png");
         menu = new Button(gHandle.getWindow().getWindowWidth() - 225, gHandle.getWindow().getWindowHeight() - 75, 175, 50);
         menu.loadDefaultButtonState("png", "res/images/menu.png");
         menu.loadHoveredButtonState("png", "res/images/menuHovered.png");

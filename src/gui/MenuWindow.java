@@ -32,9 +32,9 @@ public class MenuWindow extends Window {
         this.newGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/4, buttonWidth, buttonHeight, menuText);
         this.loadGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/8, buttonWidth, buttonHeight, menuText);
         this.quitGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2, buttonWidth, buttonHeight, menuText);
-        this.newGame.loadTexture("png", "res/images/Button1.png");
-        this.loadGame.loadTexture("png", "res/images/Button1.png");
-        this.quitGame.loadTexture("png", "res/images/Button1.png");
+        this.newGame.loadTexture("png", "res/images/button1.png");
+        this.loadGame.loadTexture("png", "res/images/button1.png");
+        this.quitGame.loadTexture("png", "res/images/button1.png");
     }   
     
     public Choices run() {
