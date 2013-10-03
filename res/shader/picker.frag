@@ -9,5 +9,5 @@ out vec4 vFragColor;
  
 void main(void)
 {
-    vFragColor = texture(colorMap, vVaryingTexCoords.st);
+    gl_FragColor = vec4(1,0,0,1);
 }

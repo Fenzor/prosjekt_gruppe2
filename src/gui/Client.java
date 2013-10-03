@@ -5,6 +5,7 @@
 package gui;
 
 import java.io.File;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
 import org.lwjgl.*;
 import org.lwjgl.openal.AL;
@@ -29,11 +30,17 @@ public class Client implements Runnable {
         this.clientThread = new Thread(this, "Game_Thread");
     }
     
+    /*
+     * Init-method to be called when starting the game, and initiating the client-thread...
+     */
     public void runGame() {
         this.isRunning = true;
         this.clientThread.start();
     }
     
+    /*
+     * This method should NOT be called directly, but only through Thread.start()
+     */
     @Override
     public void run() {
         try {
@@ -49,11 +56,7 @@ public class Client implements Runnable {
         mLib.init();
         SoundLibrary sLib = new SoundLibrary();
         gHandle = new GameHandle(win, mLib, sLib);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            
-        }
+                
         initGL(); // init OpenGL
         MenuWindow menu = new MenuWindow(gHandle);
         GameWindow gw = new GameWindow(gHandle);
@@ -90,12 +93,17 @@ public class Client implements Runnable {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); 
                 
+        // Set perspective to orthogonal...
         GL11.glMatrixMode(GL11.GL_PROJECTION);
 	GL11.glLoadIdentity();
 	GL11.glOrtho(0, widthWindow, 0, heightWindow, 1, -1);
 	GL11.glMatrixMode(GL11.GL_MODELVIEW);
     }
     
+    /*
+     * Sets librarypath for native-compiled library-files...
+     * Is used for LWJGL-library
+     */
     private void setNatives() {
         String OS = System.getProperty("os.name").toLowerCase();
         if (OS.indexOf("win") >= 0) {
@@ -111,6 +119,9 @@ public class Client implements Runnable {
         }
     }
   
+    /*
+     * Method called when exiting...
+     */
     private void destroy() {
         gHandle.getMusicLib().destroy();
         AL.destroy();
@@ -118,7 +129,7 @@ public class Client implements Runnable {
     }
     
     /*
-     * Testklient-kode...
+     * Main-method...
      */
     public static void main(String... args) {
         Client k = new Client();        
