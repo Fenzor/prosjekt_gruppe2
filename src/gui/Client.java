@@ -5,10 +5,6 @@
 package gui;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.ByteBuffer;
 import javax.swing.JOptionPane;
 import org.lwjgl.*;
 import org.lwjgl.openal.AL;
@@ -108,7 +104,7 @@ public class Client implements Runnable {
      * Sets librarypath for native-compiled library-files...
      * Is used for LWJGL-library
      */
-    private void setNatives() {
+    private boolean setNatives() {
         String OS = System.getProperty("os.name").toLowerCase();
         if (OS.indexOf("win") >= 0) {
             System.setProperty("org.lwjgl.librarypath", new File("lib//natives//windows").getAbsolutePath());
@@ -119,8 +115,9 @@ public class Client implements Runnable {
         } else {
             System.err.println("Your OS is not supported!");
             JOptionPane.showMessageDialog(null, "Your OS is not supported!", "Warning!", JOptionPane.WARNING_MESSAGE);
-            System.exit(1);
+            return false;
         }
+        return true;
     }
     
     // Used to convert .png icon file unto bytebuffer
@@ -153,7 +150,9 @@ public class Client implements Runnable {
      */
     public static void main(String... args) {
         Client k = new Client();        
-        k.setNatives();
+        if (!k.setNatives()) {
+            System.exit(1);
+        }
         k.runGame();
     }
 }
