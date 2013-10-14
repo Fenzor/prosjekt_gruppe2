@@ -9,7 +9,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.newdawn.slick.Color;
 
 /**
@@ -40,8 +39,11 @@ public class GameWindow extends Window {
     }
     
     public Choices run() {
-        cp = new ColorPicker(new Color(1, 0, 1, 1), Color.blue);
+        
+        // Used to test shader-code... IS NOT FINISHED!!!
+        //cp = new ColorPicker(new Color(1, 0, 1, 1), Color.blue);
         //cp.useShader();
+        
         while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             // Clear the screen and depth buffer
 	    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -82,16 +84,8 @@ public class GameWindow extends Window {
      */
     private void renderGL() {
         // Textured sprites (i.e background and buttons)...
-        int i = 0;
         for (Sprite s : sprites) {
-            if (i == 1) {
-                cp.useShader();
-                
-                s.draw();
-                cp.detachShader();
-                
-            } else s.draw();
-            i++;                
+            s.draw();             
         } 
         
         
