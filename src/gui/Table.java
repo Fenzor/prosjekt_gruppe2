@@ -4,13 +4,22 @@
  */
 package gui;
 
+import game.Employee;
+import java.util.ArrayList;
+
 /**
  *
  * @author Lars Aksel
  */
 public class Table extends Sprite {
+    private ArrayList<Employee> emp;
     
     public Table(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);
+        emp = new ArrayList<>();
+    }
+    
+    public void addEmployee() {
+        
     }
 }

@@ -28,9 +28,12 @@ public class GameWindow extends Window {
         super(gHandle.getWindow());
         sprites = new ArrayList();
         sprites.add(new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight()));
+        sprites.add(new Car(900, 800, "png", "res/images/car01.png"));
+        sprites.get(1).scaleSize(2, 2);
         sprites.add(new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight()));
+        
         sprites.get(0).loadTexture("png", "res/images/street.png");
-        sprites.get(1).loadTexture("png", "res/images/plainOffice.png");
+        sprites.get(2).loadTexture("png", "res/images/plainOffice.png");
         menu = new Button(gHandle.getWindow().getWindowWidth() - 225, gHandle.getWindow().getWindowHeight() - 75, 175, 50);
         menu.loadDefaultButtonState("png", "res/images/menu.png");
         menu.loadHoveredButtonState("png", "res/images/menuHovered.png");
@@ -41,7 +44,8 @@ public class GameWindow extends Window {
     public Choices run() {
         
         // Used to test shader-code... IS NOT FINISHED!!!
-        //cp = new ColorPicker(new Color(1, 0, 1, 1), Color.blue);
+        // Color c = new Color
+        cp = new ColorPicker(new Color(255, 0, 255, 255), new Color(0, 0, 100, 100));
         //cp.useShader();
         
         while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
@@ -84,8 +88,14 @@ public class GameWindow extends Window {
      */
     private void renderGL() {
         // Textured sprites (i.e background and buttons)...
-        for (Sprite s : sprites) {
-            s.draw();             
+        for (int i = 0; i < sprites.size(); i++) {
+            if (i == 2) {
+                cp.useShader();
+                sprites.get(i).draw();
+                cp.detachShader();
+                continue;
+            }
+            sprites.get(i).draw();
         } 
         
         

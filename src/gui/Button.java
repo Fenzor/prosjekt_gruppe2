@@ -6,7 +6,6 @@ package gui;
 
 import java.io.IOException;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -114,6 +113,6 @@ public class Button extends Sprite {
     
     public void draw(String text, int xPos, int yPos) {
         super.draw();
-        this.text.draw(text, this.xPos + xPos, this.yPos + yPos);
+        this.text.draw(text, (int) this.xPos + xPos, (int) this.yPos + yPos);
     }
 }

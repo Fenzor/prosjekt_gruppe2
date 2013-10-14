@@ -1,5 +1,6 @@
 package game;
 
+import gui.Sprite;
 import java.io.Serializable;
 import java.util.Random;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,6 +18,7 @@ public class Employee implements Serializable {
     private int skill, xp, pay;
     private Employee.sex sex;
     private boolean isSick;
+    private Sprite sprite;
 
     public Employee() {
         isSick = false;
@@ -115,6 +117,14 @@ public class Employee implements Serializable {
 
     public void changeSkill(int skill) {
         this.skill += skill;
+    }
+    
+    public void setSprite(Sprite s) {
+        this.sprite = s;
+    }
+    
+    public Sprite getSprite() {
+        return this.sprite;
     }
 
     public String toString() {

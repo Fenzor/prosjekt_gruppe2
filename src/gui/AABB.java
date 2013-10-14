@@ -9,10 +9,10 @@ package gui;
  * @author Lars Aksel
  */
 public class AABB {
-    protected int xPos;
-    protected int yPos;
-    protected int sizeX;
-    protected int sizeY;
+    protected float xPos;
+    protected float yPos;
+    protected float sizeX;
+    protected float sizeY;
 
     public AABB(int xPos, int yPos, int sizeX, int sizeY) {
         this.xPos = xPos;
@@ -28,7 +28,7 @@ public class AABB {
         this.sizeY = 0;
     }
 
-    public int getX() {
+    public float getX() {
         return xPos;
     }
 
@@ -36,7 +36,7 @@ public class AABB {
         this.xPos = xPos;
     }
 
-    public int getY() {
+    public float getY() {
         return yPos;
     }
 
@@ -44,7 +44,7 @@ public class AABB {
         this.yPos = yPos;
     }
 
-    public int getSizeX() {
+    public float getSizeX() {
         return sizeX;
     }
 
@@ -52,12 +52,17 @@ public class AABB {
         this.sizeX = sizeX;
     }
 
-    public int getSizeY() {
+    public float getSizeY() {
         return sizeY;
     }
 
     public void setSizeY(int sizeY) {
         this.sizeY = sizeY;
+    }
+    
+    public void scaleSize(float x, float y) {
+        this.sizeX = this.sizeX * x;
+        this.sizeY = this.sizeY * y;
     }
     
     public boolean isInside(int xPos, int yPos) {

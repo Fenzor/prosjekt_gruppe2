@@ -86,8 +86,8 @@ public class MenuWindow extends Window {
     
     private void drawGL() {
         background.draw();
-        this.newGame.draw("New Game", this.newGame.getSizeX()/2, 5);
-        this.loadGame.draw("Load Game", this.loadGame.getSizeX()/2, 5);
-        this.quitGame.draw("Quit Game", this.quitGame.getSizeX()/2, 5);
+        this.newGame.draw("New Game", (int) this.newGame.getSizeX()/2, 5);
+        this.loadGame.draw("Load Game", (int) this.loadGame.getSizeX()/2, 5);
+        this.quitGame.draw("Quit Game", (int) this.quitGame.getSizeX()/2, 5);
     }
 }
