@@ -120,22 +120,6 @@ public class Client implements Runnable {
         return true;
     }
     
-    // Used to convert .png icon file unto bytebuffer
-    /*
-    private static ByteBuffer loadIcon(URL url) throws IOException {
-        InputStream is = url.openStream();
-        try {
-            PNGDecoder decoder = new PNGDecoder(is);
-            ByteBuffer bb = ByteBuffer.allocateDirect(decoder.getWidth()*decoder.getHeight()*4);
-            decoder.decode(bb, decoder.getWidth()*4, PNGDecoder.Format.RGBA);
-            bb.flip();
-            return bb;
-        } finally {
-            is.close();
-        }
-    }
-  */
-    
     /*
      * Method called when exiting...
      */
