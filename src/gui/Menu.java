@@ -14,14 +14,14 @@ import org.lwjgl.opengl.GL11;
  *
  * @author Lars Aksel
  */
-public class MenuWindow extends Window {
+public class Menu extends Window {
     private Sprite background;
     private Button newGame;
     private Button loadGame;
     private Button quitGame;
     private GameHandle gHandle;
     
-    public MenuWindow(GameHandle gHandle) {
+    public Menu(GameHandle gHandle) {
         super(gHandle.getWindow());
         this.gHandle = gHandle;
         this.background = new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight());

@@ -58,7 +58,7 @@ public class Client implements Runnable {
         gHandle = new GameHandle(win, mLib, sLib);
                 
         initGL(); // init OpenGL
-        MenuWindow menu = new MenuWindow(gHandle);
+        Menu menu = new Menu(gHandle);
         GameWindow gw = new GameWindow(gHandle);
         while (isRunning) {
             switch (menu.run()) {
