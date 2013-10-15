@@ -15,7 +15,6 @@ import org.newdawn.slick.Color;
  *
  * @author Lars Aksel
  */
-//TODO move is clicked checkings to Button.java
 public class GameWindow extends Window {
     private ArrayList<Sprite> sprites;
     private Button menu;
@@ -42,9 +41,6 @@ public class GameWindow extends Window {
     }
     
     public Choices run() {
-        
-        // Used to test shader-code... IS NOT FINISHED!!!
-        // Color c = new Color
         cp = new ColorPicker(new Color(255, 0, 255, 255), new Color(0, 0, 100, 100));
         //cp.useShader();
         
