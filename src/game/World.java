@@ -43,8 +43,8 @@ public class World {
 
         ArrayList<DevelopmentModel> devMod = new ArrayList<DevelopmentModel>();
         devMod.add(new DevelopmentModel(Type.Scrum, 1));
-        devMod.add(new DevelopmentModel(Type.UP, 1));
-        devMod.add(new DevelopmentModel(Type.Waterfall, 1));
+        devMod.add(new DevelopmentModel(Type.UP, 2));
+        devMod.add(new DevelopmentModel(Type.Waterfall, 3));
 
         ArrayList<Employee> ansatte = new ArrayList<Employee>();
 //        String name, int skill, int xp, int pay, Employee.sex sex, boolean isSick
