@@ -26,6 +26,8 @@ public class Client implements Runnable {
     private Thread clientThread;
     private boolean isRunning;
     private MusicLibrary mLib;
+    private Window currentWindow;
+    private InputHandler input;
     
     public Client() {
         this.clientThread = new Thread(this, "Game_Thread");
@@ -40,6 +42,7 @@ public class Client implements Runnable {
     }
     
     /*
+     * Main client-thread...
      * This method should NOT be called directly, but only through Thread.start()
      */
     @Override
@@ -55,42 +58,55 @@ public class Client implements Runnable {
         
         initGL(); // init OpenGL
         
-        Window currentWindow = new Window(); // The window being drawn to...
+        initMainMenu(); // init main menu
+        input = new InputHandler(currentWindow);
+        input.init();
+        
+        mLib = new MusicLibrary();
+        mLib.init();
+        while (isRunning) {
+            currentWindow.drawAll();
+            checkGlobalInput();
+            
+            
+            Display.sync(60);
+            Display.update();
+        }
+        this.destroy();
+    }
+    
+    /*
+    * Used to initiate the Main menu with default values...
+    */
+    public void initMainMenu() {
+        // Add background...
+        currentWindow = new Window(); // The window being drawn to...
         int layer01 = currentWindow.addLayer();
         Sprite menuBackground = new Sprite(0, 0, this.widthWindow, this.heightWindow);
         menuBackground.loadTexture("png", "res/images/startScreen.png");
         currentWindow.addSpriteToLayer(layer01, menuBackground);
         
+        // Generate buttons...
         int buttonWidth = 300;
         int buttonHeight = 70;
         Text menuText = new Text("res/font/clacon.ttf", 55, true, new Color(1.0f,0,0.0f,0), Text.ALIGN_CENTER);
         Button newGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/4, buttonWidth, buttonHeight, menuText, "New Game");
         Button loadGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/8, buttonWidth, buttonHeight, menuText, "Load Game");
         Button quitGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2, buttonWidth, buttonHeight, menuText, "Quit Game");
-        newGame.loadTexture("png", "res/images/button1.png");
-        loadGame.loadTexture("png", "res/images/button1.png");
-        quitGame.loadTexture("png", "res/images/button1.png");
-        int dLayer01 = currentWindow.addDynamicLayer();
-        currentWindow.addButtonToLayer(dLayer01, newGame);
-        currentWindow.addButtonToLayer(dLayer01, loadGame);
-        currentWindow.addButtonToLayer(dLayer01, quitGame);
-        mLib = new MusicLibrary();
-        mLib.init();
-        //SoundLibrary sLib = new SoundLibrary();
-        //gHandle = new GameHandle(win, mLib, sLib);
+        newGame.loadDefaultButtonState("png", "res/images/menuButtonDefault.png");
+        newGame.loadHoveredButtonState("png", "res/images/menuButtonHovered.png");
+        newGame.loadClickedButtonState("png", "res/images/menuButtonClicked.png");
+        loadGame.loadDefaultButtonState("png", "res/images/menuButtonDefault.png");
+        loadGame.loadHoveredButtonState("png", "res/images/menuButtonHovered.png");
+        loadGame.loadClickedButtonState("png", "res/images/menuButtonClicked.png");
+        quitGame.loadDefaultButtonState("png", "res/images/menuButtonDefault.png");
+        quitGame.loadHoveredButtonState("png", "res/images/menuButtonHovered.png");
+        quitGame.loadClickedButtonState("png", "res/images/menuButtonClicked.png");
         
-        
-        
-        //Menu menu = new Menu(gHandle);
-        //GameWindow gw = new GameWindow(gHandle);
-        while (isRunning) {
-            currentWindow.drawAll();
-            checkGlobalInput();
-            
-            Display.sync(60);
-            Display.update();
-        }
-        this.destroy();
+        // Put buttons in the dynamic layer...
+        currentWindow.addButtonToLayer(newGame);
+        currentWindow.addButtonToLayer(loadGame);
+        currentWindow.addButtonToLayer(quitGame);
     }
        
     /*
@@ -132,7 +148,7 @@ public class Client implements Runnable {
             this.fullscreen = !this.fullscreen;
             this.setDisplayMode(this.heightWindow, this.widthWindow, this.fullscreen);
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested()) {
             this.isRunning = false;
         }
     }
@@ -223,6 +239,7 @@ public class Client implements Runnable {
      */
     private void destroy() {
         mLib.destroy();
+        input.destroy();
         AL.destroy();
         Display.destroy();
     }

@@ -5,6 +5,7 @@
 package gui;
 
 import java.util.ArrayList;
+import org.lwjgl.input.Mouse;
 
 /**
  *
@@ -22,9 +23,18 @@ public class DynamicLayer {
         return this.buttons.size() - 1;
     }
     
-    public Button isInside(int xPos, int yPos) {
+    public Button isInside() {
+        boolean isClicked = Mouse.isButtonDown(0);
+        int xPos = Mouse.getX();
+        int yPos = Mouse.getY();
         for (Button b : buttons) {
-            if (b.isInside(xPos, yPos)) return b;
+            if (b.isInside(xPos, yPos)) {                
+                if (isClicked) {
+                    b.setClickedState();
+                    return b;
+                }
+                b.setHoveredState();
+            } else b.setDefaultState();
         }
         return null;
     }
