@@ -12,9 +12,8 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.PNGDecoder;
+import org.newdawn.slick.Color;
 import sound.MusicLibrary;
-import sound.SoundLibrary;
 /**
  *
  * @author Lars Aksel
@@ -64,7 +63,7 @@ public class Client implements Runnable {
         
         int buttonWidth = 300;
         int buttonHeight = 70;
-        Text menuText = new Text("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, Text.ALIGN_CENTER);
+        Text menuText = new Text("res/font/clacon.ttf", 55, true, new Color(1.0f,0,0.0f,0), Text.ALIGN_CENTER);
         Button newGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/4, buttonWidth, buttonHeight, menuText, "New Game");
         Button loadGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/8, buttonWidth, buttonHeight, menuText, "Load Game");
         Button quitGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2, buttonWidth, buttonHeight, menuText, "Quit Game");
@@ -79,7 +78,8 @@ public class Client implements Runnable {
         mLib.init();
         //SoundLibrary sLib = new SoundLibrary();
         //gHandle = new GameHandle(win, mLib, sLib);
-                
+        
+        
         
         //Menu menu = new Menu(gHandle);
         //GameWindow gw = new GameWindow(gHandle);

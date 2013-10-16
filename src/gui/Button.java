@@ -23,23 +23,31 @@ public class Button extends Sprite {
     private Texture clickedButtonState;
     private Text textType;
     private String buttonText;
+    private int textOffsetX;
+    private int textOffsetY;
     
     public Button(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = new Text("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, Text.ALIGN_CENTER);
         this.buttonText = "placeholder";
+        this.textOffsetX = sizeX / 2;
+        this.textOffsetY = sizeY / 2;
     }
     
     public Button(int xPos, int yPos, int sizeX, int sizeY, Text text) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = text;
         this.buttonText = "placeholder";
+        this.textOffsetX = sizeX / 2;
+        this.textOffsetY = sizeY / 2;
     }
     
     public Button(int xPos, int yPos, int sizeX, int sizeY, Text textType, String buttonText) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = textType;
         this.buttonText = buttonText;
+        this.textOffsetX = sizeX / 2;
+        this.textOffsetY = sizeY / 2;
     }
     
     public boolean loadDefaultButtonState(String filetype, String path) {
@@ -129,6 +137,6 @@ public class Button extends Sprite {
     @Override
     public void draw() {
         super.draw();
-        this.textType.draw(buttonText, (int) (this.xPos + xPos), (int) (this.yPos + yPos));
+        this.textType.draw(buttonText, (int) (this.xPos + textOffsetX), (int) (this.yPos + textOffsetY));
     }
 }

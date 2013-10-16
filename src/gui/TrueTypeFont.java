@@ -322,6 +322,7 @@ public class TrueTypeFont {
 				break;
 			}
 			case ALIGN_CENTER: {
+                                startY -= fontHeight/2;
 				for (int l = startIndex; l <= endIndex; l++) {
 					charCurrent = whatchars.charAt(l);
 					if (charCurrent == '\n') break;
@@ -331,7 +332,9 @@ public class TrueTypeFont {
 						intObject = (IntObject)customChars.get( new Character( (char) charCurrent ) );
 					}
 					totalwidth += intObject.width-correctL;
+                                        
 				}
+                                
 				totalwidth /= -2;
 			}
 			case ALIGN_LEFT:

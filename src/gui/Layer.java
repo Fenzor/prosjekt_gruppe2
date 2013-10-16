@@ -11,8 +11,8 @@ import java.util.ArrayList;
  * @author LarsAksel
  */
 public class Layer {
-    protected String description;
-    protected ArrayList<Sprite> sprites;
+    private String description;
+    private ArrayList<Sprite> sprites;
     
     public Layer() {
         this.sprites = new ArrayList<>();
