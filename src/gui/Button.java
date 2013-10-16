@@ -21,15 +21,25 @@ public class Button extends Sprite {
     private Texture defaultButtonState;
     private Texture hoveredButtonState;
     private Texture clickedButtonState;
-    private Text text;
+    private Text textType;
+    private String buttonText;
     
     public Button(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);
+        this.textType = new Text("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, Text.ALIGN_CENTER);
+        this.buttonText = "placeholder";
     }
     
     public Button(int xPos, int yPos, int sizeX, int sizeY, Text text) {
         super(xPos, yPos, sizeX, sizeY);
-        this.text = text;
+        this.textType = text;
+        this.buttonText = "placeholder";
+    }
+    
+    public Button(int xPos, int yPos, int sizeX, int sizeY, Text textType, String buttonText) {
+        super(xPos, yPos, sizeX, sizeY);
+        this.textType = textType;
+        this.buttonText = buttonText;
     }
     
     public boolean loadDefaultButtonState(String filetype, String path) {
@@ -113,6 +123,12 @@ public class Button extends Sprite {
     
     public void draw(String text, int xPos, int yPos) {
         super.draw();
-        this.text.draw(text, (int) this.xPos + xPos, (int) this.yPos + yPos);
+        this.textType.draw(text, (int) (this.xPos + xPos), (int) (this.yPos + yPos));
+    }
+    
+    @Override
+    public void draw() {
+        super.draw();
+        this.textType.draw(buttonText, (int) (this.xPos + xPos), (int) (this.yPos + yPos));
     }
 }

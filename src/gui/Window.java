@@ -5,40 +5,36 @@
 package gui;
 
 import java.util.ArrayList;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 
 /**
  *
  * @author LarsAksel
  */
 public class Window {
-    private int windowWidth;
-    private int windowHeight;
-    private boolean isFullscreen;
     private ArrayList<Layer> layers;
+    private ArrayList<DynamicLayer> dLayers;
 
     public Window(Window window) {
-        this.windowWidth = window.windowWidth;
-        this.windowHeight = window.windowHeight;
-        this.isFullscreen = window.isFullscreen;
         this.layers = window.layers;
+        this.dLayers = window.dLayers;
     }
      
-    public Window(int windowWidth, int windowHeight, boolean isFullscreen) {
-        this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
-        this.isFullscreen = isFullscreen;
+    public Window() {
         this.layers = new ArrayList<>();
+        this.dLayers = new ArrayList<>();
     }
     
     /*
      * Adds an new Layer to be drawn
      */
-    public void addLayer() {
+    public int addLayer() {
         this.layers.add(new Layer());
+        return this.layers.size() - 1;
+    }
+    
+    public int addDynamicLayer() {
+        this.dLayers.add(new DynamicLayer());
+        return this.dLayers.size() - 1;
     }
     
     /*
@@ -48,10 +44,23 @@ public class Window {
         this.layers.get(index).addSprite(s);
     }
     
+    public void addButtonToLayer(int index, Button b) {
+        this.dLayers.get(index).addButton(b);
+    }
+    
     /*
      * Returns number of layers within this window...
      */
     public int numberOfLayers() {
         return this.layers.size();
+    }
+    
+    public void drawAll() {
+        for (Layer l : layers) {
+            l.drawSprites();
+        }
+        for (DynamicLayer d : dLayers) {
+            d.drawButtons();
+        }
     }
 }

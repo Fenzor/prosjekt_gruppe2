@@ -23,9 +23,10 @@ public class Client implements Runnable {
     private int widthWindow = 1280;
     private int heightWindow = 720;
     private boolean fullscreen = false;
-    private GameHandle gHandle;
+    //private GameHandle gHandle;
     private Thread clientThread;
     private boolean isRunning;
+    private MusicLibrary mLib;
     
     public Client() {
         this.clientThread = new Thread(this, "Game_Thread");
@@ -52,34 +53,42 @@ public class Client implements Runnable {
             e.printStackTrace();
             System.exit(0);
         }
-        Window win = new Window(widthWindow, heightWindow, fullscreen);
-        MusicLibrary mLib = new MusicLibrary();
-        mLib.init();
-        SoundLibrary sLib = new SoundLibrary();
-        gHandle = new GameHandle(win, mLib, sLib);
-                
+        
         initGL(); // init OpenGL
-        Menu menu = new Menu(gHandle);
-        GameWindow gw = new GameWindow(gHandle);
+        
+        Window currentWindow = new Window(); // The window being drawn to...
+        int layer01 = currentWindow.addLayer();
+        Sprite menuBackground = new Sprite(0, 0, this.widthWindow, this.heightWindow);
+        menuBackground.loadTexture("png", "res/images/startScreen.png");
+        currentWindow.addSpriteToLayer(layer01, menuBackground);
+        
+        int buttonWidth = 300;
+        int buttonHeight = 70;
+        Text menuText = new Text("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, Text.ALIGN_CENTER);
+        Button newGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/4, buttonWidth, buttonHeight, menuText, "New Game");
+        Button loadGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/8, buttonWidth, buttonHeight, menuText, "Load Game");
+        Button quitGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2, buttonWidth, buttonHeight, menuText, "Quit Game");
+        newGame.loadTexture("png", "res/images/button1.png");
+        loadGame.loadTexture("png", "res/images/button1.png");
+        quitGame.loadTexture("png", "res/images/button1.png");
+        int dLayer01 = currentWindow.addDynamicLayer();
+        currentWindow.addButtonToLayer(dLayer01, newGame);
+        currentWindow.addButtonToLayer(dLayer01, loadGame);
+        currentWindow.addButtonToLayer(dLayer01, quitGame);
+        mLib = new MusicLibrary();
+        mLib.init();
+        //SoundLibrary sLib = new SoundLibrary();
+        //gHandle = new GameHandle(win, mLib, sLib);
+                
+        
+        //Menu menu = new Menu(gHandle);
+        //GameWindow gw = new GameWindow(gHandle);
         while (isRunning) {
-            switch (menu.run()) {
-                case NEWGAME: 
-                    
-                    if (gw.run() == Choices.EXIT) isRunning = false;
-                    break;
-                case LOADGAME:
-                    // loading game...
-                    //running = false;
-                    break;
-                case SAVEGAME:
-                    // saving game...
-                    break;
-                case EXIT:
-                    isRunning = false;
-                    break;
-                default:
-                    break;
-            }
+            currentWindow.drawAll();
+            checkGlobalInput();
+            
+            Display.sync(60);
+            Display.update();
         }
         this.destroy();
     }
@@ -99,46 +108,6 @@ public class Client implements Runnable {
 	GL11.glLoadIdentity();
 	GL11.glOrtho(0, widthWindow, 0, heightWindow, 1, -1);
 	GL11.glMatrixMode(GL11.GL_MODELVIEW);
-    }
-    
-    /*
-     * Sets librarypath for native-compiled library-files...
-     * Is used for LWJGL-library
-     */
-    private boolean setNatives() {
-        String OS = System.getProperty("os.name").toLowerCase();
-        if (OS.indexOf("win") >= 0) {
-            System.setProperty("org.lwjgl.librarypath", new File("lib//natives//windows").getAbsolutePath());
-        } else if (OS.indexOf("mac") >= 0) {
-            System.setProperty("org.lwjgl.librarypath", new File("lib//natives//macosx").getAbsolutePath());
-        } else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0) {
-            System.setProperty("org.lwjgl.librarypath", new File("lib//natives//linux").getAbsolutePath());
-        } else {
-            System.err.println("Your OS is not supported!");
-            JOptionPane.showMessageDialog(null, "Your OS is not supported!", "Warning!", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        return true;
-    }
-    
-    /*
-     * Method called when exiting...
-     */
-    private void destroy() {
-        gHandle.getMusicLib().destroy();
-        AL.destroy();
-        Display.destroy();
-    }
-    
-    /*
-     * Main-method...
-     */
-    public static void main(String... args) {
-        Client k = new Client();        
-        if (!k.setNatives()) {
-            System.exit(1);
-        }
-        k.runGame();
     }
     
     /*
@@ -162,6 +131,9 @@ public class Client implements Runnable {
         if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
             this.fullscreen = !this.fullscreen;
             this.setDisplayMode(this.heightWindow, this.widthWindow, this.fullscreen);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            this.isRunning = false;
         }
     }
         
@@ -225,4 +197,44 @@ public class Client implements Runnable {
            System.out.println("Unable to setup mode "+width+"x"+height+" fullscreen="+fullscreen + e);
        }
    }
+    
+    /*
+     * Sets librarypath for native-compiled library-files...
+     * Is used for LWJGL-library
+     */
+    private boolean setNatives() {
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("win") >= 0) {
+            System.setProperty("org.lwjgl.librarypath", new File("lib//natives//windows").getAbsolutePath());
+        } else if (OS.indexOf("mac") >= 0) {
+            System.setProperty("org.lwjgl.librarypath", new File("lib//natives//macosx").getAbsolutePath());
+        } else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0) {
+            System.setProperty("org.lwjgl.librarypath", new File("lib//natives//linux").getAbsolutePath());
+        } else {
+            System.err.println("Your OS is not supported!");
+            JOptionPane.showMessageDialog(null, "Your OS is not supported!", "Warning!", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+    /*
+     * Method called when exiting...
+     */
+    private void destroy() {
+        mLib.destroy();
+        AL.destroy();
+        Display.destroy();
+    }
+    
+    /*
+     * Main-method...
+     */
+    public static void main(String... args) {
+        Client k = new Client();        
+        if (!k.setNatives()) {
+            System.exit(1);
+        }
+        k.runGame();
+    }
 }

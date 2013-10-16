@@ -11,8 +11,8 @@ import java.util.ArrayList;
  * @author LarsAksel
  */
 public class Layer {
-    private String description;
-    private ArrayList<Sprite> sprites;
+    protected String description;
+    protected ArrayList<Sprite> sprites;
     
     public Layer() {
         this.sprites = new ArrayList<>();
@@ -36,6 +36,6 @@ public class Layer {
     
     @Override
     public String toString() {
-        return "Description: " + this.description + " ,number of sprites: " + sprites.size();
+        return "Description: \"" + this.description + "\" ,number of sprites: " + sprites.size();
     }
 }

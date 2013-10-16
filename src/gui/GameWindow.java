@@ -16,6 +16,7 @@ import org.newdawn.slick.Color;
  * @author Lars Aksel
  */
 public class GameWindow extends Window {
+    /*
     private ArrayList<Sprite> sprites;
     private Button menu;
     private boolean clicked = false;
@@ -82,6 +83,7 @@ public class GameWindow extends Window {
     /*
      * render method
      */
+    /*
     private void renderGL() {
         // Textured sprites (i.e background and buttons)...
         for (int i = 0; i < sprites.size(); i++) {
@@ -112,4 +114,5 @@ public class GameWindow extends Window {
         // Draw example-text...
         //t.draw(400, 450, "Hello World!", org.newdawn.slick.Color.magenta);
     }
+    */
 }
