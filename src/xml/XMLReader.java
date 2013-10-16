@@ -10,12 +10,15 @@ import questions.Question;
 /**
  *
  * @author WaltherKammen
+ * 
+ * Henter data fra res/xml/*.xml
  */
 public class XMLReader {
 
     /**
      *
-     * @return @throws Exception
+     * @return en liste med spørsmål og svar
+     * @throws Exception 
      */
     public static List<Question> getQuestions() throws Exception {
         File file = new File("res/xml/questionList.xml");
@@ -29,7 +32,8 @@ public class XMLReader {
 
     /**
      *
-     * @return @throws Exception
+     * @return en liste med ansatte
+     * @throws Exception
      */
     public static List<Employee> getEmployees() throws Exception {
         File file = new File("res/xml/employeeList.xml");

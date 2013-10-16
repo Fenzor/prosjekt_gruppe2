@@ -14,18 +14,34 @@ public class Answer {
     private String answerText;
     private int score;
 
+    /**
+     *
+     * @param answerText
+     */
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
     }
 
+    /**
+     *
+     * @param score
+     */
     public void setScore(int score) {
         this.score = score;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAnswerText() {
         return answerText;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getScore() {
         return score;
     }
