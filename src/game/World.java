@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.RuntimeException;
 
 /**
  *
@@ -30,6 +31,15 @@ public class World {
     
     
     
+    public void World(String playername, String companyname){
+        initialize(playername,companyname);
+        try {
+            run();
+        } catch(InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public static void main(String[] args) throws InterruptedException{
         World game = new World();
         game.run();
@@ -37,7 +47,6 @@ public class World {
     }
     
     public void run() throws InterruptedException {
-        initialize("Rasmus","Tycoon");
         
         
         while (gameTime<400){
@@ -129,8 +138,8 @@ public class World {
         Company comp = new Company(companyName);
         player.setCompany(comp);
         
-        
     }
+    
     
     private void endMonth(){ //betale ansatte, beregne fortløpende kostnader på ulike prosjekt.
         
