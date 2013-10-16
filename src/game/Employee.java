@@ -1,6 +1,5 @@
 package game;
 
-import gui.Sprite;
 import java.io.Serializable;
 import java.util.Random;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,28 +17,29 @@ public class Employee implements Serializable {
     private int skill, xp, pay;
     private Employee.sex sex;
     private boolean isSick;
-    private Sprite sprite;
 
     public Employee() {
         isSick = false;
     }
 
-    public Employee(String namestring, int s, int x, Employee.sex sex, int p, boolean sick) {
-        name = namestring;
-        skill = s;
-        xp = x;
+    public Employee(String name, int skill, int xp, int pay, Employee.sex sex, boolean isSick) {
+        this.name = name;
+        this.skill = skill;
+        this.xp = xp;
         this.sex = sex;
-        pay = p;
-        isSick = sick;
+        this.pay = pay;
+        this.isSick = isSick;
     }
 
     public Employee(String namestring, Employee.sex sex, boolean sick) {
         name = namestring;
         Random rg = new Random();
+        //Ferdighet settes til et tall mellom 0 og 10.
         skill = rg.nextInt(10);
         xp = 0;
         this.sex = sex;
         isSick = sick;
+        //Lønn settes til mellom 0 og 12000, avhengig av ferdighet.
         pay = (skill * 800) + rg.nextInt(4) * 1000;
     }
 
@@ -90,6 +90,10 @@ public class Employee implements Serializable {
     public void setXp(int newXp) {
         this.xp = newXp;
     }
+    
+    public void changeXp(int Xp){
+        this.xp += Xp;
+    }
 
     public sex getSex() {
         return sex;
@@ -116,15 +120,10 @@ public class Employee implements Serializable {
     }
 
     public void changeSkill(int skill) {
-        this.skill += skill;
-    }
-    
-    public void setSprite(Sprite s) {
-        this.sprite = s;
-    }
-    
-    public Sprite getSprite() {
-        return this.sprite;
+        if (this.skill+skill>10) this.skill =10;
+        else if (this.skill+skill<0) this.skill = 0;
+        else this.skill += skill;
+        this.setPay(this.pay + skill*800);
     }
 
     public String toString() {

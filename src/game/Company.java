@@ -6,6 +6,7 @@ package game;
 
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
@@ -38,7 +39,7 @@ public class Company extends World implements Serializable{
         this.cash = cash;
         this.employees = employee;
         this.teams = teams;
-        this.projects = projects;
+        this.projects = project;
     }
     
     public void hireEmployee(Employee emp){
@@ -49,7 +50,7 @@ public class Company extends World implements Serializable{
         employees.remove(emp);
     }
     
-    public void payEmployees(){
+    public void payEmployees(){ //Fjerner penger fra bedriften i forhold til dens ansatte og deres lønn
         int pay = 0;
         for (int i = 0; i<employees.size();i++){
             pay += employees.get(i).getPay();
@@ -59,8 +60,8 @@ public class Company extends World implements Serializable{
         System.out.println("Cash left: " + this.getCash());
     }
     
-    public int getMonthlyProjectCost(Project p){
-        int cost = 0;
+    public int getMonthlyProjectCost(Project p){    // Henter kostnaden til et prosjekt ved å se på hvor mye lønn de ansatte
+        int cost = 0;                               // som er tilknyttet prosjektet skal ha.
         for (int i = 0; i<p.getTeams().size();i++){
             for(int j = 0;j<p.getTeams().get(i).getMembers().size();j++){
                 cost += p.getTeams().get(i).getMember(j).getPay();
@@ -69,7 +70,9 @@ public class Company extends World implements Serializable{
         return cost;
     }
     
-    public void updateGlobalTimeUsed(){
+    public void updateGlobalTimeUsed(){     
+        // Oppdaterer tiden som er brukt på et prosjekt ved å hente ferdigheten til hver ansatt
+        // og avhengig av denne sette effektiv arbeidstid per ansatt til mellom 30 og 50 timer på et prosjekt.
         for (int i = 0; i<projects.size();i++){
             for (int j = 0; j<projects.get(i).getTeams().size();j++){
                 for (int ii = 0;ii<projects.get(i).getTeams().get(j).getMembers().size();ii++){
@@ -77,6 +80,14 @@ public class Company extends World implements Serializable{
                 }
             }
         }
+    }
+    
+    public ArrayList<Employee> getEmployeesWithoutTeam(){
+        ArrayList <Employee> emp = employees;
+        for(int i = 0; i<teams.size(); i++){
+            emp.removeAll(teams.get(i).getMembers());
+        }
+        return emp;
     }
     
     public void assignTeamToProject(Team t, Project p){
@@ -119,15 +130,43 @@ public class Company extends World implements Serializable{
     }
     
     public void endProject(Project pro, World w){
+        // Brukes til å avslutte et prosjekt og hente inn betaling for prosjektet avhengig av om det overholder tidsfristen eller ikke.
         if (pro.getDeadline()>= w.getTime()){
             if(rumor < 10){
                 rumor = rumor + pro.getComplexity()/10 + pro.getBrilliance()/10;
                 if (rumor > 10) rumor = 10;
             }
             this.getPay(pro.getPay());
+            
+            // Her oppdateres ferdighet og erfaring på de ansatte som har bidratt på prosjektet
+            // 50% sjanse for å gå opp i ferdighet når prosjektet møter deadline.
+            for (int i=0; i<pro.getTeams().size(); i++){
+                for (int j=0;j<pro.getTeams().get(i).getMembers().size();j++){
+                    pro.getTeams().get(i).getMember(j).changeXp(5);
+                    Random rg = new Random();
+                    Boolean yn = rg.nextBoolean();
+                    if (yn){
+                        pro.getTeams().get(i).getMember(j).changeSkill(1);
+                    }
+                }
+            }
             System.out.println("Project " + pro.getName() + " ended and " + pro.getPay() + " was added to your bank account.");
+            
         } else {
+            
             this.getPay((int)(pro.getPay()*0.8));
+            // Her oppdateres ferdighet og erfaring på de ansatte som har bidratt på prosjektet
+            // 20% sjanse for å gå ned i ferdighet når prosjektet bryter deadline.
+            for (int i=0; i<pro.getTeams().size(); i++){
+                for (int j=0;j<pro.getTeams().get(i).getMembers().size();j++){
+                    pro.getTeams().get(i).getMember(j).changeXp(3);
+                    Random rg = new Random();
+                    int yn = rg.nextInt(5);
+                    if (yn==4){
+                        pro.getTeams().get(i).getMember(j).changeSkill(-1);
+                    }    
+               }
+            }
             System.out.println("Project " + pro.getName() + " ended after deadline and " + (int)(pro.getPay()*0.8) + " was added to your bank account.");
         }
         pro.removeTeams();

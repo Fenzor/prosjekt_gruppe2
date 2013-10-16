@@ -19,7 +19,8 @@ public class World {
     private boolean paused;
     private double millis;
     private double lastMillis;
-    private double ticks_per_MS = 0.4;
+    private double ticks_per_MS = 1;
+    // sets gamespeed, 1 = 1 month per second, 2 = 2 months per second
     private double ticksPassed;
     private double currentTicks;
     private double lastTicks;
@@ -45,7 +46,7 @@ public class World {
                 millis  = System.currentTimeMillis();
                 ticksPassed = (millis - lastMillis)*ticks_per_MS;
                 currentTicks = lastTicks + ticksPassed;
-                if(currentTicks - lastTicks>400){
+                if(currentTicks - lastTicks>1000){
                     lastMillis = millis;
                     lastTicks = currentTicks;
                     ticksPassed = 0;
@@ -62,20 +63,21 @@ public class World {
         }
     }
     
-     //public void testage(){
-     //   
-    //    if(gameTime==3){
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(0));
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(1));
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(4));
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(3));
-    //    }
-    //    if(gameTime==5){
-    //        this.player.getCompany().takeProject(player.getCompany().getProjectAtIndex(0));
-    //        this.player.getCompany().assignTeamToProject(player.getCompany().getTeam(0), player.getCompany().getProjectAtIndex(0));
-    //   }
-    //}
-    
+    /*
+    public void testage(){
+       
+        if(gameTime==3){
+            this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(0));
+            this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(1));
+            this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(4));
+            this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(3));
+        }
+        if(gameTime==5){
+            this.player.getCompany().takeProject(player.getCompany().getProjectAtIndex(0));
+            this.player.getCompany().assignTeamToProject(player.getCompany().getTeam(0), player.getCompany().getProjectAtIndex(0));
+       }
+    }
+    */
     
     public int getTime(){
         return gameTime;
@@ -126,20 +128,6 @@ public class World {
         player = new Player(playerName);
         Company comp = new Company(companyName);
         player.setCompany(comp);
-        //Project prosjekt = new Project("Prosjekt1", 7, 1, 300000, this);
-        //Employee Asgeir = new Employee("Asgeir", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Asgeir); 
-        //Employee Lars = new Employee("Lars", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Lars); 
-        //Employee Walther = new Employee("Walther", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Walther); 
-        //Employee Andreas = new Employee("Andreas", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Andreas); 
-        //Employee Rasmus = new Employee("Rasmus", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Rasmus); 
-        //Team Ateam = new Team("A-Team", Walther);
-        //player.getCompany().createTeam(Ateam);
-        //this.player.getCompany().takeProject(prosjekt);
         
         
     }
@@ -186,10 +174,12 @@ public class World {
     }
     
     public void pauseGame(){
+        System.out.println("Game Paused");
         this.paused = true;
     }
     
     public void resumeGame(){
+        System.out.println("Game Resumed");
         this.paused = false;
     }
     

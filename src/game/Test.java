@@ -17,10 +17,10 @@ public class Test {
         ArrayList<Team> lag = new ArrayList<Team>();
         ArrayList<Project> prosjekt = new ArrayList<Project>();
 
-        Employee employee = new Employee("Tester", 5, 50, Employee.sex.male, 250, false);
-        Employee leader = new Employee("Leder", 10, 100, Employee.sex.male, 500, false);
+        Employee employee = new Employee("Tester", 5, 50, 250, Employee.sex.male, false);
+        Employee leader = new Employee("Leder", 10, 100, 500, Employee.sex.male, false);
 
-        DevelopmentModel devmod = new DevelopmentModel("Scrum", 1);
+        DevelopmentModel devmod = new DevelopmentModel(DevelopmentModel.Type.Scrum, 1);
         Team teams = new Team("TeamOne", leader);
         Project project = new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, devmod);
 
