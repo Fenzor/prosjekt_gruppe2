@@ -24,10 +24,10 @@ public class Button extends Sprite {
     private Texture defaultButtonState;
     private Texture hoveredButtonState;
     private Texture clickedButtonState;
-    private Text textType;
-    private String buttonText;
-    private int textOffsetX;
-    private int textOffsetY;
+    private final Text textType;
+    private final String buttonText;
+    private final int textOffsetX;
+    private final int textOffsetY;
 
     public Button(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);

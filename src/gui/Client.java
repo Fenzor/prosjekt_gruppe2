@@ -19,15 +19,15 @@ import sound.MusicLibrary;
  * @author Lars Aksel
  */
 public class Client implements Runnable {
-    private int widthWindow = 1280;
-    private int heightWindow = 720;
+    private final int widthWindow = 1280;
+    private final int heightWindow = 720;
+    private final Thread clientThread;
     private boolean fullscreen = false;
-    //private GameHandle gHandle;
-    private Thread clientThread;
     private boolean isRunning;
+    private boolean isGameStarted;
     private MusicLibrary mLib;
-    private Window currentWindow;
     private InputHandler input;
+    private Window currentWindow;
     
     public Client() {
         this.clientThread = new Thread(this, "Game_Thread");
@@ -57,13 +57,12 @@ public class Client implements Runnable {
         }
         
         initGL(); // init OpenGL
-        
         initMainMenu(); // init main menu
         input = new InputHandler(currentWindow);
         input.init();
-        
         mLib = new MusicLibrary();
         mLib.init();
+        
         while (isRunning) {
             currentWindow.drawAll();
             checkGlobalInput();

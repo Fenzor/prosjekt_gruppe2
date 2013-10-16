@@ -34,8 +34,7 @@ public class InputHandler implements Runnable {
     public void run() {
         while (isRunning) {
             if (Mouse.isCreated()) {
-                Button b = window.getDynLayer().checkButtonState(Mouse.getX(), Mouse.getY(), Mouse.isButtonDown(0));
-                if (b != null) this.setButtonPressed(b);
+                checkButtons();
             }            
             try {
                 Thread.sleep(50);
@@ -43,6 +42,15 @@ public class InputHandler implements Runnable {
                 
             }
         }
+    }
+    
+    public synchronized void setWindow(Window win) {
+        this.window = win;
+    }
+    
+    private synchronized void checkButtons() {
+        Button b = window.getDynLayer().checkButtonState(Mouse.getX(), Mouse.getY(), Mouse.isButtonDown(0));
+        if (b != null) this.setButtonPressed(b);
     }
     
     private synchronized void setButtonPressed(Button b) {
