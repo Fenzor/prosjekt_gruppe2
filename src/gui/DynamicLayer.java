@@ -12,7 +12,7 @@ import org.lwjgl.input.Mouse;
  * @author Lars Aksel
  */
 public class DynamicLayer {
-    ArrayList<Button> buttons;
+    private ArrayList<Button> buttons;
     
     public DynamicLayer() {
         this.buttons = new ArrayList<>();
@@ -23,18 +23,10 @@ public class DynamicLayer {
         return this.buttons.size() - 1;
     }
     
-    public Button isInside() {
-        boolean isClicked = Mouse.isButtonDown(0);
-        int xPos = Mouse.getX();
-        int yPos = Mouse.getY();
+    public Button checkButtonState(int xPos, int yPos, boolean isClicked) {
         for (Button b : buttons) {
-            if (b.isInside(xPos, yPos)) {                
-                if (isClicked) {
-                    b.setClickedState();
-                    return b;
-                }
-                b.setHoveredState();
-            } else b.setDefaultState();
+            Button b2 = b.checkButtonState(xPos, yPos, isClicked);
+            if (b2 != null) return b2;
         }
         return null;
     }

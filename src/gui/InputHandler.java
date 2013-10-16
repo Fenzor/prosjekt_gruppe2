@@ -16,6 +16,7 @@ import org.lwjgl.input.Mouse;
  */
 public class InputHandler implements Runnable {
     private boolean isRunning;
+    private Button pressedButton;
     private Thread inputThread;
     private Window window;
     
@@ -32,13 +33,28 @@ public class InputHandler implements Runnable {
     @Override
     public void run() {
         while (isRunning) {
-            if (Mouse.isCreated()) window.getDynLayer().isInside();            
+            if (Mouse.isCreated()) {
+                Button b = window.getDynLayer().checkButtonState(Mouse.getX(), Mouse.getY(), Mouse.isButtonDown(0));
+                if (b != null) this.setButtonPressed(b);
+            }            
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 
             }
         }
+    }
+    
+    private synchronized void setButtonPressed(Button b) {
+        this.pressedButton = b;
+        System.out.println("Mouse clicked: " + b.getButtonText());
+        
+    }
+    
+    public synchronized Button getButtonPressed() {
+        Button b = this.pressedButton;
+        this.pressedButton = null;
+        return b;       
     }
     
     public void destroy() {
