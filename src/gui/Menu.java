@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
  * @author Lars Aksel
  */
 public class Menu extends Window {
+    /*
     private Sprite background;
     private Button newGame;
     private Button loadGame;
@@ -24,17 +25,17 @@ public class Menu extends Window {
     public Menu(GameHandle gHandle) {
         super(gHandle.getWindow());
         this.gHandle = gHandle;
-        this.background = new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight());
-        this.background.loadTexture("png", "res/images/startScreen.png");
+        //this.background = new Sprite(0, 0, gHandle.getWindow().getWindowWidth(), gHandle.getWindow().getWindowHeight());
+        //this.background.loadTexture("png", "res/images/startScreen.png");
         int buttonWidth = 300;
         int buttonHeight = 70;
         Text menuText = new Text("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, Text.ALIGN_CENTER);
-        this.newGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/4, buttonWidth, buttonHeight, menuText);
-        this.loadGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/8, buttonWidth, buttonHeight, menuText);
-        this.quitGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2, buttonWidth, buttonHeight, menuText);
-        this.newGame.loadTexture("png", "res/images/button1.png");
-        this.loadGame.loadTexture("png", "res/images/button1.png");
-        this.quitGame.loadTexture("png", "res/images/button1.png");
+        //this.newGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/4, buttonWidth, buttonHeight, menuText);
+        //this.loadGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2 + this.getWindowHeight()/8, buttonWidth, buttonHeight, menuText);
+        //this.quitGame = new Button(this.getWindowWidth()/2 - buttonWidth/2, this.getWindowHeight()/2, buttonWidth, buttonHeight, menuText);
+        //this.newGame.loadTexture("png", "res/images/button1.png");
+        //this.loadGame.loadTexture("png", "res/images/button1.png");
+        //this.quitGame.loadTexture("png", "res/images/button1.png");
     }   
     
     public Choices run() {
@@ -89,5 +90,6 @@ public class Menu extends Window {
         this.newGame.draw("New Game", (int) this.newGame.getSizeX()/2, 5);
         this.loadGame.draw("Load Game", (int) this.loadGame.getSizeX()/2, 5);
         this.quitGame.draw("Quit Game", (int) this.quitGame.getSizeX()/2, 5);
-    }
+    }*
+    * */
 }

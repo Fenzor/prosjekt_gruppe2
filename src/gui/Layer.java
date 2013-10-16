@@ -36,6 +36,6 @@ public class Layer {
     
     @Override
     public String toString() {
-        return "Description: " + this.description + " ,number of sprites: " + sprites.size();
+        return "Description: \"" + this.description + "\" ,number of sprites: " + sprites.size();
     }
 }

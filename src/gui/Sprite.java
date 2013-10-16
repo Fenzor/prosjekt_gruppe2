@@ -68,10 +68,11 @@ public class Sprite extends AABB {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
     }
     
+    /*
     public void replaceMagicColor() {
         //GL11.gl
     }
-    
+    */
     public void releaseTexture() {
         image.release();
     }
