@@ -12,16 +12,16 @@ import java.util.ArrayList;
  */
 public class Window {
     private ArrayList<Layer> layers;
-    private ArrayList<DynamicLayer> dLayers;
+    private DynamicLayer dLayer;
 
     public Window(Window window) {
         this.layers = window.layers;
-        this.dLayers = window.dLayers;
+        this.dLayer = window.dLayer;
     }
      
     public Window() {
         this.layers = new ArrayList<>();
-        this.dLayers = new ArrayList<>();
+        this.dLayer = new DynamicLayer();
     }
     
     /*
@@ -32,11 +32,6 @@ public class Window {
         return this.layers.size() - 1;
     }
     
-    public int addDynamicLayer() {
-        this.dLayers.add(new DynamicLayer());
-        return this.dLayers.size() - 1;
-    }
-    
     /*
      * Uses index to determine which layer to send the sprite to...
      */
@@ -44,8 +39,12 @@ public class Window {
         this.layers.get(index).addSprite(s);
     }
     
-    public void addButtonToLayer(int index, Button b) {
-        this.dLayers.get(index).addButton(b);
+    public void addButtonToLayer(Button b) {
+        this.dLayer.addButton(b);
+    }
+    
+    public DynamicLayer getDynLayer() {
+        return this.dLayer;
     }
     
     /*
@@ -59,8 +58,6 @@ public class Window {
         for (Layer l : layers) {
             l.drawSprites();
         }
-        for (DynamicLayer d : dLayers) {
-            d.drawButtons();
-        }
+        dLayer.drawButtons();
     }
 }

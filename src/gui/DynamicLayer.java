@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Lars Aksel
  */
 public class DynamicLayer {
-    ArrayList<Button> buttons;
+    private ArrayList<Button> buttons;
     
     public DynamicLayer() {
         this.buttons = new ArrayList<>();
@@ -22,9 +22,10 @@ public class DynamicLayer {
         return this.buttons.size() - 1;
     }
     
-    public Button isInside(int xPos, int yPos) {
+    public Button checkButtonState(int xPos, int yPos, boolean isClicked) {
         for (Button b : buttons) {
-            if (b.isInside(xPos, yPos)) return b;
+            Button b2 = b.checkButtonState(xPos, yPos, isClicked);
+            if (b2 != null) return b2;
         }
         return null;
     }
