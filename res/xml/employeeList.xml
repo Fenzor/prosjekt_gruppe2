@@ -4,17 +4,41 @@
         <employee>
             <name>Walther</name>
             <sex>male</sex>
-            <skill>50</skill>
-            <xp>500</xp>
-            <pay>100</pay>
+            <skill>100</skill>
+            <xp>1000</xp>
+            <pay>50</pay>
             <isSick>false</isSick>
         </employee>
         <employee>
             <name>Bob</name>
             <sex>male</sex>
-            <skill>40</skill>
-            <xp>30</xp>
+            <skill>35</skill>
+            <xp>250</xp>
             <pay>50</pay>
+            <isSick>true</isSick>
+        </employee>
+        <employee>
+            <name>Siri</name>
+            <sex>female</sex>
+            <skill>40</skill>
+            <xp>400</xp>
+            <pay>75</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Geir</name>
+            <sex>male</sex>
+            <skill>9001</skill>
+            <xp>95424</xp>
+            <pay>500</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Peir</name>
+            <sex>male</sex>
+            <skill>2</skill>
+            <xp>0</xp>
+            <pay>2</pay>
             <isSick>false</isSick>
         </employee>
     </employeekList>

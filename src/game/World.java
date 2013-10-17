@@ -4,120 +4,161 @@
  */
 package game;
 
+import game.DevelopmentModel.Type;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 /**
  *
  * @author Rasmus
  */
 public class World {
+
     private Player player;
     private int gameTime;
     private boolean paused;
     private double millis;
     private double lastMillis;
-    private double ticks_per_MS = 0.4;
+    private double ticks_per_MS = 1;
+    // sets gamespeed, 1 = 1 month per second, 2 = 2 months per second
     private double ticksPassed;
     private double currentTicks;
     private double lastTicks;
-    
-    
+
     // Testing pågår, disregard.
-    
-    
-    
-    public static void main(String[] args) throws InterruptedException{
-        World game = new World();
-        game.run();
-        
+    public void World(String playername, String companyname) {
+        initialize(playername, companyname);
+        try {
+            run();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
-    
+
+    public static void main(String[] args) throws InterruptedException {
+        World game = new World();
+
+        ArrayList<DevelopmentModel> devMod = new ArrayList<DevelopmentModel>();
+        devMod.add(new DevelopmentModel(Type.Scrum, 1));
+        devMod.add(new DevelopmentModel(Type.UP, 2));
+        devMod.add(new DevelopmentModel(Type.Waterfall, 3));
+
+        ArrayList<Employee> ansatte = new ArrayList<Employee>();
+//        String name, int skill, int xp, int pay, Employee.sex sex, boolean isSick
+        ansatte.add(new Employee("Brolaf", 5, 50, 500, Employee.sex.male, false));
+        ansatte.add(new Employee("Olga", 6, 60, 600, Employee.sex.female, false));
+        ansatte.add(new Employee("Loke", 4, 40, 400, Employee.sex.male, false));
+        ansatte.add(new Employee("Vi", 5, 50, 500, Employee.sex.female, false));
+        ansatte.add(new Employee("Cola", 2, 20, 200, Employee.sex.male, false));
+        ansatte.add(new Employee("Solo", 1, 10, 100, Employee.sex.male, false));
+
+        ArrayList<Project> prosjekt = new ArrayList<Project>();
+//        String name, String info, int timeEstimated, int deadline, int complexity, int pay, DevelopmentModel devMod
+        prosjekt.add(new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, devMod.get(1)));
+        prosjekt.add(new Project("Tur App", "Skal kunne registrere turen en person har gått", 4, 6, 4, 200, devMod.get(2)));
+        prosjekt.add(new Project("Servicekalkulator", "Skal kunne kalkulere pris for service av de nye bil modellene", 12, 14, 9, 700, devMod.get(3)));
+
+        game.run();
+
+    }
+
     public void run() throws InterruptedException {
-        initialize("Rasmus","Tycoon");
-        
-        
-        while (gameTime<400){
+
+
+        while (gameTime < 400) {
             // Her går kode for å se om endringer har blitt / skal bli gjort
-            if(!paused){
-                millis  = System.currentTimeMillis();
-                ticksPassed = (millis - lastMillis)*ticks_per_MS;
+            if (!paused) {
+                millis = System.currentTimeMillis();
+                ticksPassed = (millis - lastMillis) * ticks_per_MS;
                 currentTicks = lastTicks + ticksPassed;
-                if(currentTicks - lastTicks>400){
+                if (currentTicks - lastTicks > 1000) {
                     lastMillis = millis;
                     lastTicks = currentTicks;
                     ticksPassed = 0;
                     System.out.println(getDate(gameTime));
                     endMonth();
-                    gameTime+=1;
+                    gameTime += 1;
                     //testage();
                 } else {
                     Thread.sleep(100);
                 }
             } else {
-                
             }
         }
     }
-    
-     //public void testage(){
-     //   
-    //    if(gameTime==3){
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(0));
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(1));
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(4));
-    //        this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(3));
-    //    }
-    //    if(gameTime==5){
-    //        this.player.getCompany().takeProject(player.getCompany().getProjectAtIndex(0));
-    //        this.player.getCompany().assignTeamToProject(player.getCompany().getTeam(0), player.getCompany().getProjectAtIndex(0));
-    //   }
-    //}
-    
-    
-    public int getTime(){
+
+    /*
+     public void testage(){
+       
+     if(gameTime==3){
+     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(0));
+     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(1));
+     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(4));
+     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(3));
+     }
+     if(gameTime==5){
+     this.player.getCompany().takeProject(player.getCompany().getProjectAtIndex(0));
+     this.player.getCompany().assignTeamToProject(player.getCompany().getTeam(0), player.getCompany().getProjectAtIndex(0));
+     }
+     }
+     */
+    public int getTime() {
         return gameTime;
     }
-    
-    public String getDate(int ix){
+
+    public String getDate(int ix) {
         String monthString;
         int year;
-        year = 1980 + ix/12;
-        
+        year = 1980 + ix / 12;
+
         switch (ix % 12) {
-            case 0:  monthString = "January";
-                     break;
-            case 1:  monthString = "February";
-                     break;
-            case 2:  monthString = "March";
-                     break;
-            case 3:  monthString = "April";
-                     break;
-            case 4:  monthString = "May";
-                     break;
-            case 5:  monthString = "June";
-                     break;
-            case 6:  monthString = "July";
-                     break;
-            case 7:  monthString = "August";
-                     break;
-            case 8:  monthString = "September";
-                     break;
-            case 9: monthString = "October";
-                     break;
-            case 10: monthString = "November";
-                     break;
-            case 11: monthString = "December";
-                     break;
-            default: monthString = "Invalid month";
-                     break;
+            case 0:
+                monthString = "January";
+                break;
+            case 1:
+                monthString = "February";
+                break;
+            case 2:
+                monthString = "March";
+                break;
+            case 3:
+                monthString = "April";
+                break;
+            case 4:
+                monthString = "May";
+                break;
+            case 5:
+                monthString = "June";
+                break;
+            case 6:
+                monthString = "July";
+                break;
+            case 7:
+                monthString = "August";
+                break;
+            case 8:
+                monthString = "September";
+                break;
+            case 9:
+                monthString = "October";
+                break;
+            case 10:
+                monthString = "November";
+                break;
+            case 11:
+                monthString = "December";
+                break;
+            default:
+                monthString = "Invalid month";
+                break;
         }
         return monthString + ", " + year;
     }
-    
-    private void initialize(String playerName, String companyName){
+
+    private void initialize(String playerName, String companyName) {
         this.gameTime = 0;
         millis = 0;
         lastMillis = 0;
@@ -126,39 +167,24 @@ public class World {
         player = new Player(playerName);
         Company comp = new Company(companyName);
         player.setCompany(comp);
-        //Project prosjekt = new Project("Prosjekt1", 7, 1, 300000, this);
-        //Employee Asgeir = new Employee("Asgeir", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Asgeir); 
-        //Employee Lars = new Employee("Lars", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Lars); 
-        //Employee Walther = new Employee("Walther", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Walther); 
-        //Employee Andreas = new Employee("Andreas", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Andreas); 
-        //Employee Rasmus = new Employee("Rasmus", Employee.sex.male, false);
-        //player.getCompany().hireEmployee(Rasmus); 
-        //Team Ateam = new Team("A-Team", Walther);
-        //player.getCompany().createTeam(Ateam);
-        //this.player.getCompany().takeProject(prosjekt);
-        
-        
+
     }
-    
-    private void endMonth(){ //betale ansatte, beregne fortløpende kostnader på ulike prosjekt.
-        
+
+    private void endMonth() { //betale ansatte, beregne fortløpende kostnader på ulike prosjekt.
+
         player.getCompany().updateGlobalTimeUsed();
-        for (int i = 0; i<player.getCompany().getProjects().size();i++){
+        for (int i = 0; i < player.getCompany().getProjects().size(); i++) {
             Project p = player.getCompany().getProjectAtIndex(i);
             p.updateCost(player.getCompany().getMonthlyProjectCost(p));
-            if (p.getTimeUsed()>p.getTimeEstimated()){
+            if (p.getTimeUsed() > p.getTimeEstimated()) {
                 player.getCompany().endProject(p, this);
             }
         }
         player.getCompany().payEmployees();
     }
-    
-    public void saveGame(){
-        try{
+
+    public void saveGame() {
+        try {
             // Åpner en fil som skrive til
             FileOutputStream saveFile = new FileOutputStream("SaveObjects.sav");
             //Lager en ObjectOutputStream til å lagre objekter til filen det skal lagres.
@@ -167,30 +193,31 @@ public class World {
             save.writeObject(player.getCompany());
             //Lukker filen.
             save.close();
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-     public Company loadGame(){
-        try{
+
+    public Company loadGame() {
+        try {
             //Åpner filen som skal leses fra
             FileInputStream saveFile = new FileInputStream("SaveObjects.sav");
             //Lager en ObjectInputStream til å hente objekter fra den lagrede filen.
             ObjectInputStream save = new ObjectInputStream(saveFile);
             player.setCompany((Company) save.readObject());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return player.getCompany();
     }
-    
-    public void pauseGame(){
+
+    public void pauseGame() {
+        System.out.println("Game Paused");
         this.paused = true;
     }
-    
-    public void resumeGame(){
+
+    public void resumeGame() {
+        System.out.println("Game Resumed");
         this.paused = false;
     }
-    
 }

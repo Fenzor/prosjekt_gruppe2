@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -25,19 +26,29 @@ public class DevelopmentModel {
      * spesifikt om utfordringer og fakta om modellen.
      * 
      */
-    public String model;
+    private Type type;
     public int modelId;
-    private ArrayList questions = new ArrayList();
+    private ArrayList<String> questions = new ArrayList();
     private String fileName = "";
     BufferedReader br = null;
 
-    public DevelopmentModel(String model, int modelId) {
-        this.model = model;
+    public DevelopmentModel(Type type, int modelId) {
+        this.type = type;
         this.modelId = modelId;
     }
     
-    public String getModel(){
-        return model;
+    public Type getType(){
+        return this.type;
+    }
+    
+    public String getRndQuestion(){
+        Random rg = new Random();
+        return questions.get(rg.nextInt(questions.size()-1));
+    }
+    
+    public enum Type {
+
+        UP, Scrum, Waterfall
     }
     
     public int getModelId(){
@@ -89,6 +100,6 @@ public class DevelopmentModel {
     }
     
     public String toString(){
-        return "Model: " + getModel() + ", and has the ID: " + getModelId();
+        return "Model: " + getType() + ", and has the ID: " + getModelId();
     }
 }

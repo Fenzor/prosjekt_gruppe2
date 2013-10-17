@@ -86,6 +86,10 @@ public class Project implements Serializable {
         this.timeUsed = timeUsed;
     }
 
+    public String getQuestion(){
+        return devMod.getRndQuestion();
+    }
+    
     public int getDeadline() {
         return deadline;
     }
