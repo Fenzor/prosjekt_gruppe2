@@ -22,6 +22,7 @@ public class Project implements Serializable {
     private int brilliance; //Hvor feilfritt og nyvinnende prosjektet er utført
     private int pay; //Avtalt betaling for prosjektet
     private int cost; //Penger brukt på prosjektet (alle utgifter og lønn)
+    private String answer; //Viser til svaret fra brukeren
     private ArrayList<Team> teams = new ArrayList();
     private DevelopmentModel devMod;
     private ProjectType ProType;
@@ -57,6 +58,14 @@ public class Project implements Serializable {
         //beregner omtrent timer som trengs på et prosjekt, mellom 160 timer for enkleste og 7594 timer for en kompleksitet på 10.
         return this.timeEstimated = this.complexity*80+(((int)Math.pow(this.complexity,3)-1)*6); 
     }
+    
+    public boolean checkAnswer(){
+        boolean correct = false;
+        if (getQuestion() == getAnswer()){
+            correct = true;
+        }
+        return correct;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -88,6 +97,14 @@ public class Project implements Serializable {
 
     public String getQuestion(){
         return devMod.getRndQuestion();
+    }
+    
+    public String getAnswer(){
+        return answer;
+    }
+    
+    public void setAnswe(String newAnswer){
+        this.answer = newAnswer;
     }
     
     public int getDeadline() {
