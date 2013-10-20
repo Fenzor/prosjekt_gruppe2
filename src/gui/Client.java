@@ -25,15 +25,15 @@ public class Client implements Runnable {
     private final int heightWindow = 720;
     private final Thread clientThread;
     private boolean fullscreen = false;
-    private boolean isRunning;
-    private boolean isGameStarted;
+    private boolean isClientRunning;
+    private boolean isGameRunning;
     private MusicLibrary mLib;
     private InputHandler input;
     private Window currentWindow;
     private Button newGame;
     private Button loadGame;
     private Button quitGame;
-    private String gameTitle = "Awsome Dev Tycoon v2.0";
+    private final String gameTitle = "Awsome Dev Tycoon v2.0";
     
     /**
      * time at last frame
@@ -57,7 +57,7 @@ public class Client implements Runnable {
      * Init-method to be called when starting the game, and initiating the client-thread...
      */
     public void runGame() {
-        this.isRunning = true;
+        this.isClientRunning = true;
         this.clientThread.start();
     }
 
@@ -86,24 +86,26 @@ public class Client implements Runnable {
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
 
-        while (isRunning) {
+        
+        Text t = new Text("res/font/clacon.ttf", 30, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
+        while (isClientRunning) {
             int delta = getDelta();
             updateFPS();
             currentWindow.drawAll();
             checkGlobalInput();
-            
+            t.draw("Hallo!\nDette er en test... ;)\n", 0, heightWindow);
             // TODO Istedefor å kjøre meny her, kan det migreres til Menu.java, med egen løkke osv...
             Button b = input.getButtonPressed();
             if (b!= null) {
                 if (b.equals(newGame)) {
-                    isGameStarted = true;
-                    while (isGameStarted && isRunning) {
+                    isGameRunning = true;
+                    while (isGameRunning && isClientRunning) {
                         
                     }
                 } else if (b.equals(loadGame)) {
                     
                 } else if (b.equals(quitGame)) {
-                    isRunning = false;
+                    isClientRunning = false;
                 }
             }
             
@@ -187,7 +189,7 @@ public class Client implements Runnable {
             this.setDisplayMode(this.heightWindow, this.widthWindow, this.fullscreen);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested()) {
-            this.isRunning = false;
+            this.isClientRunning = false;
         }
     }
 

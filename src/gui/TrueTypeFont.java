@@ -39,7 +39,8 @@ public class TrueTypeFont {
 	public final static int
 		ALIGN_LEFT = 0,
 		ALIGN_RIGHT = 1,
-		ALIGN_CENTER = 2;
+		ALIGN_CENTER = 2,
+                ALIGN_UPPER_LEFT = 3;
 	/** Array that holds necessary information about the font characters */
 	private IntObject[] charArray = new IntObject[256];
 	
@@ -321,6 +322,12 @@ public class TrueTypeFont {
 				}
 				break;
 			}
+                        case ALIGN_UPPER_LEFT: {
+                            startY -= fontHeight;
+                            d = 1;
+                            c = correctL;
+                            break;
+                        }
 			case ALIGN_CENTER: {
                                 startY -= fontHeight/2;
 				for (int l = startIndex; l <= endIndex; l++) {
