@@ -24,20 +24,20 @@ public class Button extends Sprite {
     private Texture defaultButtonState;
     private Texture hoveredButtonState;
     private Texture clickedButtonState;
-    private final Text textType;
+    private final TextType textType;
     private final String buttonText;
     private final int textOffsetX;
     private final int textOffsetY;
 
     public Button(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);
-        this.textType = new Text("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, Text.ALIGN_CENTER);
+        this.textType = new TextType("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, TrueTypeFont.ALIGN_CENTER);
         this.buttonText = "placeholder";
         this.textOffsetX = sizeX / 2;
         this.textOffsetY = sizeY / 2;
     }
 
-    public Button(int xPos, int yPos, int sizeX, int sizeY, Text text) {
+    public Button(int xPos, int yPos, int sizeX, int sizeY, TextType text) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = text;
         this.buttonText = "placeholder";
@@ -45,12 +45,26 @@ public class Button extends Sprite {
         this.textOffsetY = sizeY / 2;
     }
 
-    public Button(int xPos, int yPos, int sizeX, int sizeY, Text textType, String buttonText) {
+    public Button(int xPos, int yPos, int sizeX, int sizeY, TextType textType, String buttonText) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = textType;
         this.buttonText = buttonText;
         this.textOffsetX = sizeX / 2;
         this.textOffsetY = sizeY / 2;
+    }
+    
+    public boolean loadAllStates(String filetype, String path) {
+        try {
+            this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);
+            this.defaultButtonState = this.image;
+            this.hoveredButtonState = this.image;
+            this.clickedButtonState = this.image;
+        } catch (IOException e) {
+            System.err.println("Trouble loading texture-assets!!!");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean loadDefaultButtonState(String filetype, String path) {
@@ -149,15 +163,15 @@ public class Button extends Sprite {
     public String getButtonText() {
         return buttonText;
     }
-
-    public void draw(String text, int xPos, int yPos) {
+    
+    public void draw(float xPosOffset, float yPosOffset, String text) {
         super.draw();
-        this.textType.draw(text, (int) (this.xPos + xPos), (int) (this.yPos + yPos));
+        this.textType.draw(xPos + xPosOffset, yPos + yPosOffset, text);
     }
 
     @Override
     public void draw() {
         super.draw();
-        this.textType.draw(buttonText, (int) (this.xPos + textOffsetX), (int) (this.yPos + textOffsetY));
+        this.textType.draw(xPos + this.sizeX/2, yPos + this.sizeY/2, buttonText);
     }
 }

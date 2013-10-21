@@ -34,6 +34,14 @@ public class Layer {
         }
     }
     
+    public void removeSprite(int indeks) {
+        this.sprites.remove(indeks);
+    }
+        
+    public Sprite getSprite(int indeks) {
+        return this.sprites.get(indeks);
+    }
+    
     @Override
     public String toString() {
         return "Description: \"" + this.description + "\" ,number of sprites: " + sprites.size();

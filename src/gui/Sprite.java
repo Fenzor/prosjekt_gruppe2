@@ -18,7 +18,7 @@ import org.newdawn.slick.util.ResourceLoader;
  */
 public class Sprite extends AABB {
     protected Texture image;
-    
+    protected Shader shader;
     
     public Sprite(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);
@@ -36,6 +36,16 @@ public class Sprite extends AABB {
         this.setSizeY(this.image.getImageHeight());
     }
     
+    public Sprite(int xPos, int yPos, int sizeX, int sizeY, String filetype, String path) {
+        super(xPos, yPos, sizeX, sizeY);
+        try {
+            this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);            
+        } catch (IOException e) {
+            System.err.println("Trouble loading texture-assets!!!");
+            e.printStackTrace();
+        }
+    }
+    
     public boolean loadTexture(String filetype, String path) {
         try {
             this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);  
@@ -51,7 +61,12 @@ public class Sprite extends AABB {
         return this.image;
     }
     
+    public void setShader(Shader shader) {
+        this.shader = shader;
+    }
+    
     public void draw() {
+        if (this.shader != null) this.shader.useShader();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         this.image.bind();
@@ -66,6 +81,7 @@ public class Sprite extends AABB {
         GL11.glVertex2f(this.xPos, this.yPos + this.sizeY);
         GL11.glEnd();
         GL11.glDisable(GL11.GL_TEXTURE_2D);
+        if (this.shader != null) this.shader.detachShader();
     }
     
     /*

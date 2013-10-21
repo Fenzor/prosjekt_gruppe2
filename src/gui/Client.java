@@ -30,6 +30,8 @@ public class Client implements Runnable {
     private MusicLibrary mLib;
     private InputHandler input;
     private Window currentWindow;
+    private Window menuWindow;
+    private Window gameWindow;
     private Button newGame;
     private Button loadGame;
     private Button quitGame;
@@ -43,7 +45,7 @@ public class Client implements Runnable {
     /**
      * frames per second
      */
-    int fps;
+    double fps;
     /**
      * last fps time
      */
@@ -78,7 +80,7 @@ public class Client implements Runnable {
 
         initGL(); // init OpenGL
         initMainMenu(); // init main menu
-        input = new InputHandler(currentWindow);
+        input = new InputHandler(menuWindow);
         input.init();
         mLib = new MusicLibrary();
         mLib.init();
@@ -87,20 +89,98 @@ public class Client implements Runnable {
         lastFPS = getTime(); // call before loop to initialise fps timer
 
         
-        Text t = new Text("res/font/clacon.ttf", 30, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
+        
         while (isClientRunning) {
             int delta = getDelta();
             updateFPS();
             currentWindow.drawAll();
             checkGlobalInput();
-            t.draw("Hallo!\nDette er en test... ;)\n", 0, heightWindow);
-            // TODO Istedefor å kjøre meny her, kan det migreres til Menu.java, med egen løkke osv...
             Button b = input.getButtonPressed();
-            if (b!= null) {
+            if (b != null) {
                 if (b.equals(newGame)) {
                     isGameRunning = true;
+                    
+                    gameWindow = new Window();
+                    this.switchCurrentWindow(gameWindow);
+                    int bgLayer01 = gameWindow.addLayer();
+                    int carLayer = gameWindow.addLayer();
+                    int bgLayer02 = gameWindow.addLayer();
+                    
+                    Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
+                    Sprite bg02 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/plainOffice.png");
+                    
+                    TextType menuText = new TextType("res/font/clacon.ttf", 45f, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
+                    Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Meny");
+                    menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    gameWindow.addButtonToLayer(menuButton);
+                    
+                    ColorPicker cp = new ColorPicker(new Color(1.0f, 0, 1.0f), new Color(0.1f, 0.1f, 0.7f, 0.2f));
+                    bg02.setShader(cp);
+                    
+                    gameWindow.addSpriteToLayer(bgLayer01, bg01);
+                    gameWindow.addSpriteToLayer(bgLayer02, bg02);
+                    
+                    Window menuOverlayWin = new Window();
+                    int menuOverlay = menuOverlayWin.addLayer();
+                    int sizeX = 650;
+                    int sizeY = 550;
+                    
+                    Sprite overlay = new Sprite(widthWindow/2 - sizeX/2, heightWindow/2 - sizeY/2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
+                    menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
+                    
+                    int buttonSizeX = 300;
+                    int buttonSizeY = 60;
+                    int hX = heightWindow/2 + 125;
+                    Button overlayButtonMainMenu = new Button(widthWindow/2 - buttonSizeX/2, hX, buttonSizeX, buttonSizeY, menuText, "Main Menu");
+                    overlayButtonMainMenu.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    menuOverlayWin.addButtonToLayer(overlayButtonMainMenu);
+                    Button overlayButtonSaveGame = new Button(widthWindow/2 - buttonSizeX/2, hX - (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Save Game");
+                    overlayButtonSaveGame.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    menuOverlayWin.addButtonToLayer(overlayButtonSaveGame);
+                    Button overlayButtonBack = new Button(widthWindow/2 - buttonSizeX/2, hX - 2*(buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Back");
+                    overlayButtonBack.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    menuOverlayWin.addButtonToLayer(overlayButtonBack);
+                    Button overlayButtonExit = new Button(widthWindow/2 - buttonSizeX/2, hX - 3*(buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to Windows");
+                    overlayButtonExit.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    menuOverlayWin.addButtonToLayer(overlayButtonExit);
+                    
                     while (isGameRunning && isClientRunning) {
                         
+                        Button b2 = input.getButtonPressed();
+                        if (b2 != null) {
+                            if (b2.equals(menuButton)) {
+                                Sprite transparent = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/redDot.png");
+                                ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0f, 0f), new Color(0f, 0f, 0f, 0.5f));
+                                transparent.setShader(cp2);
+                                while (isClientRunning) {
+                                    gameWindow.drawAll();
+                                    transparent.draw();
+                                    this.switchCurrentWindow(menuOverlayWin);
+                                    b2 = input.getButtonPressed();
+                                    if (b2 != null) {
+                                        if (b2.equals(overlayButtonBack)) {
+                                            this.switchCurrentWindow(gameWindow);
+                                            break;
+                                        }
+                                        if (b2.equals(overlayButtonExit)) {
+                                            this.isClientRunning = false;
+                                            break;
+                                        }
+                                    }
+                                    currentWindow.drawAll();
+                                    updateFPS();
+                                    checkGlobalInput();
+                                    Display.sync(60);
+                                    Display.update();
+                                }
+                            }
+                        }
+                        
+                        currentWindow.drawAll();
+                        updateFPS();
+                        checkGlobalInput();
+                        Display.sync(60);
+                        Display.update();
                     }
                 } else if (b.equals(loadGame)) {
                     
@@ -109,6 +189,7 @@ public class Client implements Runnable {
                 }
             }
             
+            checkGlobalInput();
             Display.sync(60);
             Display.update();
         }
@@ -120,16 +201,16 @@ public class Client implements Runnable {
      */
     public void initMainMenu() {
         // Add background...
-        currentWindow = new Window(); // The window being drawn to...
-        int layer01 = currentWindow.addLayer();
+        menuWindow = new Window(); // The window being drawn to...
+        int layer01 = menuWindow.addLayer();
         Sprite menuBackground = new Sprite(0, 0, this.widthWindow, this.heightWindow);
         menuBackground.loadTexture("png", "res/images/startScreen.png");
-        currentWindow.addSpriteToLayer(layer01, menuBackground);
+        menuWindow.addSpriteToLayer(layer01, menuBackground);
 
         // Generate buttons...
         int buttonWidth = 300;
         int buttonHeight = 70;
-        Text menuText = new Text("res/font/clacon.ttf", 55, true, new Color(1.0f, 0, 0.0f, 0), Text.ALIGN_CENTER);
+        TextType menuText = new TextType("res/font/clacon.ttf", 55, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
         newGame = new Button(this.getWindowWidth() / 2 - buttonWidth / 2, this.getWindowHeight() / 2 + this.getWindowHeight() / 4, buttonWidth, buttonHeight, menuText, "New Game");
         loadGame = new Button(this.getWindowWidth() / 2 - buttonWidth / 2, this.getWindowHeight() / 2 + this.getWindowHeight() / 8, buttonWidth, buttonHeight, menuText, "Load Game");
         quitGame = new Button(this.getWindowWidth() / 2 - buttonWidth / 2, this.getWindowHeight() / 2, buttonWidth, buttonHeight, menuText, "Quit Game");
@@ -144,9 +225,10 @@ public class Client implements Runnable {
         quitGame.loadClickedButtonState("png", "res/images/menuButtonClicked.png");
 
         // Put buttons in the dynamic layer...
-        currentWindow.addButtonToLayer(newGame);
-        currentWindow.addButtonToLayer(loadGame);
-        currentWindow.addButtonToLayer(quitGame);
+        menuWindow.addButtonToLayer(newGame);
+        menuWindow.addButtonToLayer(loadGame);
+        menuWindow.addButtonToLayer(quitGame);
+        currentWindow = menuWindow;
     }
 
     /*
@@ -179,6 +261,11 @@ public class Client implements Runnable {
     public int getWindowHeight() {
         return this.heightWindow;
     }
+    
+    private void switchCurrentWindow(Window win) {
+        this.currentWindow = win;
+        this.input.setWindow(win);
+    }
 
     /*
      * Is used to check for global input, this may be moved...
@@ -186,7 +273,7 @@ public class Client implements Runnable {
     protected void checkGlobalInput() {
         if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
             this.fullscreen = !this.fullscreen;
-            this.setDisplayMode(this.heightWindow, this.widthWindow, this.fullscreen);
+            this.setDisplayMode(this.widthWindow, this.heightWindow, this.fullscreen);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested()) {
             this.isClientRunning = false;
