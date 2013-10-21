@@ -59,13 +59,13 @@ public class Project implements Serializable {
         return this.timeEstimated = this.complexity*80+(((int)Math.pow(this.complexity,3)-1)*6); 
     }
     
-    public boolean checkAnswer(){
-        boolean correct = false;
-        if (getQuestion() == getAnswer()){
-            correct = true;
-        }
-        return correct;
-    }
+//    public boolean checkAnswer(){
+//        boolean correct = false;
+//        if (getQuestion() == getAnswer()){
+//            correct = true;
+//        }
+//        return correct;
+//    }
 
     public void setName(String name) {
         this.name = name;
@@ -95,7 +95,7 @@ public class Project implements Serializable {
         this.timeUsed = timeUsed;
     }
 
-    public String getQuestion(){
+    public ArrayList getQuestion() throws Exception {
         return devMod.getRndQuestion();
     }
     

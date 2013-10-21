@@ -5,10 +5,16 @@
 package game;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import questions.Question;
+import xml.QuestionMaster;
 
 /**
  *
@@ -28,7 +34,7 @@ public class DevelopmentModel {
      */
     private Type type;
     public int modelId;
-    private ArrayList<String> questions = new ArrayList();
+    private ArrayList<Question> questions = new ArrayList();
     private String fileName = "";
     BufferedReader br = null;
 
@@ -36,22 +42,47 @@ public class DevelopmentModel {
         this.type = type;
         this.modelId = modelId;
     }
-    
-    public Type getType(){
+
+    public Type getType() {
         return this.type;
     }
-    
-    public String getRndQuestion(){
-        Random rg = new Random();
-        return questions.get(rg.nextInt(questions.size()-1));
+
+    public static List<Question> getQuestions() throws Exception {
+        File file = new File("res/xml/questionList.xml");
+        JAXBContext jaxbContext = JAXBContext.newInstance(QuestionMaster.class);
+
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        QuestionMaster el = (QuestionMaster) jaxbUnmarshaller.unmarshal(file);
+
+        return el.getQuestionList();
     }
-    
+
+    public ArrayList getRndQuestion() throws Exception {
+        Random rg = new Random();
+        int randomNumber = rg.nextInt(questions.size() - 1);
+        int numberOfAnswers = getQuestions().get(randomNumber).getAnswerList().size();
+        String question = getQuestions().get(randomNumber).getText();
+        int correctIndex = -1;
+        boolean correctAnswer = false;
+        for (int i = 0; i < numberOfAnswers; i++){
+            if(getQuestions().get(randomNumber).getAnswerList().get(i).getScore() == 1){
+                correctIndex = i;
+                correctAnswer = true;
+                questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
+            }else{
+                questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
+            }
+            
+        }
+        return questions;
+    }
+
     public enum Type {
 
         UP, Scrum, Waterfall
     }
-    
-    public int getModelId(){
+
+    public int getModelId() {
         return modelId;
     }
 
@@ -70,36 +101,35 @@ public class DevelopmentModel {
 //        }
 //        
 //    }
-    public void readFileIDK6() {
-        try {
-            String currentLine;
+//    public void readFileIDK6() {
+//        try {
+//            String currentLine;
+//
+//            br = new BufferedReader(new FileReader("/Users/Dahl/NetBeansProjects/prosjekt_gruppe2/src/data/questions.txt"));
+//
+//            while ((currentLine = br.readLine()) != null) {
+//                questions.add(currentLine);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (br != null) {
+//                    br.close();
+//                }
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//    }
 
-            br = new BufferedReader(new FileReader("/Users/Dahl/NetBeansProjects/prosjekt_gruppe2/src/data/questions.txt"));
-
-            while ((currentLine = br.readLine()) != null) {
-                questions.add(currentLine);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    public void getQuestions() {
-        readFileIDK6();
-        for (int i = 0; i < questions.size(); i++) {
-            System.out.println(questions.get(i));
-        }
-    }
-    
-    public String toString(){
+//    public void getQuestions() {
+//        readFileIDK6();
+//        for (int i = 0; i < questions.size(); i++) {
+//            System.out.println(questions.get(i));
+//        }
+//    }
+    public String toString() {
         return "Model: " + getType() + ", and has the ID: " + getModelId();
     }
 }

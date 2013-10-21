@@ -19,6 +19,8 @@ public class Question {
     private String imageFilePath;
     private String text;
     private List<Answer> answerList;
+    private String answer;
+    private boolean correct;
 
     public Question() {
         imageFilePath = "";
@@ -31,6 +33,12 @@ public class Question {
         this.answerList = answerList;
     }
     
+    public Question(String text, String answer, boolean correct){
+        this.text = text;
+        this.answer = answer;
+        this.correct = correct;
+    }
+    
     @XmlAttribute(name="id")
     public int getId() {
         return id;
@@ -38,6 +46,30 @@ public class Question {
     
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public String getText(){
+        return text;
+    }
+    
+    public void setText(String newText){
+        this.text = newText;
+    }
+    
+    public String getAnswer(){
+        return answer;
+    }
+    
+    public void setAnswer(String newAnswer){
+        this.answer = newAnswer;
+    }
+    
+    public boolean getCorrect(){
+        return correct;
+    }
+    
+    public void setCorrect(boolean newCorrect){
+        this.correct = newCorrect;
     }
     
     /**
