@@ -29,7 +29,7 @@ public class Client implements Runnable {
     private boolean isGameRunning;
     private MusicLibrary mLib;
     private InputHandler input;
-    private 
+    private Window currentWindow;
     private Window menuWindow;
     private Window gameWindow;
     private Button newGame;
@@ -93,7 +93,7 @@ public class Client implements Runnable {
         while (isClientRunning) {
             int delta = getDelta();
             updateFPS();
-            menuWindow.drawAll();
+            currentWindow.drawAll();
             checkGlobalInput();
             Button b = input.getButtonPressed();
             if (b != null) {
@@ -101,11 +101,10 @@ public class Client implements Runnable {
                     isGameRunning = true;
                     
                     gameWindow = new Window();
-                    input.setWindow(gameWindow);
+                    this.switchCurrentWindow(gameWindow);
                     int bgLayer01 = gameWindow.addLayer();
                     int carLayer = gameWindow.addLayer();
                     int bgLayer02 = gameWindow.addLayer();
-                    int menuOverlay = gameWindow
                     
                     Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
                     Sprite bg02 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/plainOffice.png");
@@ -120,13 +119,39 @@ public class Client implements Runnable {
                     
                     gameWindow.addSpriteToLayer(bgLayer01, bg01);
                     gameWindow.addSpriteToLayer(bgLayer02, bg02);
+                    
+                    Window menuOverlayWin = new Window();
+                    int menuOverlay = menuOverlayWin.addLayer();
+                    int sizeX = 650;
+                    int sizeY = 550;
+                    Sprite overlay = new Sprite(widthWindow/2 - sizeX/2, heightWindow/2 - sizeY/2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
+                    
+                    menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
+                    
+                    
                     while (isGameRunning && isClientRunning) {
                         
-                        if (input.getButtonPressed().equals(menuButton)) {
-                            
+                        Button b2 = input.getButtonPressed();
+                        if (b2 != null) {
+                            if (b2.equals(menuButton)) {
+                                //this.isGameRunning = false;
+                                Sprite transparent = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/redDot.png");
+                                ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0f, 0f), new Color(0f, 0f, 0f, 0.5f));
+                                transparent.setShader(cp2);
+                                transparent.draw();
+                                Display.update();
+                                transparent.draw();
+                                this.switchCurrentWindow(menuOverlayWin);
+                                b2 = input.getButtonPressed();
+                                if (b2 != null) {
+                                    if (b2.equals(b)) {
+                                        
+                                    }
+                                }
+                            }
                         }
                         
-                        gameWindow.drawAll();
+                        currentWindow.drawAll();
                         updateFPS();
                         checkGlobalInput();
                         Display.sync(60);
@@ -178,6 +203,7 @@ public class Client implements Runnable {
         menuWindow.addButtonToLayer(newGame);
         menuWindow.addButtonToLayer(loadGame);
         menuWindow.addButtonToLayer(quitGame);
+        currentWindow = menuWindow;
     }
 
     /*
@@ -209,6 +235,11 @@ public class Client implements Runnable {
      */
     public int getWindowHeight() {
         return this.heightWindow;
+    }
+    
+    private void switchCurrentWindow(Window win) {
+        this.currentWindow = win;
+        this.input.setWindow(win);
     }
 
     /*
