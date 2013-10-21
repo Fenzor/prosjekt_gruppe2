@@ -4,8 +4,6 @@
  */
 package gui.swing;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import questions.Answer;
 import questions.Question;

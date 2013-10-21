@@ -17,7 +17,7 @@ public class Employee implements Serializable {
     private int skill, xp, pay;
     private Employee.sex sex;
     private boolean isSick;
-
+    
     public Employee() {
         isSick = false;
     }
