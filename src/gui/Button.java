@@ -31,8 +31,8 @@ public class Button extends Sprite {
 
     public Button(int xPos, int yPos, int sizeX, int sizeY) {
         super(xPos, yPos, sizeX, sizeY);
-        this.textType = new TextType("res/font/AeroviasBrasilNF.ttf", 55, true, org.newdawn.slick.Color.blue, TrueTypeFont.ALIGN_CENTER);
-        this.buttonText = "placeholder";
+        this.textType = null;
+        this.buttonText = null;
         this.textOffsetX = sizeX / 2;
         this.textOffsetY = sizeY / 2;
     }
@@ -172,6 +172,6 @@ public class Button extends Sprite {
     @Override
     public void draw() {
         super.draw();
-        this.textType.draw(xPos + this.sizeX/2, yPos + this.sizeY/2, buttonText);
+        if (this.textType != null) this.textType.draw(xPos + this.sizeX/2, yPos + this.sizeY/2, buttonText);
     }
 }
