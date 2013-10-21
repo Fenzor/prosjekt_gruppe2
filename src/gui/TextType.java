@@ -16,24 +16,20 @@ import org.newdawn.slick.util.ResourceLoader;
  *
  * @author Lars Aksel
  */
-public class Text {
+public class TextType {
     private boolean antiAliased;
     private Font awtFont;
     private TrueTypeFont ttFont;
     private Color textColor;
     private float fontSize;
     private int alignment;
-    public final static int
-		ALIGN_LEFT = 0,
-		ALIGN_RIGHT = 1,
-		ALIGN_CENTER = 2;
     
     
-    public Text(String fontPath, float fontSize, boolean antiAliased) {
+    public TextType(float xPos, float yPos, String text, String fontPath, float fontSize, boolean antiAliased) {
         this.fontSize = fontSize;
         this.antiAliased = antiAliased;
         this.textColor = new Color(1,1,1);
-        this.alignment = ALIGN_LEFT;
+        this.alignment = TrueTypeFont.ALIGN_LEFT;
         try {
             InputStream inputStream = ResourceLoader.getResourceAsStream(fontPath);
             awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
@@ -44,7 +40,7 @@ public class Text {
         }
     }
     
-    public Text(String fontPath, float fontSize, boolean antiAliased, Color textColor, int alignment) {
+    public TextType(String fontPath, float fontSize, boolean antiAliased, Color textColor, int alignment) {
         this.fontSize = fontSize;
         this.antiAliased = antiAliased;
         this.textColor = textColor;
@@ -59,7 +55,7 @@ public class Text {
         }
     }
     
-    public void draw(String text, int xPos, int yPos) {
+    public void draw(float xPos, float yPos, String text) {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glColor3f(this.textColor.r, this.textColor.g, this.textColor.b);
         ttFont.drawString(xPos, yPos, text, 1, 1, alignment);

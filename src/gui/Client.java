@@ -29,7 +29,9 @@ public class Client implements Runnable {
     private boolean isGameRunning;
     private MusicLibrary mLib;
     private InputHandler input;
-    private Window currentWindow;
+    private 
+    private Window menuWindow;
+    private Window gameWindow;
     private Button newGame;
     private Button loadGame;
     private Button quitGame;
@@ -43,7 +45,7 @@ public class Client implements Runnable {
     /**
      * frames per second
      */
-    int fps;
+    double fps;
     /**
      * last fps time
      */
@@ -78,7 +80,7 @@ public class Client implements Runnable {
 
         initGL(); // init OpenGL
         initMainMenu(); // init main menu
-        input = new InputHandler(currentWindow);
+        input = new InputHandler(menuWindow);
         input.init();
         mLib = new MusicLibrary();
         mLib.init();
@@ -87,20 +89,48 @@ public class Client implements Runnable {
         lastFPS = getTime(); // call before loop to initialise fps timer
 
         
-        Text t = new Text("res/font/clacon.ttf", 30, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
+        
         while (isClientRunning) {
             int delta = getDelta();
             updateFPS();
-            currentWindow.drawAll();
+            menuWindow.drawAll();
             checkGlobalInput();
-            t.draw("Hallo!\nDette er en test... ;)\n", 0, heightWindow);
-            // TODO Istedefor å kjøre meny her, kan det migreres til Menu.java, med egen løkke osv...
             Button b = input.getButtonPressed();
-            if (b!= null) {
+            if (b != null) {
                 if (b.equals(newGame)) {
                     isGameRunning = true;
+                    
+                    gameWindow = new Window();
+                    input.setWindow(gameWindow);
+                    int bgLayer01 = gameWindow.addLayer();
+                    int carLayer = gameWindow.addLayer();
+                    int bgLayer02 = gameWindow.addLayer();
+                    int menuOverlay = gameWindow
+                    
+                    Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
+                    Sprite bg02 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/plainOffice.png");
+                    
+                    TextType menuText = new TextType("res/font/clacon.ttf", 30f, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
+                    Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Meny");
+                    menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    gameWindow.addButtonToLayer(menuButton);
+                    
+                    ColorPicker cp = new ColorPicker(new Color(1.0f, 0, 1.0f), new Color(0.1f, 0.1f, 0.7f, 0.2f));
+                    bg02.setShader(cp);
+                    
+                    gameWindow.addSpriteToLayer(bgLayer01, bg01);
+                    gameWindow.addSpriteToLayer(bgLayer02, bg02);
                     while (isGameRunning && isClientRunning) {
                         
+                        if (input.getButtonPressed().equals(menuButton)) {
+                            
+                        }
+                        
+                        gameWindow.drawAll();
+                        updateFPS();
+                        checkGlobalInput();
+                        Display.sync(60);
+                        Display.update();
                     }
                 } else if (b.equals(loadGame)) {
                     
@@ -109,6 +139,7 @@ public class Client implements Runnable {
                 }
             }
             
+            checkGlobalInput();
             Display.sync(60);
             Display.update();
         }
@@ -120,16 +151,16 @@ public class Client implements Runnable {
      */
     public void initMainMenu() {
         // Add background...
-        currentWindow = new Window(); // The window being drawn to...
-        int layer01 = currentWindow.addLayer();
+        menuWindow = new Window(); // The window being drawn to...
+        int layer01 = menuWindow.addLayer();
         Sprite menuBackground = new Sprite(0, 0, this.widthWindow, this.heightWindow);
         menuBackground.loadTexture("png", "res/images/startScreen.png");
-        currentWindow.addSpriteToLayer(layer01, menuBackground);
+        menuWindow.addSpriteToLayer(layer01, menuBackground);
 
         // Generate buttons...
         int buttonWidth = 300;
         int buttonHeight = 70;
-        Text menuText = new Text("res/font/clacon.ttf", 55, true, new Color(1.0f, 0, 0.0f, 0), Text.ALIGN_CENTER);
+        TextType menuText = new TextType("res/font/clacon.ttf", 55, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
         newGame = new Button(this.getWindowWidth() / 2 - buttonWidth / 2, this.getWindowHeight() / 2 + this.getWindowHeight() / 4, buttonWidth, buttonHeight, menuText, "New Game");
         loadGame = new Button(this.getWindowWidth() / 2 - buttonWidth / 2, this.getWindowHeight() / 2 + this.getWindowHeight() / 8, buttonWidth, buttonHeight, menuText, "Load Game");
         quitGame = new Button(this.getWindowWidth() / 2 - buttonWidth / 2, this.getWindowHeight() / 2, buttonWidth, buttonHeight, menuText, "Quit Game");
@@ -144,9 +175,9 @@ public class Client implements Runnable {
         quitGame.loadClickedButtonState("png", "res/images/menuButtonClicked.png");
 
         // Put buttons in the dynamic layer...
-        currentWindow.addButtonToLayer(newGame);
-        currentWindow.addButtonToLayer(loadGame);
-        currentWindow.addButtonToLayer(quitGame);
+        menuWindow.addButtonToLayer(newGame);
+        menuWindow.addButtonToLayer(loadGame);
+        menuWindow.addButtonToLayer(quitGame);
     }
 
     /*
