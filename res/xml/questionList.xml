@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:questionMaster xmlns:ns2="listOfQuestions">
     <questionkList>
-        <question id="1" imageFilePath="">
+        <question id="1" used="false" imageFilePath="">
             <text>Er det standup meeting i fossefalls metoden?</text>
             <answerList>
                 <answer answeText="Ja" score="0"/>
                 <answer answeText="Nei" score="1"/>
             </answerList>
         </question>
-        <question id="2" imageFilePath="test/testPath">
+        <question id="2" used="false" imageFilePath="test/testPath">
             <text>Hva viser bildet?</text>
             <answerList>
                 <answer answeText="Use  diagram" score="0"/>

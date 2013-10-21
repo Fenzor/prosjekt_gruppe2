@@ -4,6 +4,7 @@
  */
 package gui.swing;
 
+import javax.swing.JOptionPane;
 import questions.Question;
 
 /**
@@ -15,6 +16,7 @@ public class SwingTest {
         Question q = xml.XMLReader.getQuestions().get(0);
         QuestionDialog qd = new QuestionDialog(q, null, true);
         boolean b = qd.showWindow();
-        System.out.println(b);
+        JOptionPane.showMessageDialog(null, b);
+        
     }
 }
