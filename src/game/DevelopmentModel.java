@@ -57,9 +57,16 @@ public class DevelopmentModel {
         return el.getQuestionList();
     }
 
-    public ArrayList getRndQuestion() throws Exception {
+    public ArrayList getRndQuestion(int id) throws Exception {
         Random rg = new Random();
-        int randomNumber = rg.nextInt(questions.size() - 1);
+        int numberOfIndexWithID = 0;
+        for(int i = 0; i < getQuestions().size(); i++){
+            if(getQuestions().get(i).getId() == id){
+                numberOfIndexWithID += 1;
+            }
+        }
+        
+        int randomNumber = rg.nextInt(numberOfIndexWithID - 1);
         int numberOfAnswers = getQuestions().get(randomNumber).getAnswerList().size();
         String question = getQuestions().get(randomNumber).getText();
         int correctIndex = -1;

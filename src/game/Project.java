@@ -95,8 +95,8 @@ public class Project implements Serializable {
         this.timeUsed = timeUsed;
     }
 
-    public ArrayList getQuestion() throws Exception {
-        return devMod.getRndQuestion();
+    public ArrayList getQuestion(int id) throws Exception {
+        return devMod.getRndQuestion(id);
     }
     
     public String getAnswer(){

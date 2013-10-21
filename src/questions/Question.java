@@ -93,17 +93,17 @@ public class Question {
      *
      * @return
      */
-    public String getText() {
-        return text;
-    }
+//    public String getText() {
+//        return text;
+//    }
 
     /**
      *
      * @param text
      */
-    public void setText(String text) {
-        this.text = text;
-    }
+//    public void setText(String text) {
+//        this.text = text;
+//    }
 
     /**
      *
