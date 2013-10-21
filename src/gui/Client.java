@@ -128,17 +128,21 @@ public class Client implements Runnable {
                     Sprite overlay = new Sprite(widthWindow/2 - sizeX/2, heightWindow/2 - sizeY/2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
                     menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
                     
-                    int buttonSizeX = 200;
+                    int buttonSizeX = 300;
                     int buttonSizeY = 60;
-                    Button overlayButtonMainMenu = new Button(widthWindow/2 - buttonSizeX/2, heightWindow/2 + 100, buttonSizeX, buttonSizeY, menuText, "Main Menu");
+                    int hX = heightWindow/2 + 125;
+                    Button overlayButtonMainMenu = new Button(widthWindow/2 - buttonSizeX/2, hX, buttonSizeX, buttonSizeY, menuText, "Main Menu");
                     overlayButtonMainMenu.loadAllStates("png", "res/images/menuButtonDefault.png");
                     menuOverlayWin.addButtonToLayer(overlayButtonMainMenu);
-                    Button overlayButtonSaveGame = new Button(widthWindow/2 - buttonSizeX/2, heightWindow/2, buttonSizeX, buttonSizeY, menuText, "Save Game");
+                    Button overlayButtonSaveGame = new Button(widthWindow/2 - buttonSizeX/2, hX - (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Save Game");
                     overlayButtonSaveGame.loadAllStates("png", "res/images/menuButtonDefault.png");
                     menuOverlayWin.addButtonToLayer(overlayButtonSaveGame);
-                    Button overlayButtonBack = new Button(widthWindow/2 - buttonSizeX/2, heightWindow/2 - 100, buttonSizeX, buttonSizeY, menuText, "Back");
+                    Button overlayButtonBack = new Button(widthWindow/2 - buttonSizeX/2, hX - 2*(buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Back");
                     overlayButtonBack.loadAllStates("png", "res/images/menuButtonDefault.png");
                     menuOverlayWin.addButtonToLayer(overlayButtonBack);
+                    Button overlayButtonExit = new Button(widthWindow/2 - buttonSizeX/2, hX - 3*(buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to Windows");
+                    overlayButtonExit.loadAllStates("png", "res/images/menuButtonDefault.png");
+                    menuOverlayWin.addButtonToLayer(overlayButtonExit);
                     
                     while (isGameRunning && isClientRunning) {
                         
@@ -156,6 +160,10 @@ public class Client implements Runnable {
                                     if (b2 != null) {
                                         if (b2.equals(overlayButtonBack)) {
                                             this.switchCurrentWindow(gameWindow);
+                                            break;
+                                        }
+                                        if (b2.equals(overlayButtonExit)) {
+                                            this.isClientRunning = false;
                                             break;
                                         }
                                     }
