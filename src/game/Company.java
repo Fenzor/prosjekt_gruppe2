@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
 import java.util.ArrayList;
@@ -9,7 +5,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- *
+ *Denne klassen holder orden på ansatte i firma, teamene og de forskjellige prosjektene
  * @author Rasmus
  */
 public class Company extends World implements Serializable{
@@ -191,6 +187,10 @@ public class Company extends World implements Serializable{
 
     public void setRumor(int newRumor) {
         this.rumor = newRumor;
+    }
+    
+    public void setEmployee(ArrayList<Employee> employee) {
+        this.employees = employee;
     }
 
     public int getCash() {

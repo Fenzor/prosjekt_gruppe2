@@ -127,6 +127,6 @@ public class Employee implements Serializable {
     }
 
     public String toString() {
-        return "Name" + getName() + ", and has the skill lvl:" + getSkill() + ". Xp is: " + getXp() + ", and the person is : " + getSex() + ". The persons pay is: " + getPay() + ". The person is sick: " + isIsSick();
+        return "Name: " + getName() + "\tSkill lvl: " + getSkill() + "\tXp: " + getXp() + "\tSex: " + getSex() + "\tPay: " + getPay() + "\tSick: " + isIsSick();
     }
 }

@@ -31,6 +31,13 @@ public class World {
     // Testing pågår, disregard.
     public void World(String playername, String companyname) {
         initialize(playername, companyname);
+        //henter og setter ansatte
+        try {
+            player.getCompany().setEmployee((ArrayList) xml.XMLReader.getEmployees());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
         try {
             run();
         } catch (InterruptedException e) {
@@ -46,14 +53,6 @@ public class World {
         devMod.add(new DevelopmentModel(Type.UP, 2));
         devMod.add(new DevelopmentModel(Type.Waterfall, 3));
 
-        ArrayList<Employee> ansatte = new ArrayList<Employee>();
-//        String name, int skill, int xp, int pay, Employee.sex sex, boolean isSick
-        ansatte.add(new Employee("Brolaf", 5, 50, 500, Employee.sex.male, false));
-        ansatte.add(new Employee("Olga", 6, 60, 600, Employee.sex.female, false));
-        ansatte.add(new Employee("Loke", 4, 40, 400, Employee.sex.male, false));
-        ansatte.add(new Employee("Vi", 5, 50, 500, Employee.sex.female, false));
-        ansatte.add(new Employee("Cola", 2, 20, 200, Employee.sex.male, false));
-        ansatte.add(new Employee("Solo", 1, 10, 100, Employee.sex.male, false));
 
         ArrayList<Project> prosjekt = new ArrayList<Project>();
 //        String name, String info, int timeEstimated, int deadline, int complexity, int pay, DevelopmentModel devMod

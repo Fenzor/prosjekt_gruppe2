@@ -1,5 +1,6 @@
 package questions;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -14,6 +15,16 @@ public class Answer {
     private String answerText;
     private int score;
 
+    
+    public Answer() {
+        
+    }
+    
+    public Answer(String answerText, int score) {
+        this.answerText = answerText;
+        this.score = score;
+    }
+    
     /**
      *
      * @param answerText
@@ -34,6 +45,7 @@ public class Answer {
      *
      * @return
      */
+    @XmlAttribute(name="answeText")
     public String getAnswerText() {
         return answerText;
     }
@@ -42,7 +54,12 @@ public class Answer {
      *
      * @return
      */
+    @XmlAttribute(name="score")
     public int getScore() {
         return score;
+    }
+    
+    public String toString() {
+        return score + " " + answerText;
     }
 }

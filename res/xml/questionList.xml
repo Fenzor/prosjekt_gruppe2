@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:questionMaster xmlns:ns2="listOfQuestions">
     <questionkList>
-        <question imageFilePath="/image.png">
-            <text>Er 5 mer enn 1?</text>
+        <question id="1" imageFilePath="">
+            <text>Er det standup meeting i fossefalls metoden?</text>
             <answerList>
-                <answer>
-                    <answerText>ja</answerText>
-                    <score>0</score>
-                </answer>
-                <answer>
-                    <answerText>nei</answerText>
-                    <score>10</score>
-                </answer>
+                <answer answeText="Ja" score="0"/>
+                <answer answeText="Nei" score="1"/>
             </answerList>
         </question>
-        <question imageFilePath="">
-            <text>2+2 er?</text>
+        <question id="2" imageFilePath="test/testPath">
+            <text>Hva viser bildet?</text>
             <answerList>
-                <answer>
-                    <answerText>5</answerText>
-                    <score>0</score>
-                </answer>
-                <answer>
-                    <answerText>4</answerText>
-                    <score>10</score>
-                </answer>
+                <answer answeText="Use  diagram" score="0"/>
+                <answer answeText="Problem domene modell" score="1"/>
+                <answer answeText="Sekvens diagram" score="0"/>
             </answerList>
         </question>
     </questionkList>
