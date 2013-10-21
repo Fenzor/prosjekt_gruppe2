@@ -12,15 +12,14 @@ import javax.xml.bind.annotation.XmlType;
  * @author WaltherKammen
  */
 @XmlRootElement(name = "Question")
-@XmlType(propOrder = {"id", "imageFilePath", "text", "answerList"})
+@XmlType(propOrder = {"id", "used", "imageFilePath", "text", "answerList"})
 public class Question {
 
     private int id;
     private String imageFilePath;
     private String text;
     private List<Answer> answerList;
-    private String answer;
-    private boolean correct;
+    private boolean used = false;
 
     public Question() {
         imageFilePath = "";
@@ -32,12 +31,7 @@ public class Question {
         this.text = text;
         this.answerList = answerList;
     }
-    
-    public Question(String text, String answer, boolean correct){
-        this.text = text;
-        this.answer = answer;
-        this.correct = correct;
-    }
+
     
     @XmlAttribute(name="id")
     public int getId() {
@@ -52,73 +46,37 @@ public class Question {
         return text;
     }
     
-    public void setText(String newText){
-        this.text = newText;
+    public void setText(String text){
+        this.text = text;
     }
     
-    public String getAnswer(){
-        return answer;
+    @XmlAttribute(name="used")
+    public boolean getUsed() {
+        return used;
     }
     
-    public void setAnswer(String newAnswer){
-        this.answer = newAnswer;
+    public void setUsed(boolean used) {
+        this.used = used;
     }
-    
-    public boolean getCorrect(){
-        return correct;
-    }
-    
-    public void setCorrect(boolean newCorrect){
-        this.correct = newCorrect;
-    }
-    
-    /**
-     *
-     * @return 
-     */
+ 
     @XmlAttribute(name="imageFilePath")
     public String getImageFilePath() {
         return imageFilePath;
     }
 
-    /**
-     *
-     * @param imageFilePath filsi til eventuelt bilde
-     */
+
     public void setImageFilePath(String imageFilePath) {
         this.imageFilePath = imageFilePath;
     }
     
-    /**
-     *
-     * @return
-     */
-//    public String getText() {
-//        return text;
-//    }
 
-    /**
-     *
-     * @param text
-     */
-//    public void setText(String text) {
-//        this.text = text;
-//    }
-
-    /**
-     *
-     * @return
-     */
     @XmlElementWrapper(name = "answerList")
     @XmlElement(name = "answer")
     public List<Answer> getAnswerList() {
         return answerList;
     }
 
-    /**
-     *
-     * @param answerList
-     */
+
     public void setAnswerList(List<Answer> answerList) {
         this.answerList = answerList;
     }

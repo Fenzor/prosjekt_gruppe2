@@ -75,7 +75,7 @@ public class DevelopmentModel {
             if(getQuestions().get(randomNumber).getAnswerList().get(i).getScore() == 1){
                 correctIndex = i;
                 correctAnswer = true;
-                questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
+                 questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
             }else{
                 questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
             }
