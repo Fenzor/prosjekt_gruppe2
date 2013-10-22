@@ -14,8 +14,8 @@ public class Test2 {
 
     public static void main(String[] args) {
         Player player = new Player();
-        Company company = player.loadGame();
+        //Company company = player.loadGame();
 
-        System.out.println(company.toString());
+        //System.out.println(company.toString());
     }
 }

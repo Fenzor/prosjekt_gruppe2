@@ -8,7 +8,7 @@ import java.util.Random;
  *Denne klassen holder orden på ansatte i firma, teamene og de forskjellige prosjektene
  * @author Rasmus
  */
-public class Company extends World implements Serializable{
+public class Company implements Serializable{
     
     private String name;
     private int rumor;
@@ -16,6 +16,7 @@ public class Company extends World implements Serializable{
     private ArrayList <Employee> employees = new ArrayList();
     private ArrayList <Team> teams = new ArrayList();
     private ArrayList <Project> projects = new ArrayList();
+    private ArrayList <DevelopmentModel> developmentModels = new ArrayList();
     
     public Company(String name){
         this.name = name;
@@ -167,6 +168,18 @@ public class Company extends World implements Serializable{
         }
         pro.removeTeams();
         this.projects.remove(pro);
+    }
+
+    public void setProjects(ArrayList<Project> projects) {
+        this.projects = projects;
+    }
+
+    public ArrayList<DevelopmentModel> getDevelopmentModels() {
+        return developmentModels;
+    }
+
+    public void setDevelopmentModels(ArrayList<DevelopmentModel> developmentModels) {
+        this.developmentModels = developmentModels;
     }
     
     public void getPay(int i){

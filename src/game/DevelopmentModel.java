@@ -6,8 +6,6 @@ package game;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -56,7 +54,7 @@ public class DevelopmentModel {
 
         return el.getQuestionList();
     }
-
+/*
     public ArrayList getRndQuestion(int id) throws Exception {
         Random rg = new Random();
         int numberOfIndexWithID = 0;
@@ -83,7 +81,7 @@ public class DevelopmentModel {
         }
         return questions;
     }
-
+*/
     public enum Type {
 
         UP, Scrum, Waterfall
