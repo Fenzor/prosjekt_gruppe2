@@ -4,7 +4,10 @@
  */
 package gui;
 
+import game.Employee;
+import gui.swing.EmployeeDialog;
 import java.io.File;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.lwjgl.*;
 import org.lwjgl.input.Keyboard;
@@ -14,6 +17,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import sound.MusicLibrary;
+import sun.awt.windows.ThemeReader;
 
 /**
  *
@@ -102,7 +106,7 @@ public class Client implements Runnable {
                 if (b.equals(newGame)) {
                     runNewGame();
                 } else if (b.equals(loadGame)) {
-                    JOptionPane.showMessageDialog(null ,"\"Load game\" NOT implemented!","Warning",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
                 }
@@ -121,9 +125,9 @@ public class Client implements Runnable {
         int layer01 = menuWindow.addLayer();
         int faktor = 11;
         Sprite menuBackground = new Sprite(
-                this.widthWindow/2 - (106 * faktor)/2, 
-                this.heightWindow/2 - (73 * faktor)/2, 
-                106 * faktor, 
+                this.widthWindow / 2 - (106 * faktor) / 2,
+                this.heightWindow / 2 - (73 * faktor) / 2,
+                106 * faktor,
                 73 * faktor);
         menuBackground.loadTexture("png", "res/images/startScreen.png");
         menuWindow.addSpriteToLayer(layer01, menuBackground);
@@ -153,8 +157,8 @@ public class Client implements Runnable {
     }
 
     /*
-    * Starts new game..
-    */
+     * Starts new game..
+     */
     public void runNewGame() {
         isGameRunning = true;
 
@@ -167,26 +171,26 @@ public class Client implements Runnable {
 
         Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
         Sprite bg02 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/plainOffice.png");
-        
-        Sprite textField = new Sprite(10, 10, 350, this.heightWindow - 2*10, "png", "res/images/redDot.png");
+
+        Sprite textField = new Sprite(10, 10, 350, this.heightWindow - 2 * 10, "png", "res/images/redDot.png");
 
         TextType menuText = new TextType("res/font/clacon.ttf", 45f, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
         TextType textFieldType = new TextType("res/font/clacon.ttf", 40f, true, new Color(0.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
         String text = "Employees: ";
         TextField tf = new TextField(10, this.heightWindow - 10, text, textFieldType);
         this.gameWindow.addSpriteToLayer(bgLayer03, tf);
-        
-        Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Meny");
+
+        Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Menu");
         menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
         gameWindow.addButtonToLayer(menuButton);
-        
-        Button testButton = new Button(textField.getSizeX() - 35, heightWindow - (12 + 30), 30, 30);
-        testButton.loadAllStates("png", "res/images/menuButtonDefault.png");
-        gameWindow.addButtonToLayer(testButton);
+
+        Button employeeButton = new Button(textField.getSizeX() - 35, heightWindow - (12 + 30), 30, 30);
+        employeeButton.loadAllStates("png", "res/images/menuButtonDefault.png");
+        gameWindow.addButtonToLayer(employeeButton);
 
         ColorPicker cp = new ColorPicker(new Color(1.0f, 0, 1.0f), new Color(0.1f, 0.1f, 0.7f, 0.2f));
         bg02.setShader(cp);
-        
+
         ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0.0f, 0.0f), new Color(1f, 1f, 1f, 0.6f));
         textField.setShader(cp2);
 
@@ -202,8 +206,6 @@ public class Client implements Runnable {
         Sprite overlay = new Sprite(widthWindow / 2 - sizeX / 2, heightWindow / 2 - sizeY / 2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
         menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
 
-        
-
         while (isGameRunning && isClientRunning) {
 
             Button b2 = input.getButtonPressed();
@@ -211,14 +213,20 @@ public class Client implements Runnable {
                 if (b2.equals(menuButton)) {
                     runOverlayMenu();
                 }
-                if (b2.equals(testButton)) {
-                    try {
-                        gui.swing.SwingTest.test2();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    //Thread myrunnable = new Thread(new gui.swing.SwingTest(),"T2");
-                    //myrunnable.start();
+                if (b2.equals(employeeButton)) {
+                    Runnable r = new Runnable() {
+                        public void run() {
+                            try {
+                                List<Employee> eList = xml.XMLReader.getEmployees();
+                                EmployeeDialog ed = new EmployeeDialog(eList, null, true);
+                                ed.setVisible(true);
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    };
+                    Thread t = new Thread(r);
+                    t.start();
                 }
             }
             currentWindow.drawAll();
@@ -230,7 +238,7 @@ public class Client implements Runnable {
         int buttonSizeX = 310;
         int buttonSizeY = 60;
         int hX = heightWindow / 2 + 125;
-        
+
         TextType menuText = new TextType("res/font/clacon.ttf", 45f, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
         Button overlayButtonMainMenu = new Button(widthWindow / 2 - buttonSizeX / 2, hX, buttonSizeX, buttonSizeY, menuText, "Options");
         overlayButtonMainMenu.loadAllStates("png", "res/images/menuButtonDefault.png");
@@ -247,7 +255,7 @@ public class Client implements Runnable {
         Button overlayButtonBackToGame = new Button(widthWindow - 430, heightWindow - 190, 30, 30);
         overlayButtonBackToGame.loadAllStates("png", "res/images/exitButton.png");
         menuOverlayWin.addButtonToLayer(overlayButtonBackToGame);
-        
+
         Sprite transparent = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/redDot.png");
         ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0f, 0f), new Color(0f, 0f, 0f, 0.5f));
         transparent.setShader(cp2);
@@ -263,16 +271,14 @@ public class Client implements Runnable {
                     return;
                 }
                 if (b.equals(overlayButtonSaveGame)) {
-                    JOptionPane.showMessageDialog(null ,"\"Save game\" NOT implemented!","Warning",JOptionPane.WARNING_MESSAGE);
-                    //this.isClientRunning = false;
-                    break;
+                    JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
                 if (b.equals(overlayButtonExitToWindows)) {
                     this.isClientRunning = false;
                     break;
                 }
                 if (b.equals(overlayButtonBackToGame)) {
-                    
+
                     this.switchCurrentWindow(gameWindow);
                     return;
                 }
