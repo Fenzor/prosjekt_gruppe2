@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,40 +31,39 @@ public class World {
     private double lastTicks;
 
     // Testing pågår, disregard.
-    public void World(String playername, String companyname) {
+    public World(String playername, String companyname) {
         initialize(playername, companyname);
-        //henter og setter ansatte
+        populateEmployees();
+        populateDevelopmentModels();
+        populateProjects();
+    }
+    
+    private void populateEmployees() {
         try {
             player.getCompany().setEmployee((ArrayList) xml.XMLReader.getEmployees());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        try {
-            run();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public static void main(String[] args) throws InterruptedException {
-        World game = new World();
-
+    
+    private void populateDevelopmentModels() {
         ArrayList<DevelopmentModel> devMod = new ArrayList<DevelopmentModel>();
         devMod.add(new DevelopmentModel(Type.Scrum, 1));
         devMod.add(new DevelopmentModel(Type.UP, 2));
         devMod.add(new DevelopmentModel(Type.Waterfall, 3));
-
-
-        ArrayList<Project> prosjekt = new ArrayList<Project>();
-//        String name, String info, int timeEstimated, int deadline, int complexity, int pay, DevelopmentModel devMod
-        prosjekt.add(new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, devMod.get(1)));
-        prosjekt.add(new Project("Tur App", "Skal kunne registrere turen en person har gått", 4, 6, 4, 200, devMod.get(2)));
-        prosjekt.add(new Project("Servicekalkulator", "Skal kunne kalkulere pris for service av de nye bil modellene", 12, 14, 9, 700, devMod.get(3)));
-
-        game.run();
-
+        player.getCompany().setDevelopmentModels(devMod);
     }
+
+    
+    private void populateProjects() {
+        ArrayList<Project> prosjekt = new ArrayList<Project>();
+        prosjekt.add(new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, player.getCompany().getDevelopmentModels().get(0)));
+        prosjekt.add(new Project("Tur App", "Skal kunne registrere turen en person har gått", 4, 6, 4, 200, player.getCompany().getDevelopmentModels().get(1)));
+        prosjekt.add(new Project("Servicekalkulator", "Skal kunne kalkulere pris for service av de nye bil modellene", 12, 14, 9, 700, 
+                player.getCompany().getDevelopmentModels().get(2)));
+        player.getCompany().setProjects(prosjekt);
+    }
+ 
 
     public void run() throws InterruptedException {
 

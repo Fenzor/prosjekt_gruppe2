@@ -33,7 +33,7 @@ public class Test {
 
         Player player = new Player("TheOne", company, 1000);
         
-        player.saveGame();
+        //player.saveGame();
 
     }
 }

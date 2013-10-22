@@ -4,7 +4,7 @@ package game;
  *
  * @author Rasmus
  */
-public class Player extends World {
+public class Player {
 
     private String name;
     private Company company;

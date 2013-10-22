@@ -94,11 +94,11 @@ public class Project implements Serializable {
     public void setTimeUsed(int timeUsed) {
         this.timeUsed = timeUsed;
     }
-
+/*
     public ArrayList getQuestion(int id) throws Exception {
         return devMod.getRndQuestion(id);
     }
-    
+  */  
     public String getAnswer(){
         return answer;
     }
