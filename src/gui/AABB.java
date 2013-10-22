@@ -14,14 +14,14 @@ public class AABB {
     protected float sizeX;
     protected float sizeY;
 
-    public AABB(int xPos, int yPos, int sizeX, int sizeY) {
+    public AABB(float xPos, float yPos, float sizeX, float sizeY) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
     }
     
-    public AABB(int xPos, int yPos) {
+    public AABB(float xPos, float yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.sizeX = 0;
@@ -48,7 +48,7 @@ public class AABB {
         return sizeX;
     }
 
-    public void setSizeX(int sizeX) {
+    public void setSizeX(float sizeX) {
         this.sizeX = sizeX;
     }
 
@@ -56,7 +56,7 @@ public class AABB {
         return sizeY;
     }
 
-    public void setSizeY(int sizeY) {
+    public void setSizeY(float sizeY) {
         this.sizeY = sizeY;
     }
     
@@ -65,7 +65,9 @@ public class AABB {
         this.sizeY = this.sizeY * y;
     }
     
-    public boolean isInside(int xPos, int yPos) {
+    public boolean isInside(float xPos, float yPos) {
         return (xPos >= this.getX() && xPos <= (this.getX() + this.getSizeX()) && yPos >= this.getY() && yPos <= (this.getY() + this.getSizeY()));
     }
+    
+    
 }

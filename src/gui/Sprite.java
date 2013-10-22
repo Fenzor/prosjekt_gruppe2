@@ -16,15 +16,15 @@ import org.newdawn.slick.util.ResourceLoader;
  *
  * @author Lars Aksel
  */
-public class Sprite extends AABB {
+public class Sprite extends AABB implements Drawable {
     protected Texture image;
     protected Shader shader;
     
-    public Sprite(int xPos, int yPos, int sizeX, int sizeY) {
+    public Sprite(float xPos, float yPos, float sizeX, float sizeY) {
         super(xPos, yPos, sizeX, sizeY);
     }
     
-    public Sprite(int xPos, int yPos, String filetype, String path) {
+    public Sprite(float xPos, float yPos, String filetype, String path) {
         super(xPos, yPos);
         try {
             this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);            

@@ -26,10 +26,10 @@ public class Button extends Sprite {
     private Texture clickedButtonState;
     private final TextType textType;
     private final String buttonText;
-    private final int textOffsetX;
-    private final int textOffsetY;
+    private final float textOffsetX;
+    private final float textOffsetY;
 
-    public Button(int xPos, int yPos, int sizeX, int sizeY) {
+    public Button(float xPos, float yPos, float sizeX, float sizeY) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = null;
         this.buttonText = null;
@@ -37,7 +37,7 @@ public class Button extends Sprite {
         this.textOffsetY = sizeY / 2;
     }
 
-    public Button(int xPos, int yPos, int sizeX, int sizeY, TextType text) {
+    public Button(float xPos, float yPos, float sizeX, float sizeY, TextType text) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = text;
         this.buttonText = "placeholder";
@@ -45,7 +45,7 @@ public class Button extends Sprite {
         this.textOffsetY = sizeY / 2;
     }
 
-    public Button(int xPos, int yPos, int sizeX, int sizeY, TextType textType, String buttonText) {
+    public Button(float xPos, float yPos, float sizeX, float sizeY, TextType textType, String buttonText) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = textType;
         this.buttonText = buttonText;

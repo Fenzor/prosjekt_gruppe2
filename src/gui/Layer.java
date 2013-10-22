@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Layer {
     private String description;
-    private ArrayList<Sprite> sprites;
+    private ArrayList<Drawable> sprites;
     
     public Layer() {
         this.sprites = new ArrayList<>();
@@ -24,12 +24,12 @@ public class Layer {
         this.description = desc;
     }
     
-    public void addSprite(Sprite s) {
+    public void addSprite(Drawable s) {
         this.sprites.add(s);
     }
     
     public void drawSprites() {
-        for (Sprite s : sprites) {
+        for (Drawable s : sprites) {
             s.draw();
         }
     }
@@ -38,7 +38,7 @@ public class Layer {
         this.sprites.remove(indeks);
     }
         
-    public Sprite getSprite(int indeks) {
+    public Drawable getSprite(int indeks) {
         return this.sprites.get(indeks);
     }
     

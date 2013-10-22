@@ -21,8 +21,8 @@ import sound.MusicLibrary;
  */
 public class Client implements Runnable {
 
-    private final int widthWindow = 1280;
-    private final int heightWindow = 720;
+    private int widthWindow = 1280;
+    private int heightWindow = 720;
     private final Thread clientThread;
     private boolean fullscreen = false;
     private boolean isClientRunning;
@@ -54,6 +54,9 @@ public class Client implements Runnable {
 
     public Client() {
         this.clientThread = new Thread(this, "Game_Thread");
+        int faktor = 100;
+        this.heightWindow = 9 * faktor;
+        this.widthWindow = 16 * faktor;
     }
 
     /*
@@ -99,7 +102,7 @@ public class Client implements Runnable {
                 if (b.equals(newGame)) {
                     runNewGame();
                 } else if (b.equals(loadGame)) {
-
+                    JOptionPane.showMessageDialog(null ,"\"Load game\" NOT implemented!","Warning",JOptionPane.WARNING_MESSAGE);
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
                 }
@@ -116,7 +119,12 @@ public class Client implements Runnable {
         // Add background...
         menuWindow = new Window(); // The window being drawn to...
         int layer01 = menuWindow.addLayer();
-        Sprite menuBackground = new Sprite(0, 0, this.widthWindow, this.heightWindow);
+        int faktor = 11;
+        Sprite menuBackground = new Sprite(
+                this.widthWindow/2 - (106 * faktor)/2, 
+                this.heightWindow/2 - (73 * faktor)/2, 
+                106 * faktor, 
+                73 * faktor);
         menuBackground.loadTexture("png", "res/images/startScreen.png");
         menuWindow.addSpriteToLayer(layer01, menuBackground);
 
@@ -155,20 +163,36 @@ public class Client implements Runnable {
         int bgLayer01 = gameWindow.addLayer();
         int carLayer = gameWindow.addLayer();
         int bgLayer02 = gameWindow.addLayer();
+        int bgLayer03 = gameWindow.addLayer();
 
         Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
         Sprite bg02 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/plainOffice.png");
+        
+        Sprite textField = new Sprite(10, 10, 350, this.heightWindow - 2*10, "png", "res/images/redDot.png");
 
         TextType menuText = new TextType("res/font/clacon.ttf", 45f, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
+        TextType textFieldType = new TextType("res/font/clacon.ttf", 40f, true, new Color(0.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
+        String text = "Employees: ";
+        TextField tf = new TextField(10, this.heightWindow - 10, text, textFieldType);
+        this.gameWindow.addSpriteToLayer(bgLayer03, tf);
+        
         Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Meny");
         menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
         gameWindow.addButtonToLayer(menuButton);
+        
+        Button testButton = new Button(textField.getSizeX() - 35, heightWindow - (12 + 30), 30, 30);
+        testButton.loadAllStates("png", "res/images/menuButtonDefault.png");
+        gameWindow.addButtonToLayer(testButton);
 
         ColorPicker cp = new ColorPicker(new Color(1.0f, 0, 1.0f), new Color(0.1f, 0.1f, 0.7f, 0.2f));
         bg02.setShader(cp);
+        
+        ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0.0f, 0.0f), new Color(1f, 1f, 1f, 0.6f));
+        textField.setShader(cp2);
 
         gameWindow.addSpriteToLayer(bgLayer01, bg01);
         gameWindow.addSpriteToLayer(bgLayer02, bg02);
+        gameWindow.addSpriteToLayer(bgLayer02, textField);
 
         menuOverlayWin = new Window();
         int menuOverlay = menuOverlayWin.addLayer();
@@ -186,6 +210,15 @@ public class Client implements Runnable {
             if (b2 != null) {
                 if (b2.equals(menuButton)) {
                     runOverlayMenu();
+                }
+                if (b2.equals(testButton)) {
+                    try {
+                        gui.swing.SwingTest.test2();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Thread myrunnable = new Thread(new gui.swing.SwingTest(),"T2");
+                    //myrunnable.start();
                 }
             }
             currentWindow.drawAll();
@@ -205,15 +238,15 @@ public class Client implements Runnable {
         Button overlayButtonSaveGame = new Button(widthWindow / 2 - buttonSizeX / 2, hX - (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Save Game");
         overlayButtonSaveGame.loadAllStates("png", "res/images/menuButtonDefault.png");
         menuOverlayWin.addButtonToLayer(overlayButtonSaveGame);
-        Button overlayButtonBackToGame = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 2 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to Main Menu");
-        overlayButtonBackToGame.loadAllStates("png", "res/images/menuButtonDefault.png");
+        Button overlayButtonBackToMainMenu = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 2 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to Main Menu");
+        overlayButtonBackToMainMenu.loadAllStates("png", "res/images/menuButtonDefault.png");
+        menuOverlayWin.addButtonToLayer(overlayButtonBackToMainMenu);
+        Button overlayButtonExitToWindows = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 3 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to OS");
+        overlayButtonExitToWindows.loadAllStates("png", "res/images/menuButtonDefault.png");
+        menuOverlayWin.addButtonToLayer(overlayButtonExitToWindows);
+        Button overlayButtonBackToGame = new Button(widthWindow - 430, heightWindow - 190, 30, 30);
+        overlayButtonBackToGame.loadAllStates("png", "res/images/exitButton.png");
         menuOverlayWin.addButtonToLayer(overlayButtonBackToGame);
-        Button overlayButtonExit = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 3 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to OS");
-        overlayButtonExit.loadAllStates("png", "res/images/menuButtonDefault.png");
-        menuOverlayWin.addButtonToLayer(overlayButtonExit);
-        Button overlayButtonBack = new Button(widthWindow - 430, heightWindow - 190, 30, 30);
-        overlayButtonBack.loadAllStates("png", "res/images/exitButton.png");
-        menuOverlayWin.addButtonToLayer(overlayButtonBack);
         
         Sprite transparent = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/redDot.png");
         ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0f, 0f), new Color(0f, 0f, 0f, 0.5f));
@@ -224,16 +257,22 @@ public class Client implements Runnable {
             this.switchCurrentWindow(menuOverlayWin);
             Button b = input.getButtonPressed();
             if (b != null) {
-                if (b.equals(overlayButtonBackToGame)) {
+                if (b.equals(overlayButtonBackToMainMenu)) {
                     this.switchCurrentWindow(menuWindow);
                     this.isGameRunning = false;
+                    return;
+                }
+                if (b.equals(overlayButtonSaveGame)) {
+                    JOptionPane.showMessageDialog(null ,"\"Save game\" NOT implemented!","Warning",JOptionPane.WARNING_MESSAGE);
+                    //this.isClientRunning = false;
                     break;
                 }
-                if (b.equals(overlayButtonExit)) {
+                if (b.equals(overlayButtonExitToWindows)) {
                     this.isClientRunning = false;
                     break;
                 }
-                if (b.equals(overlayButtonBack)) {
+                if (b.equals(overlayButtonBackToGame)) {
+                    
                     this.switchCurrentWindow(gameWindow);
                     return;
                 }
@@ -265,6 +304,7 @@ public class Client implements Runnable {
         checkGlobalInput();
         Display.sync(60);
         Display.update();
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
     }
 
     /*

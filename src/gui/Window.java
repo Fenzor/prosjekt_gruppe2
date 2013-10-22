@@ -35,7 +35,7 @@ public class Window {
     /*
      * Uses index to determine which layer to send the sprite to...
      */
-    public void addSpriteToLayer(int index, Sprite s) {
+    public void addSpriteToLayer(int index, Drawable s) {
         this.layers.get(index).addSprite(s);
     }
     

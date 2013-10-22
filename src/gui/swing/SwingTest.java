@@ -25,7 +25,7 @@ public class SwingTest {
         JOptionPane.showMessageDialog(null, b);
     }
     
-    private static void test2() throws Exception {
+    public static void test2() throws Exception {
         List<Employee> eList = xml.XMLReader.getEmployees();
         EmployeeDialog ed = new EmployeeDialog(eList, null, true);
         ed.setVisible(true);
