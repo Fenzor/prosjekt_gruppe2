@@ -49,6 +49,10 @@ public class Team implements Serializable {
     }
     
     public void removeTeamMember(Employee emp){
+        this.members.remove(emp);
+    }
+    
+    public void removeTeamLeader(Employee emp){
         emp.setPay(emp.getPay() - 2000);
         this.members.remove(emp);
     }
