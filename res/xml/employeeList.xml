@@ -2,32 +2,16 @@
 <ns2:employeeMaster xmlns:ns2="listOfEmployees">
     <employeekList>
         <employee>
-            <name>Brolaf</name>
-            <sex>male</sex>
-            <skill>5</skill>
-            <xp>50</xp>
-            <pay>500</pay>
-            <isSick>false</isSick>
-        </employee>
-        <employee>
-            <name>Olga</name>
-            <sex>female</sex>
-            <skill>6</skill>
-            <xp>60</xp>
-            <pay>600</pay>
-            <isSick>false</isSick>
-        </employee>
-        <employee>
-            <name>Loke</name>
+            <name>Bob</name>
             <sex>male</sex>
             <skill>4</skill>
             <xp>40</xp>
             <pay>400</pay>
-            <isSick>false</isSick>
+            <isSick>true</isSick>
         </employee>
         <employee>
-            <name>Vi</name>
-            <sex>female</sex>
+            <name>Brolaf</name>
+            <sex>male</sex>
             <skill>5</skill>
             <xp>50</xp>
             <pay>500</pay>
@@ -42,11 +26,67 @@
             <isSick>false</isSick>
         </employee>
         <employee>
+            <name>Helga</name>
+            <sex>female</sex>
+            <skill>3</skill>
+            <xp>30</xp>
+            <pay>300</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Holga</name>
+            <sex>female</sex>
+            <skill>3</skill>
+            <xp>30</xp>
+            <pay>300</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Loke</name>
+            <sex>male</sex>
+            <skill>4</skill>
+            <xp>40</xp>
+            <pay>400</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Olga</name>
+            <sex>female</sex>
+            <skill>6</skill>
+            <xp>60</xp>
+            <pay>600</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Per</name>
+            <sex>male</sex>
+            <skill>2</skill>
+            <xp>20</xp>
+            <pay>200</pay>
+            <isSick>true</isSick>
+        </employee>
+        <employee>
             <name>Solo</name>
             <sex>male</sex>
             <skill>1</skill>
             <xp>10</xp>
             <pay>100</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Sprite</name>
+            <sex>male</sex>
+            <skill>9</skill>
+            <xp>90</xp>
+            <pay>900</pay>
+            <isSick>false</isSick>
+        </employee>
+        <employee>
+            <name>Vi</name>
+            <sex>female</sex>
+            <skill>5</skill>
+            <xp>50</xp>
+            <pay>500</pay>
             <isSick>false</isSick>
         </employee>
     </employeekList>

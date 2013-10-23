@@ -15,7 +15,7 @@ import questions.Question;
  */
 public class SwingTest {
     public static void main(String[] args) throws Exception {
-        test2();
+        test1();
     }
     
     private static void test1() throws Exception {

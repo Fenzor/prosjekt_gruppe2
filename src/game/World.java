@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package game;
 
 import game.DevelopmentModel.Type;
@@ -47,7 +43,7 @@ public class World {
     }
     
     private void populateDevelopmentModels() {
-        ArrayList<DevelopmentModel> devMod = new ArrayList<DevelopmentModel>();
+        ArrayList<DevelopmentModel> devMod = new ArrayList();
         devMod.add(new DevelopmentModel(Type.Scrum, 1));
         devMod.add(new DevelopmentModel(Type.UP, 2));
         devMod.add(new DevelopmentModel(Type.Waterfall, 3));
@@ -56,7 +52,7 @@ public class World {
 
     
     private void populateProjects() {
-        ArrayList<Project> prosjekt = new ArrayList<Project>();
+        ArrayList<Project> prosjekt = new ArrayList();
         prosjekt.add(new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, player.getCompany().getDevelopmentModels().get(0)));
         prosjekt.add(new Project("Tur App", "Skal kunne registrere turen en person har gått", 4, 6, 4, 200, player.getCompany().getDevelopmentModels().get(1)));
         prosjekt.add(new Project("Servicekalkulator", "Skal kunne kalkulere pris for service av de nye bil modellene", 12, 14, 9, 700, 

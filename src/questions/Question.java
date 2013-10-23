@@ -12,11 +12,12 @@ import javax.xml.bind.annotation.XmlType;
  * @author WaltherKammen
  */
 @XmlRootElement(name = "Question")
-@XmlType(propOrder = {"id", "used", "imageFilePath", "text", "answerList"})
+@XmlType(propOrder = {"id", "used", "imageFilePath", "externWebPagePath", "text", "answerList"})
 public class Question {
 
     private int id;
     private String imageFilePath;
+    private String externWebPagePath;
     private String text;
     private List<Answer> answerList;
     private boolean used = false;
@@ -25,9 +26,10 @@ public class Question {
         imageFilePath = "";
     }
     
-    public Question(int id, String imageFilePath, String text, List<Answer> answerList) {
+    public Question(int id, String imageFilePath, String externWebPagePath, String text, List<Answer> answerList) {
         this.id = id;
         this.imageFilePath = imageFilePath;
+        this.externWebPagePath = externWebPagePath;
         this.text = text;
         this.answerList = answerList;
     }
@@ -48,6 +50,14 @@ public class Question {
     
     public void setText(String text){
         this.text = text;
+    }
+
+    public String getExternWebPagePath() {
+        return externWebPagePath;
+    }
+
+    public void setExternWebPagePath(String externWebPagePath) {
+        this.externWebPagePath = externWebPagePath;
     }
     
     @XmlAttribute(name="used")

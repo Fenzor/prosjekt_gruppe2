@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Employee")
 @XmlType(propOrder = {"name", "sex", "skill", "xp", "pay", "isSick"})
-public class Employee implements Serializable {
+public class Employee implements Serializable, Comparable<Employee> {
 
     private String name;
     private int skill, xp, pay;
@@ -66,7 +66,11 @@ public class Employee implements Serializable {
 
         male, female
     }
-
+    
+    public int compareTo(Employee o) {
+        return this.name.compareTo(o.name);
+    }
+    
     public String getName() {
         return name;
     }
