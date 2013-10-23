@@ -7,6 +7,7 @@ package gui;
 import game.Employee;
 import gui.swing.EmployeeDialog;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.lwjgl.*;
@@ -15,9 +16,9 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import sound.MusicLibrary;
-import sun.awt.windows.ThemeReader;
 
 /**
  *
@@ -205,6 +206,10 @@ public class Client implements Runnable {
 
         Sprite overlay = new Sprite(widthWindow / 2 - sizeX / 2, heightWindow / 2 - sizeY / 2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
         menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
+        
+        Car car01 = new Car(500, heightWindow - 10, "png", "res/images/car01.png", new Vector2f(-2, -1));
+        Cars cars = new Cars(10, 10, car01);
+        gameWindow.getLayer(carLayer).setSprite(cars.getCars());
 
         while (isGameRunning && isClientRunning) {
 
@@ -229,6 +234,7 @@ public class Client implements Runnable {
                     t.start();
                 }
             }
+            cars.update(getDelta(), widthWindow, heightWindow);
             currentWindow.drawAll();
             update();
         }
@@ -266,9 +272,12 @@ public class Client implements Runnable {
             Button b = input.getButtonPressed();
             if (b != null) {
                 if (b.equals(overlayButtonBackToMainMenu)) {
-                    this.switchCurrentWindow(menuWindow);
-                    this.isGameRunning = false;
-                    return;
+                    int value = JOptionPane.showOptionDialog(null, "Are you sure you want to end this game?\n(Any progress after last save will be lost)", "Question", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                    if (value == JOptionPane.YES_OPTION) {
+                        this.switchCurrentWindow(menuWindow);
+                        this.isGameRunning = false;
+                        return;
+                    }
                 }
                 if (b.equals(overlayButtonSaveGame)) {
                     JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
