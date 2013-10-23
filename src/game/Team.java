@@ -28,8 +28,8 @@ public class Team implements Serializable {
         return name;
     }
     
-    public String getLeader(){
-        return leader.getName();
+    public Employee getLeader(){
+        return leader;
     }
     
     public void destroyTeam(){
@@ -44,6 +44,8 @@ public class Team implements Serializable {
         emp.setPay(emp.getPay() + 2000);
     }
     
+    
+    
     public void addTeamMember(Employee emp){
         this.members.add(emp);
     }
@@ -52,9 +54,9 @@ public class Team implements Serializable {
         this.members.remove(emp);
     }
     
-    public void removeTeamLeader(Employee emp){
-        emp.setPay(emp.getPay() - 2000);
-        this.members.remove(emp);
+    public void removeTeamLeader(){
+        this.getLeader().setPay(leader.getPay() - 2000);
+        leader = null;
     }
     
     public ArrayList getMembers(){
