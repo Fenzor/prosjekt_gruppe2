@@ -35,6 +35,7 @@ public class QuestionDialog extends javax.swing.JDialog {
         initComponents();
         question = q;
         initQuestion();
+        setLocationRelativeTo(null);
     }
     
     private void initQuestion() {

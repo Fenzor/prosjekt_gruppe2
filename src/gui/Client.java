@@ -17,7 +17,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import sound.MusicLibrary;
-import sun.awt.windows.ThemeReader;
 
 /**
  *
