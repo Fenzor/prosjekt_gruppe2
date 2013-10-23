@@ -42,6 +42,10 @@ public class Layer {
         return this.sprites.get(indeks);
     }
     
+    public void setSprite(ArrayList drawables) {
+        this.sprites = drawables;
+    }
+    
     @Override
     public String toString() {
         return "Description: \"" + this.description + "\" ,number of sprites: " + sprites.size();

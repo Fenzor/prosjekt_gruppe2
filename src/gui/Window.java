@@ -54,6 +54,10 @@ public class Window {
         return this.layers.size();
     }
     
+    public Layer getLayer(int indeks) {
+        return this.layers.get(indeks);
+    }
+    
     public void drawAll() {
         for (Layer l : layers) {
             l.drawSprites();

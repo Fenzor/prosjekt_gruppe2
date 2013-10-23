@@ -69,5 +69,7 @@ public class AABB {
         return (xPos >= this.getX() && xPos <= (this.getX() + this.getSizeX()) && yPos >= this.getY() && yPos <= (this.getY() + this.getSizeY()));
     }
     
-    
+    public boolean isInside(float xPos, float yPos, float sizeX, float sizeY) {
+        return ((this.xPos + this.sizeX) >= xPos && (this.yPos + this.sizeY) >= yPos && this.xPos <= (xPos + sizeX) && this.yPos <= (yPos + sizeY));
+    }
 }

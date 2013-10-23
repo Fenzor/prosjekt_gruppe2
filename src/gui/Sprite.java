@@ -19,10 +19,14 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Sprite extends AABB implements Drawable {
     protected Texture image;
     protected Shader shader;
+    protected String filetype;
+    protected String filepath;
     
     public Sprite(float xPos, float yPos, float sizeX, float sizeY) {
         super(xPos, yPos, sizeX, sizeY);
     }
+    
+   
     
     public Sprite(float xPos, float yPos, String filetype, String path) {
         super(xPos, yPos);
@@ -32,6 +36,8 @@ public class Sprite extends AABB implements Drawable {
             System.err.println("Trouble loading texture-assets!!!");
             e.printStackTrace();
         }
+        this.filepath = path;
+        this.filetype = filetype;
         this.setSizeX(this.image.getImageWidth());
         this.setSizeY(this.image.getImageHeight());
     }
@@ -44,6 +50,8 @@ public class Sprite extends AABB implements Drawable {
             System.err.println("Trouble loading texture-assets!!!");
             e.printStackTrace();
         }
+        this.filepath = path;
+        this.filetype = filetype;
     }
     
     public boolean loadTexture(String filetype, String path) {
