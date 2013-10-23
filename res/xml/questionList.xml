@@ -2,6 +2,7 @@
 <ns2:questionMaster xmlns:ns2="listOfQuestions">
     <questionkList>
         <question id="1" used="false" imageFilePath="">
+            <externWebPagePath>https://en.wikipedia.org/wiki/Waterfall_development</externWebPagePath>
             <text>Er det standup meeting i fossefalls metoden?</text>
             <answerList>
                 <answer answeText="Ja" score="0"/>
@@ -9,11 +10,12 @@
             </answerList>
         </question>
         <question id="2" used="false" imageFilePath="test/testPath">
-            <text>Hva viser bildet?</text>
+            <externWebPagePath>https://en.wikipedia.org/wiki/Standup_meeting</externWebPagePath>
+            <text>Standup meeting skal vare i ca. hvor lenge?</text>
             <answerList>
-                <answer answeText="Use  diagram" score="0"/>
-                <answer answeText="Problem domene modell" score="1"/>
-                <answer answeText="Sekvens diagram" score="0"/>
+                <answer answeText="10min" score="1"/>
+                <answer answeText="30min" score="0"/>
+                <answer answeText="Så lenge som trenges" score="0"/>
             </answerList>
         </question>
     </questionkList>

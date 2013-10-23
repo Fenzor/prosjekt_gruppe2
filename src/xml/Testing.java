@@ -19,9 +19,9 @@ import questions.Question;
 class Testing {
 
     public static void main(String[] args) {
-        //writeQuestions();
+        writeQuestions();
         //readQuestions();
-        readEmployees();
+        //readEmployees();
         //sortAndWriteEmployees();
     }
 
@@ -90,14 +90,14 @@ class Testing {
         List<Answer> al1 = new ArrayList();
         al1.add(new Answer("Ja", 0));
         al1.add(new Answer("Nei", 1));
-        Question q1 = new Question(1, "", "Er det standup meeting i fossefalls metoden?", al1);
+        Question q1 = new Question(1, "", "https://en.wikipedia.org/wiki/Waterfall_development", "Er det standup meeting i fossefalls metoden?", al1);
 
         List<Answer> al2 = new ArrayList();
-        al2.add(new Answer("Use  diagram", 0));
-        al2.add(new Answer("Problem domene modell", 1));
-        al2.add(new Answer("Sekvens diagram", 0));
+        al2.add(new Answer("10min", 1));
+        al2.add(new Answer("30min", 0));
+        al2.add(new Answer("Så lenge som trenges", 0));
 
-        Question q2 = new Question(2, "test/testPath", "Hva viser bildet?", al2);
+        Question q2 = new Question(2, "test/testPath","https://en.wikipedia.org/wiki/Standup_meeting", "Standup meeting skal vare i ca. hvor lenge?", al2);
 
         qList.add(q1);
         qList.add(q2);
