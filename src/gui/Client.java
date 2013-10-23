@@ -207,8 +207,12 @@ public class Client implements Runnable {
         Sprite overlay = new Sprite(widthWindow / 2 - sizeX / 2, heightWindow / 2 - sizeY / 2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
         menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
         
-        Car car01 = new Car(500, heightWindow - 10, "png", "res/images/car01.png", new Vector2f(-2, -1));
-        Cars cars = new Cars(10, 10, car01);
+        Car[] carCollection = {
+            new Car(500, heightWindow - 10, "png", "res/images/car01.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 10, "png", "res/images/car02.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 10, "png", "res/images/car03.png", new Vector2f(-2, -1))
+        };
+        Cars cars = new Cars(10, 10, carCollection);
         gameWindow.getLayer(carLayer).setSprite(cars.getCars());
 
         while (isGameRunning && isClientRunning) {

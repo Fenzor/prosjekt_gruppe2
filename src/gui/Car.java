@@ -19,7 +19,7 @@ public class Car extends Sprite {
    
     public Car(Car c) {
         super(c.xPos, c.yPos, c.filetype, c.filepath);
-        this.moveDirection = c.moveDirection;
+        this.moveDirection = new Vector2f(c.moveDirection);
         this.initX = c.initX;
         this.initY = c.initY;
     }
@@ -34,8 +34,8 @@ public class Car extends Sprite {
     public boolean update(float delta, float windowWidth, float windowHeight) {
         if (!isInside(0, 0, windowWidth, windowHeight)) return false;
         float speed = 0.06f;
-        this.xPos += moveDirection.x * speed * delta;
-        this.yPos += moveDirection.y * speed * delta;
+        this.xPos += moveDirection.x * (speed * (float) delta);
+        this.yPos += moveDirection.y * (speed * (float) delta);
         super.draw();
         return true;
     }

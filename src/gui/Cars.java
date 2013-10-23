@@ -6,24 +6,27 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
  *
  * @author Lars Aksel
  */
-public class Cars {
+public class Cars implements Runnable{
 
-    private ArrayList<Car> cars;
+    private List<Object> cars;
     private Car[] collection;
     private Car[] generated;
     private int max;
     private int randFaktor;
     private Random rand;
+    private Thread thread;
 
     public Cars(int max, int randomGenerate, Car... col) {
         this.max = max;
-        this.cars = new ArrayList<>();
+        this.cars = Collections.synchronizedList(new ArrayList<>());
         this.rand = new Random();
         this.randFaktor = randomGenerate;
         this.collection = col;
@@ -31,9 +34,9 @@ public class Cars {
 
     public void update(float delta, float windowWidth, float windowHeight) {
         for (int i = 0; i < cars.size(); i++) {
-            Car c = cars.get(i);
+            Car c = (Car) cars.get(i);
             if (!c.update(delta, windowWidth, windowHeight)) {
-                c.refresh();
+                cars.remove(c);
             }
         }
         int r = rand.nextInt(1000);
@@ -47,7 +50,7 @@ public class Cars {
                 }
                 
                 for (int i = 0; i < cars.size() && i < max; i++) {
-                    c = cars.get(i);
+                    c = (Car) cars.get(i);
                     boolean collide = false;
                     for (int j = 0; j < cars.size(); j++) {
                         if (i == j) {
@@ -66,8 +69,12 @@ public class Cars {
             }
         }
     }
+    
+    public void run() {
+        
+    }
 
-    public ArrayList<Car> getCars() {
+    public List getCars() {
         return this.cars;
     }
     
