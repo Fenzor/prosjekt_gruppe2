@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.util.Color;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -19,8 +20,6 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Sprite extends AABB implements Drawable {
     protected Texture image;
     protected Shader shader;
-    protected String filetype;
-    protected String filepath;
     
     public Sprite(float xPos, float yPos, float sizeX, float sizeY) {
         super(xPos, yPos, sizeX, sizeY);
@@ -31,18 +30,21 @@ public class Sprite extends AABB implements Drawable {
     public Sprite(float xPos, float yPos, String filetype, String path) {
         super(xPos, yPos);
         try {
-            this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);            
+            this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);           
         } catch (IOException e) {
             System.err.println("Trouble loading texture-assets!!!");
             e.printStackTrace();
         }
-        this.filepath = path;
-        this.filetype = filetype;
         this.setSizeX(this.image.getImageWidth());
         this.setSizeY(this.image.getImageHeight());
     }
     
-    public Sprite(int xPos, int yPos, int sizeX, int sizeY, String filetype, String path) {
+    public Sprite(float xPos, float yPos, float sizeX, float sizeY, Texture t) {
+        super(xPos, yPos, sizeX, sizeY);
+        this.image = t;
+    }
+    
+    public Sprite(float xPos, float yPos, float sizeX, float sizeY, String filetype, String path) {
         super(xPos, yPos, sizeX, sizeY);
         try {
             this.image = TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream(path), GL11.GL_NEAREST);            
@@ -50,8 +52,6 @@ public class Sprite extends AABB implements Drawable {
             System.err.println("Trouble loading texture-assets!!!");
             e.printStackTrace();
         }
-        this.filepath = path;
-        this.filetype = filetype;
     }
     
     public boolean loadTexture(String filetype, String path) {

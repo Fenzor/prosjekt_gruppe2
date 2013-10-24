@@ -33,6 +33,14 @@ public class Window {
     }
     
     /*
+     * Adds an new Layer to be drawn
+     */
+    public int addLayer(Layer l) {
+        this.layers.add(l);
+        return this.layers.size() - 1;
+    }
+    
+    /*
      * Uses index to determine which layer to send the sprite to...
      */
     public void addSpriteToLayer(int index, Drawable s) {

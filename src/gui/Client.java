@@ -28,6 +28,7 @@ public class Client implements Runnable {
 
     private int widthWindow = 1280;
     private int heightWindow = 720;
+    private int maxFps = 120;
     private final Thread clientThread;
     private boolean fullscreen = false;
     private boolean isClientRunning;
@@ -41,6 +42,7 @@ public class Client implements Runnable {
     private Button newGame;
     private Button loadGame;
     private Button quitGame;
+    private CarPool cars;
     private final String gameTitle = "Awsome Dev Tycoon v2.0";
 
     /**
@@ -96,6 +98,8 @@ public class Client implements Runnable {
 
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
+        
+        Display.setVSyncEnabled(true);
 
         while (isClientRunning) {
             //int delta = getDelta();
@@ -162,11 +166,25 @@ public class Client implements Runnable {
      */
     public void runNewGame() {
         isGameRunning = true;
-
+        
+        float speed = 0.3f;
+        float x = 200, y = 120;
+        Car[] carCollection = {
+            new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car01.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 1 ,x, y, speed, "png", "res/images/car02.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car03.png", new Vector2f(-2, -1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car01.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 ,x, y, speed, "png", "res/images/car02.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car03.png", new Vector2f(2, 1))
+        };
+        
+        cars = new CarPool(widthWindow, heightWindow, 500, 3000, carCollection);
+        cars.init();
+        
         gameWindow = new Window();
         this.switchCurrentWindow(gameWindow);
         int bgLayer01 = gameWindow.addLayer();
-        int carLayer = gameWindow.addLayer();
+        int carLayer = gameWindow.addLayer(cars);
         int bgLayer02 = gameWindow.addLayer();
         int bgLayer03 = gameWindow.addLayer();
 
@@ -207,14 +225,8 @@ public class Client implements Runnable {
         Sprite overlay = new Sprite(widthWindow / 2 - sizeX / 2, heightWindow / 2 - sizeY / 2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
         menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
         
-        Car[] carCollection = {
-            new Car(500, heightWindow - 10, "png", "res/images/car01.png", new Vector2f(-2, -1)),
-            new Car(500, heightWindow - 10, "png", "res/images/car02.png", new Vector2f(-2, -1)),
-            new Car(500, heightWindow - 10, "png", "res/images/car03.png", new Vector2f(-2, -1))
-        };
-        Cars cars = new Cars(10, 10, carCollection);
-        gameWindow.getLayer(carLayer).setSprite(cars.getCars());
-
+        
+        
         while (isGameRunning && isClientRunning) {
 
             Button b2 = input.getButtonPressed();
@@ -238,7 +250,6 @@ public class Client implements Runnable {
                     t.start();
                 }
             }
-            cars.update(getDelta(), widthWindow, heightWindow);
             currentWindow.drawAll();
             update();
         }
@@ -321,7 +332,7 @@ public class Client implements Runnable {
     public void update() {
         updateFPS();
         checkGlobalInput();
-        Display.sync(60);
+        Display.sync(maxFps);
         Display.update();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
     }
@@ -481,6 +492,7 @@ public class Client implements Runnable {
         input.destroy();
         AL.destroy();
         Display.destroy();
+        if (cars != null) cars.destroy();
     }
 
     /*
