@@ -5,6 +5,7 @@
 package gui;
 
 import game.Employee;
+import game.World;
 import gui.swing.EmployeeDialog;
 import java.io.File;
 import java.util.ArrayList;
@@ -111,6 +112,8 @@ public class Client implements Runnable {
                     //JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
                     fc.showOpenDialog(fc);
+                    String s = fc.getSelectedFile().toString();
+                    System.out.println(s);
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
                 }
@@ -287,7 +290,13 @@ public class Client implements Runnable {
                     }
                 }
                 if (b.equals(overlayButtonSaveGame)) {
-                    JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JFileChooser fc = new JFileChooser();
+                    fc.showSaveDialog(fc);
+                    String s = fc.getSelectedFile().toString();
+                    World world = new World("test", "test");
+                    world.saveGame(s);
+                    
                 }
                 if (b.equals(overlayButtonExitToWindows)) {
                     this.isClientRunning = false;
