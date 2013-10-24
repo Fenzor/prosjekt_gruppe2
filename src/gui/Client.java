@@ -116,8 +116,11 @@ public class Client implements Runnable {
                     //JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
                     fc.showOpenDialog(fc);
-                    String s = fc.getSelectedFile().toString();
-                    System.out.println(s);
+                    File f = fc.getSelectedFile();
+                    if (f != null) {
+                        String s = f.toString();
+                        System.out.println(s);
+                    }
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
                 }
@@ -172,7 +175,6 @@ public class Client implements Runnable {
      */
     public void runNewGame() {
         isGameRunning = true;
-        
         float speed = 0.3f;
         float x = 200, y = 120;
         Car[] carCollection = {
@@ -239,6 +241,7 @@ public class Client implements Runnable {
             if (b2 != null) {
                 if (b2.equals(menuButton)) {
                     runOverlayMenu();
+                    cars.setPaused(false);
                 }
                 if (b2.equals(employeeButton)) {
                     Runnable r = new Runnable() {
@@ -262,6 +265,7 @@ public class Client implements Runnable {
     }
 
     private void runOverlayMenu() {
+        cars.setPaused(true);
         int buttonSizeX = 310;
         int buttonSizeY = 60;
         int hX = heightWindow / 2 + 125;
@@ -304,10 +308,12 @@ public class Client implements Runnable {
                     //JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
                     fc.showSaveDialog(fc);
-                    String s = fc.getSelectedFile().toString();
-                    World world = new World("test", "test");
-                    world.saveGame(s);
-                    
+                    File f = fc.getSelectedFile();
+                    if (f != null) {
+                        String s = f.toString();
+                        World world = new World("test", "test");
+                        world.saveGame(s);
+                    }
                 }
                 if (b.equals(overlayButtonExitToWindows)) {
                     this.isClientRunning = false;

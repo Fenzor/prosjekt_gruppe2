@@ -103,7 +103,7 @@ public class Project implements Serializable {
         return answer;
     }
     
-    public void setAnswe(String newAnswer){
+    public void setAnswer(String newAnswer){
         this.answer = newAnswer;
     }
     
@@ -209,6 +209,7 @@ public class Project implements Serializable {
         this.ProType = ProType;
     }
     
+    @Override
     public String toString(){
         return getName() + getInfo() + getTimeEstimated() + getTimeUsed() + getDeadline() + getComplexity() + getBrilliance() + getNumberOfEmployeesPerProject() + getPay() + getCost() + getDevMod().toString(); 
     }

@@ -19,11 +19,11 @@
             </answerList>
         </question>
         <question id="3" used="false" imageFilePath="res/images/UseCaseModel.png">
-            <externWebPagePath>https://en.wikipedia.org/wiki/Standup_meeting</externWebPagePath>
+            <externWebPagePath>https://en.wikipedia.org/wiki/Use_Case_Diagram</externWebPagePath>
             <text>Hva er dette bilde av?</text>
             <answerList>
-                <answer answeText="Use Case Model" score="0"/>
-                <answer answeText="Systems sekvens Diagram" score="1"/>
+                <answer answeText="Use Case Model" score="1"/>
+                <answer answeText="Systems sekvens Diagram" score="0"/>
                 <answer answeText="Klasse diagram" score="0"/>
                 <answer answeText="Problem domene modell" score="0"/>
             </answerList>
