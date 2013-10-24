@@ -13,18 +13,35 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class Car extends Sprite {
     private Vector2f moveDirection;
+    private float initX;
+    private float initY;
     
    
-    public Car(int xPos, int yPos, String a, String b) {
-        super(xPos, yPos, a, b);
-        this.moveDirection = new Vector2f(-2, -1);
+    public Car(Car c) {
+        super(c.xPos, c.yPos, c.filetype, c.filepath);
+        this.moveDirection = new Vector2f(c.moveDirection);
+        this.initX = c.initX;
+        this.initY = c.initY;
     }
     
-    @Override
-    public void draw() {
-        float speed = 3f;
-        this.xPos += moveDirection.x * speed;
-        this.yPos += moveDirection.y * speed;
+    public Car(int xPos, int yPos, String filetype, String filepath, Vector2f v) {
+        super(xPos, yPos, filetype, filepath);
+        this.moveDirection = v;
+        this.initX = xPos;
+        this.initY = yPos;
+    }
+    
+    public boolean update(float delta, float windowWidth, float windowHeight) {
+        if (!isInside(0, 0, windowWidth, windowHeight)) return false;
+        float speed = 0.06f;
+        this.xPos += moveDirection.x * (speed * (float) delta);
+        this.yPos += moveDirection.y * (speed * (float) delta);
         super.draw();
+        return true;
+    }
+    
+    public void refresh() {
+        this.xPos = initX;
+        this.yPos = initY;
     }
 }

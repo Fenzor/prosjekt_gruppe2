@@ -5,6 +5,7 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Layer {
     private String description;
-    private ArrayList<Drawable> sprites;
+    private List<Drawable> sprites;
     
     public Layer() {
         this.sprites = new ArrayList<>();
@@ -40,6 +41,10 @@ public class Layer {
         
     public Drawable getSprite(int indeks) {
         return this.sprites.get(indeks);
+    }
+    
+    public void setSprite(List drawables) {
+        this.sprites = drawables;
     }
     
     @Override
