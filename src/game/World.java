@@ -201,6 +201,7 @@ public class World {
             //Lager en ObjectInputStream til å hente objekter fra den lagrede filen.
             ObjectInputStream save = new ObjectInputStream(saveFile);
             player.setCompany((Company) save.readObject());
+            //HALLA
         } catch (Exception e) {
             e.printStackTrace();
         }
