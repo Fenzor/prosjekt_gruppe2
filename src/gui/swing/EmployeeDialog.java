@@ -3,8 +3,12 @@ package gui.swing;
 import game.Employee;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -27,6 +31,7 @@ public class EmployeeDialog extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         skillProgress.setStringPainted(true);
     }
+    
 
     private EmployeeDialog(JFrame jFrame, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

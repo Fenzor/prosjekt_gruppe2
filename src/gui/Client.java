@@ -8,6 +8,7 @@ import game.Employee;
 import gui.swing.EmployeeDialog;
 import java.io.File;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.lwjgl.*;
 import org.lwjgl.input.Keyboard;
@@ -105,7 +106,9 @@ public class Client implements Runnable {
                 if (b.equals(newGame)) {
                     runNewGame();
                 } else if (b.equals(loadGame)) {
-                    JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JFileChooser fc = new JFileChooser();
+                    fc.showOpenDialog(fc);
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
                 }
