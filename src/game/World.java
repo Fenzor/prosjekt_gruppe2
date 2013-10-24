@@ -179,10 +179,10 @@ public class World {
         player.getCompany().payEmployees();
     }
 
-    public void saveGame() {
+    public void saveGame(String saveGameName) {
         try {
             // Åpner en fil som skrive til
-            FileOutputStream saveFile = new FileOutputStream("SaveObjects.sav");
+            FileOutputStream saveFile = new FileOutputStream(saveGameName +".sav");
             //Lager en ObjectOutputStream til å lagre objekter til filen det skal lagres.
             ObjectOutputStream save = new ObjectOutputStream(saveFile);
             //Lagrer
@@ -194,13 +194,14 @@ public class World {
         }
     }
 
-    public Company loadGame() {
+    public Company loadGame(String loadGameName) {
         try {
             //Åpner filen som skal leses fra
-            FileInputStream saveFile = new FileInputStream("SaveObjects.sav");
+            FileInputStream saveFile = new FileInputStream(loadGameName + ".sav");
             //Lager en ObjectInputStream til å hente objekter fra den lagrede filen.
             ObjectInputStream save = new ObjectInputStream(saveFile);
             player.setCompany((Company) save.readObject());
+            //HALLA
         } catch (Exception e) {
             e.printStackTrace();
         }

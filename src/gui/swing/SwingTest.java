@@ -15,11 +15,11 @@ import questions.Question;
  */
 public class SwingTest {
     public static void main(String[] args) throws Exception {
-        test1();
+        test2();
     }
     
     private static void test1() throws Exception {
-        Question q = xml.XMLReader.getQuestions().get(0);
+        Question q = xml.XMLReader.getQuestions().get(2);
         QuestionDialog qd = new QuestionDialog(q, null, true);
         boolean b = qd.showWindow();
         JOptionPane.showMessageDialog(null, b);

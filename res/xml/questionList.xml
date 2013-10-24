@@ -9,13 +9,23 @@
                 <answer answeText="Nei" score="1"/>
             </answerList>
         </question>
-        <question id="2" used="false" imageFilePath="test/testPath">
+        <question id="2" used="false" imageFilePath="">
             <externWebPagePath>https://en.wikipedia.org/wiki/Standup_meeting</externWebPagePath>
             <text>Standup meeting skal vare i ca. hvor lenge?</text>
             <answerList>
-                <answer answeText="10min" score="1"/>
-                <answer answeText="30min" score="0"/>
-                <answer answeText="Så lenge som trenges" score="0"/>
+                <answer answeText="0-5" score="0"/>
+                <answer answeText="5-15min" score="1"/>
+                <answer answeText="30-60min" score="0"/>
+            </answerList>
+        </question>
+        <question id="3" used="false" imageFilePath="res/images/UseCaseModel.png">
+            <externWebPagePath>https://en.wikipedia.org/wiki/Standup_meeting</externWebPagePath>
+            <text>Hva er dette bilde av?</text>
+            <answerList>
+                <answer answeText="Use Case Model" score="0"/>
+                <answer answeText="Systems sekvens Diagram" score="1"/>
+                <answer answeText="Klasse diagram" score="0"/>
+                <answer answeText="Problem domene modell" score="0"/>
             </answerList>
         </question>
     </questionkList>
