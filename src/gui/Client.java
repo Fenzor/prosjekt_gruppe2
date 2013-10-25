@@ -5,6 +5,7 @@
 package gui;
 
 import game.Employee;
+import game.SaveLoad;
 import game.World;
 import gui.swing.EmployeeDialog;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.lwjgl.*;
 import org.lwjgl.input.Keyboard;
@@ -46,7 +48,9 @@ public class Client implements Runnable {
     private Button loadGame;
     private Button quitGame;
     private CarPool cars;
+    private World world;
     private final String gameTitle = "Awsome Dev Tycoon v2.0";
+    private String lookAndFeel = null;
 
     /**
      * time at last frame
@@ -91,7 +95,7 @@ public class Client implements Runnable {
             e.printStackTrace();
             System.exit(0);
         }
-
+        setLookAndFeel();
         initGL(); // init OpenGL
         createMenu(); // init main menu
         input = new InputHandler(menuWindow);
@@ -116,7 +120,7 @@ public class Client implements Runnable {
                 } else if (b.equals(loadGame)) {
                     //JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
-                    FileNameExtensionFilter type1 = new FileNameExtensionFilter("Save format (.sav)", ".sav");
+                    FileNameExtensionFilter type1 = new FileNameExtensionFilter("Save format (.sav)", "sav");
                     fc.addChoosableFileFilter(type1);
                     fc.setFileFilter(type1); // Initial filter setting
                     fc.showOpenDialog(fc);
@@ -124,6 +128,11 @@ public class Client implements Runnable {
                     if (f != null) {
                         String s = f.toString();
                         System.out.println(s);
+                        World w = SaveLoad.loadGame(f.getAbsolutePath());
+                        if (w != null) {
+                            this.world = w;
+                            JOptionPane.showMessageDialog(null, "Game loaded succesfully!", "Hooray", JOptionPane.INFORMATION_MESSAGE);
+                        } else JOptionPane.showMessageDialog(null, "Game loaded UNSUCCESSFULLY!", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
@@ -314,15 +323,18 @@ public class Client implements Runnable {
                 if (b.equals(overlayButtonSaveGame)) {
                     //JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
-                    FileNameExtensionFilter type1 = new FileNameExtensionFilter("Save format (.sav)", ".sav");
+                    FileFilter type1 = new FileNameExtensionFilter("Save format (.sav)", "sav");
+                    //FileFilter type1 = NewFileFilter("Save format (.sav)", new String[] { "sav"});
                     fc.addChoosableFileFilter(type1);
                     fc.setFileFilter(type1); // Initial filter setting
                     fc.showSaveDialog(fc);
                     File f = fc.getSelectedFile();
                     if (f != null) {
-                        String s = f.toString();
-                        World world = new World("test", "test");
-                        world.saveGame(s);
+                        //String s = f.toString();
+                        this.world = new World("test", "test");
+                         if (!SaveLoad.saveGame(this.world, f.getAbsolutePath())) {
+                             JOptionPane.showMessageDialog(null, "Game was not saved... :(", "Warning", JOptionPane.WARNING_MESSAGE);
+                         }
                     }
                 }
                 if (b.equals(overlayButtonExitToWindows)) {
@@ -510,6 +522,28 @@ public class Client implements Runnable {
             return false;
         }
         return true;
+    }
+    
+     private void setLookAndFeel() {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            // Set cross-platform Java L&F (also called "Metal")
+            UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(EmployeeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(EmployeeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(EmployeeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EmployeeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
     }
 
     /*

@@ -20,14 +20,14 @@ public class SwingTest {
     
     private static void test1() throws Exception {
         Question q = xml.XMLReader.getQuestions().get(2);
-        QuestionDialog qd = new QuestionDialog(q, null, true);
+        QuestionDialog qd = new QuestionDialog(q, new javax.swing.JFrame(), true);
         boolean b = qd.showWindow();
         JOptionPane.showMessageDialog(null, b);
     }
     
     public static void test2() throws Exception {
         List<Employee> eList = xml.XMLReader.getEmployees();
-        EmployeeDialog ed = new EmployeeDialog(eList, null, true);
+        EmployeeDialog ed = new EmployeeDialog(eList, new javax.swing.JFrame(), true);
         ed.setVisible(true);
     }
 }

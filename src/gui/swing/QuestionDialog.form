@@ -111,11 +111,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="imageLabel">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\WaltherKammen\Documents\NetBeansProjects\prosjekt_gruppe2\res\images\car01.png"/>
-        </Property>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

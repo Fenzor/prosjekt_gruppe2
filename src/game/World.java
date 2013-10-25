@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author Rasmus
  */
-public class World {
+public class World implements Serializable {
 
     private Player player;
     private int gameTime;
@@ -177,35 +178,6 @@ public class World {
             }
         }
         player.getCompany().payEmployees();
-    }
-
-    public void saveGame(String saveGameName) {
-        try {
-            // Åpner en fil som skrive til
-            FileOutputStream saveFile = new FileOutputStream(saveGameName +".sav");
-            //Lager en ObjectOutputStream til å lagre objekter til filen det skal lagres.
-            ObjectOutputStream save = new ObjectOutputStream(saveFile);
-            //Lagrer
-            save.writeObject(player.getCompany());
-            //Lukker filen.
-            save.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Company loadGame(String loadGameName) {
-        try {
-            //Åpner filen som skal leses fra
-            FileInputStream saveFile = new FileInputStream(loadGameName + ".sav");
-            //Lager en ObjectInputStream til å hente objekter fra den lagrede filen.
-            ObjectInputStream save = new ObjectInputStream(saveFile);
-            player.setCompany((Company) save.readObject());
-            //HALLA
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return player.getCompany();
     }
 
     public void pauseGame() {

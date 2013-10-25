@@ -6,9 +6,9 @@ package game;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import questions.Question;
@@ -18,7 +18,7 @@ import xml.QuestionMaster;
  *
  * @author Asgeir
  */
-public class DevelopmentModel {
+public class DevelopmentModel implements Serializable {
 
     /*
      * Klasse for å lese inn og håndterer utviklingsmodeller. Data hentes i fil.

@@ -1,10 +1,12 @@
 package game;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rasmus
  */
-public class Player {
+public class Player implements Serializable {
 
     private String name;
     private Company company;

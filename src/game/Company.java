@@ -8,7 +8,7 @@ import java.util.Random;
  *Denne klassen holder orden på ansatte i firma, teamene og de forskjellige prosjektene
  * @author Rasmus
  */
-public class Company implements Serializable{
+public class Company implements Serializable {
     
     private String name;
     private int rumor;
