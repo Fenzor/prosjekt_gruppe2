@@ -8,10 +8,11 @@ import game.Employee;
 import game.World;
 import gui.swing.EmployeeDialog;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.lwjgl.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
@@ -115,6 +116,9 @@ public class Client implements Runnable {
                 } else if (b.equals(loadGame)) {
                     //JOptionPane.showMessageDialog(null, "\"Load game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
+                    FileNameExtensionFilter type1 = new FileNameExtensionFilter("Save format (.sav)", ".sav");
+                    fc.addChoosableFileFilter(type1);
+                    fc.setFileFilter(type1); // Initial filter setting
                     fc.showOpenDialog(fc);
                     File f = fc.getSelectedFile();
                     if (f != null) {
@@ -181,12 +185,15 @@ public class Client implements Runnable {
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car01.png", new Vector2f(-2, -1)),
             new Car(500, heightWindow - 1 ,x, y, speed, "png", "res/images/car02.png", new Vector2f(-2, -1)),
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car03.png", new Vector2f(-2, -1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car01.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 ,x, y, speed, "png", "res/images/car02.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car03.png", new Vector2f(2, 1))
+            new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car04front.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 1 ,x, y, speed, "png", "res/images/car05front.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car06front.png", new Vector2f(-2, -1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 ,x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1))
         };
         
-        cars = new CarPool(widthWindow, heightWindow, 500, 3000, carCollection);
+        cars = new CarPool(widthWindow, heightWindow, 500, 1000, carCollection);
         cars.init();
         
         gameWindow = new Window();
@@ -307,6 +314,9 @@ public class Client implements Runnable {
                 if (b.equals(overlayButtonSaveGame)) {
                     //JOptionPane.showMessageDialog(null, "\"Save game\" NOT implemented!", "Warning", JOptionPane.WARNING_MESSAGE);
                     JFileChooser fc = new JFileChooser();
+                    FileNameExtensionFilter type1 = new FileNameExtensionFilter("Save format (.sav)", ".sav");
+                    fc.addChoosableFileFilter(type1);
+                    fc.setFileFilter(type1); // Initial filter setting
                     fc.showSaveDialog(fc);
                     File f = fc.getSelectedFile();
                     if (f != null) {
