@@ -1,10 +1,6 @@
 package game;
 
 import game.DevelopmentModel.Type;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -14,9 +10,10 @@ import java.util.logging.Logger;
  *
  * @author Rasmus
  */
-public class World implements Serializable {
+public class World implements Serializable, Runnable {
 
     private Player player;
+    private Company company;
     private int gameTime;
     private boolean paused;
     private double millis;
@@ -26,6 +23,8 @@ public class World implements Serializable {
     private double ticksPassed;
     private double currentTicks;
     private double lastTicks;
+    private Thread worldThread;
+    private boolean isRunning;
 
     // Testing pågår, disregard.
     public World(String playername, String companyname) {
@@ -34,38 +33,44 @@ public class World implements Serializable {
         populateDevelopmentModels();
         populateProjects();
     }
-    
+
+    /*
+     Runs the world in a separate thread...
+     */
+    public void init() {
+        this.worldThread = new Thread(this);
+        this.worldThread.start();
+    }
+
     private void populateEmployees() {
         try {
-            player.getCompany().setEmployee((ArrayList) xml.XMLReader.getEmployees());
+            this.company.setEmployee((ArrayList) xml.XMLReader.getEmployees());
         } catch (Exception ex) {
             Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void populateDevelopmentModels() {
         ArrayList<DevelopmentModel> devMod = new ArrayList();
         devMod.add(new DevelopmentModel(Type.Scrum, 1));
         devMod.add(new DevelopmentModel(Type.UP, 2));
         devMod.add(new DevelopmentModel(Type.Waterfall, 3));
-        player.getCompany().setDevelopmentModels(devMod);
+        this.company.setDevelopmentModels(devMod);
     }
 
-    
     private void populateProjects() {
         ArrayList<Project> prosjekt = new ArrayList();
-        prosjekt.add(new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, player.getCompany().getDevelopmentModels().get(0)));
-        prosjekt.add(new Project("Tur App", "Skal kunne registrere turen en person har gått", 4, 6, 4, 200, player.getCompany().getDevelopmentModels().get(1)));
-        prosjekt.add(new Project("Servicekalkulator", "Skal kunne kalkulere pris for service av de nye bil modellene", 12, 14, 9, 700, 
-                player.getCompany().getDevelopmentModels().get(2)));
-        player.getCompany().setProjects(prosjekt);
+        prosjekt.add(new Project("Chatsystem", "Skal kunne snakke med andre", 10, 12, 5, 600, this.company.getDevelopmentModels().get(0)));
+        prosjekt.add(new Project("Tur App", "Skal kunne registrere turen en person har gått", 4, 6, 4, 200, this.company.getDevelopmentModels().get(1)));
+        prosjekt.add(new Project("Servicekalkulator", "Skal kunne kalkulere pris for service av de nye bil modellene", 12, 14, 9, 700,
+                this.company.getDevelopmentModels().get(2)));
+        this.company.setProjects(prosjekt);
     }
- 
 
-    public void run() throws InterruptedException {
-
-
-        while (gameTime < 400) {
+    @Override
+    public void run() {
+        isRunning = true;
+        while (gameTime < 400 && isRunning) {
             // Her går kode for å se om endringer har blitt / skal bli gjort
             if (!paused) {
                 millis = System.currentTimeMillis();
@@ -80,7 +85,11 @@ public class World implements Serializable {
                     gameTime += 1;
                     //testage();
                 } else {
-                    Thread.sleep(100);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+
+                    }
                 }
             } else {
             }
@@ -163,21 +172,21 @@ public class World implements Serializable {
         paused = false;
         player = new Player(playerName);
         Company comp = new Company(companyName);
-        player.setCompany(comp);
+        this.company = comp;
 
     }
 
     private void endMonth() { //betale ansatte, beregne fortløpende kostnader på ulike prosjekt.
 
-        player.getCompany().updateGlobalTimeUsed();
-        for (int i = 0; i < player.getCompany().getProjects().size(); i++) {
-            Project p = player.getCompany().getProjectAtIndex(i);
-            p.updateCost(player.getCompany().getMonthlyProjectCost(p));
+        this.company.updateGlobalTimeUsed();
+        for (int i = 0; i < this.company.getProjects().size(); i++) {
+            Project p = this.company.getProjectAtIndex(i);
+            p.updateCost(this.company.getMonthlyProjectCost(p));
             if (p.getTimeUsed() > p.getTimeEstimated()) {
-                player.getCompany().endProject(p, this);
+                this.company.endProject(p, this);
             }
         }
-        player.getCompany().payEmployees();
+        this.company.payEmployees();
     }
 
     public void pauseGame() {
@@ -188,5 +197,23 @@ public class World implements Serializable {
     public void resumeGame() {
         System.out.println("Game Resumed");
         this.paused = false;
+    }
+
+    public void destroy() {
+        this.isRunning = false;
+    }
+
+    public String getInformationTable() {
+        return "Date: " + this.getDate(gameTime)
+                + "\n" + this.player.toString()
+                + "\nCompany: " + this.company.getName()
+                + "\nNo. employees: " + this.company.getEmployees().size()
+                + " ,Monthly pay: " + this.company.getMonthlyPay()
+                + "\nCash: " + this.company.getCash();
+    }
+
+    public static void main(String... args) {
+        World w = new World("Ola Nordman", "Selskap A/S");
+        w.init();
     }
 }

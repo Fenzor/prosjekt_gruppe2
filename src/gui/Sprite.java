@@ -73,6 +73,7 @@ public class Sprite extends AABB implements Drawable {
         this.shader = shader;
     }
     
+    @Override
     public void draw() {
         if (this.shader != null) this.shader.useShader();
         GL11.glEnable(GL11.GL_TEXTURE_2D);

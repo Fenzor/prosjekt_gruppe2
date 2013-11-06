@@ -9,22 +9,24 @@ import java.io.Serializable;
 public class Player implements Serializable {
 
     private String name;
-    private Company company;
     private int score;
-//    private ArrayList<Company> companys = new ArrayList<Company>();
     
-    public Player(String name, Company company, int score){
+    public Player(String name){
         this.name = name;
-        this.company = company;
-        this.score = score;
+        this.score = 0;
     }
     
-    public Player(){
-        
-    }
+    public Player(String name, int score){
+        this.name = name;
+        this.score = score;
+    }   
     
     public int getScore() {
         return score;
+    }
+    
+    public String getName() {
+        return name;
     }
 
     public void setScore(int score) {
@@ -35,22 +37,9 @@ public class Player implements Serializable {
         this.score += score;
     }
     
-    public void setCompany(Company comp){
-        this.company = comp;
-    }
-    
-    public Company getCompany(){
-        return this.company;
-    }
-    
-    public Player(String name){
-        this.name = name;
-        this.score = 0;
-    }
-    
     @Override
     public String toString(){
-        return this.name;
+        return "Player: " + this.name + " ,Score: " + this.score;
     }
     
 }

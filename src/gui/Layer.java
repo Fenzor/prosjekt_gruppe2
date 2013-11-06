@@ -47,6 +47,10 @@ public class Layer {
         this.sprites = drawables;
     }
     
+    public int getNumberOfSprites() {
+        return this.sprites.size();
+    }
+    
     @Override
     public String toString() {
         return "Description: \"" + this.description + "\" ,number of sprites: " + sprites.size();

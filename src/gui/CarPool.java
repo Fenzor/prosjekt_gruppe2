@@ -19,7 +19,7 @@ public class CarPool extends Layer implements Runnable{
     private Car[] generated;
     private int minWaiting;
     private int maxWaiting;
-    private int maxCars = 10;
+    private int maxCars = 20;
     private int windowWidth;
     private int windowHeight;
     private Random rand;
@@ -74,7 +74,7 @@ public class CarPool extends Layer implements Runnable{
                         }
                     }*/
                     //if (!isCollided) c.update(deltaTime);
-                    c.update(deltaTime);
+                    if (!c.update(deltaTime)) generated[i] = null;
                 } else if (waitNextCar <= 0) {
                     generated[i] = new Car(collection[rand.nextInt(collection.length)]);
                     waitNextCar = rand.nextInt(maxWaiting - minWaiting) + minWaiting;
@@ -97,6 +97,15 @@ public class CarPool extends Layer implements Runnable{
     public synchronized void drawSprites() {
         for (int i = 0; i < maxCars; i++) {
             if (generated[i] != null) generated[i].draw();
+        }
+    }
+    
+    public synchronized void checkCars(float xPos, float yPos) {
+        for (Car c : generated) {
+            if (c == null) continue;
+            if (c.isInside(xPos, yPos)) {
+                c.explode();
+            }
         }
     }
     

@@ -209,6 +209,14 @@ public class Company implements Serializable {
     public int getCash() {
         return cash;
     }
+    
+    public int getMonthlyPay() {
+        int pay = 0;
+        for (int i = 0; i<employees.size();i++){
+            pay += employees.get(i).getPay();
+        }
+        return pay;
+    }
 
     public void setCash(int newCash) {
         this.cash = newCash;

@@ -6,6 +6,7 @@ package gui.swing;
 
 import game.Employee;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import questions.Question;
 
@@ -15,11 +16,13 @@ import questions.Question;
  */
 public class SwingTest {
     public static void main(String[] args) throws Exception {
-        test2();
+        test1();
     }
     
     private static void test1() throws Exception {
-        Question q = xml.XMLReader.getQuestions().get(2);
+        Random rand = new Random();
+        List<Question> qList = xml.XMLReader.getQuestions();
+        Question q = qList.get(rand.nextInt(qList.size()));
         QuestionDialog qd = new QuestionDialog(q, new javax.swing.JFrame(), true);
         boolean b = qd.showWindow();
         JOptionPane.showMessageDialog(null, b);

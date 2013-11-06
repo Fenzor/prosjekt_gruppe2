@@ -32,7 +32,7 @@ public class Button extends Sprite {
     public Button(float xPos, float yPos, float sizeX, float sizeY) {
         super(xPos, yPos, sizeX, sizeY);
         this.textType = null;
-        this.buttonText = null;
+        this.buttonText = "placeholder";
         this.textOffsetX = sizeX / 2;
         this.textOffsetY = sizeY / 2;
     }

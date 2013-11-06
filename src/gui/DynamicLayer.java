@@ -22,6 +22,13 @@ public class DynamicLayer {
         return this.buttons.size() - 1;
     }
     
+    public boolean clickOnButton(int xPos, int yPos) {
+        for (Button b : buttons) {
+            if (b.isInside(xPos, yPos)) return true;
+        }
+        return false;
+    }
+    
     public Button checkButtonState(int xPos, int yPos, boolean isClicked) {
         for (Button b : buttons) {
             Button b2 = b.checkButtonState(xPos, yPos, isClicked);

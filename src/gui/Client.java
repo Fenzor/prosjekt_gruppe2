@@ -33,7 +33,7 @@ public class Client implements Runnable {
 
     private int widthWindow = 1280;
     private int heightWindow = 720;
-    private int maxFps = 120;
+    private final int maxFps = 120;
     private final Thread clientThread;
     private boolean fullscreen = false;
     private boolean isClientRunning;
@@ -50,7 +50,7 @@ public class Client implements Runnable {
     private CarPool cars;
     private World world;
     private final String gameTitle = "Awsome Dev Tycoon v2.0";
-    private String lookAndFeel = null;
+    private String OS = "";
 
     /**
      * time at last frame
@@ -187,6 +187,8 @@ public class Client implements Runnable {
      * Starts new game..
      */
     public void runNewGame() {
+        world = new World("Ola Nordmann", "Selskap A/S");
+        world.init();
         isGameRunning = true;
         float speed = 0.3f;
         float x = 200, y = 120;
@@ -198,7 +200,10 @@ public class Client implements Runnable {
             new Car(500, heightWindow - 1 ,x, y, speed, "png", "res/images/car05front.png", new Vector2f(-2, -1)),
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car06front.png", new Vector2f(-2, -1)),
             new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 ,x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
+            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
             new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1))
         };
         
@@ -211,6 +216,8 @@ public class Client implements Runnable {
         int carLayer = gameWindow.addLayer(cars);
         int bgLayer02 = gameWindow.addLayer();
         int bgLayer03 = gameWindow.addLayer();
+        
+        input.setLayer(carLayer);
 
         Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
         Sprite bg02 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/plainOffice.png");
@@ -218,16 +225,19 @@ public class Client implements Runnable {
         Sprite textField = new Sprite(10, 10, 350, this.heightWindow - 2 * 10, "png", "res/images/redDot.png");
 
         TextType menuText = new TextType("res/font/clacon.ttf", 45f, true, new Color(1.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_CENTER);
-        TextType textFieldType = new TextType("res/font/clacon.ttf", 40f, true, new Color(0.0f, 0, 0.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
+        TextType textFieldType = new TextType("res/font/clacon.ttf", 40f, true, new Color(0.0f, 0.25f, 1.0f, 0), TrueTypeFont.ALIGN_LEFT);
+        TextType textFieldType2 = new TextType("res/font/clacon.ttf", 25f, true, new Color(0.0f, 0.25f, 1.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
         String text = "Employees: ";
-        TextField tf = new TextField(10, this.heightWindow - 10, text, textFieldType);
+        TextField tf = new TextField(10, 10, text, textFieldType);
         this.gameWindow.addSpriteToLayer(bgLayer03, tf);
+        TextField tf2 = new TextField(10, this.heightWindow - 10, world.getInformationTable(), textFieldType2);
+        this.gameWindow.addSpriteToLayer(bgLayer03, tf2);
 
         Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Menu");
         menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
         gameWindow.addButtonToLayer(menuButton);
 
-        Button employeeButton = new Button(textField.getSizeX() - 35, heightWindow - (12 + 30), 30, 30);
+        Button employeeButton = new Button(textField.getSizeX() - 35, 12, 30, 30);
         employeeButton.loadAllStates("png", "res/images/menuButtonDefault.png");
         gameWindow.addButtonToLayer(employeeButton);
 
@@ -275,6 +285,7 @@ public class Client implements Runnable {
                     t.start();
                 }
             }
+            tf2.setText(world.getInformationTable());
             currentWindow.drawAll();
             update();
         }
@@ -296,7 +307,7 @@ public class Client implements Runnable {
         Button overlayButtonBackToMainMenu = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 2 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to Main Menu");
         overlayButtonBackToMainMenu.loadAllStates("png", "res/images/menuButtonDefault.png");
         menuOverlayWin.addButtonToLayer(overlayButtonBackToMainMenu);
-        Button overlayButtonExitToWindows = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 3 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to OS");
+        Button overlayButtonExitToWindows = new Button(widthWindow / 2 - buttonSizeX / 2, hX - 3 * (buttonSizeY + 20), buttonSizeX, buttonSizeY, menuText, "Exit to " + this.OS);
         overlayButtonExitToWindows.loadAllStates("png", "res/images/menuButtonDefault.png");
         menuOverlayWin.addButtonToLayer(overlayButtonExitToWindows);
         Button overlayButtonBackToGame = new Button(widthWindow - 430, heightWindow - 190, 30, 30);
@@ -316,6 +327,7 @@ public class Client implements Runnable {
                     int value = JOptionPane.showOptionDialog(null, "Are you sure you want to end this game?\n(Any progress after last save will be lost)", "Question", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
                     if (value == JOptionPane.YES_OPTION) {
                         this.switchCurrentWindow(menuWindow);
+                        this.world = null;
                         this.isGameRunning = false;
                         return;
                     }
@@ -512,10 +524,13 @@ public class Client implements Runnable {
         String OS = System.getProperty("os.name").toLowerCase();
         if (OS.indexOf("win") >= 0) {
             System.setProperty("org.lwjgl.librarypath", new File("lib//natives//windows").getAbsolutePath());
+            this.OS = "Windows";
         } else if (OS.indexOf("mac") >= 0) {
             System.setProperty("org.lwjgl.librarypath", new File("lib//natives//macosx").getAbsolutePath());
+            this.OS = "OSX";
         } else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0) {
             System.setProperty("org.lwjgl.librarypath", new File("lib//natives//linux").getAbsolutePath());
+            this.OS = "Linux";
         } else {
             System.err.println("Your OS is not supported!");
             JOptionPane.showMessageDialog(null, "Your OS is not supported!", "Warning!", JOptionPane.WARNING_MESSAGE);
@@ -525,15 +540,8 @@ public class Client implements Runnable {
     }
     
      private void setLookAndFeel() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            // Set cross-platform Java L&F (also called "Metal")
-            UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(EmployeeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -543,7 +551,6 @@ public class Client implements Runnable {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EmployeeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
     }
 
     /*
@@ -555,6 +562,7 @@ public class Client implements Runnable {
         AL.destroy();
         Display.destroy();
         if (cars != null) cars.destroy();
+        if (world != null) world.destroy();
     }
 
     /*

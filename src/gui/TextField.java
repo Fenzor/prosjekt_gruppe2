@@ -23,4 +23,8 @@ public class TextField extends AABB implements Drawable {
     public void draw() {
         tt.draw(xPos, yPos, text);
     }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
