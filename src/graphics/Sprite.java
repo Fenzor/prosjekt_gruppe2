@@ -2,14 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package graphics;
 
 import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
-import org.lwjgl.util.Color;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -79,6 +77,7 @@ public class Sprite extends AABB implements Drawable {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         this.image.bind();
+        GL11.glColor3f(1, 1, 1);
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2f(0, this.image.getHeight());
         GL11.glVertex2f(this.xPos, this.yPos);

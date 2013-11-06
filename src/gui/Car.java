@@ -4,6 +4,7 @@
  */
 package gui;
 
+import graphics.Sprite;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.util.vector.Vector2f;

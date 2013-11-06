@@ -4,6 +4,7 @@
  */
 package gui;
 
+import graphics.Sprite;
 import game.Employee;
 import java.util.ArrayList;
 

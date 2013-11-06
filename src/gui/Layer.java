@@ -4,6 +4,7 @@
  */
 package gui;
 
+import graphics.Drawable;
 import java.util.ArrayList;
 import java.util.List;
 

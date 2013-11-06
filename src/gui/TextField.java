@@ -6,6 +6,9 @@
 
 package gui;
 
+import graphics.Drawable;
+import graphics.AABB;
+
 /**
  *
  * @author Lars Aksel

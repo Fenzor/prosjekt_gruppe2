@@ -4,12 +4,16 @@
  */
 package gui;
 
+import graphics.ColorPicker;
+import graphics.Graph;
+import graphics.Sprite;
 import game.Employee;
 import game.SaveLoad;
 import game.World;
 import gui.swing.EmployeeDialog;
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -232,6 +236,12 @@ public class Client implements Runnable {
         this.gameWindow.addSpriteToLayer(bgLayer03, tf);
         TextField tf2 = new TextField(10, this.heightWindow - 10, world.getInformationTable(), textFieldType2);
         this.gameWindow.addSpriteToLayer(bgLayer03, tf2);
+        
+        float graphWidth = 600;
+        
+        Graph graph = new Graph(50, widthWindow - 10 - graphWidth, 10, graphWidth, 300);
+        int graphLayer = this.currentWindow.addLayer();
+        this.gameWindow.addSpriteToLayer(graphLayer, graph);
 
         Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Menu");
         menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
@@ -260,7 +270,8 @@ public class Client implements Runnable {
         menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
         
         
-        
+        double cash = world.getCompany().getCash();
+        graph.addValue((float) cash, "Blah...");
         while (isGameRunning && isClientRunning) {
 
             Button b2 = input.getButtonPressed();
@@ -284,6 +295,11 @@ public class Client implements Runnable {
                     Thread t = new Thread(r);
                     t.start();
                 }
+            }
+            if (cash != world.getCompany().getCash()) {
+                cash = world.getCompany().getCash();
+                //graph.addValue((float) cash + (new Random().nextInt(10000) * ((new Random().nextBoolean()) ? -1 : 1)) + ((new Random().nextInt(1000) > 850) ? (((new Random().nextBoolean()) ? -1 : 1)) * new Random().nextInt(40000): 1), "Blah...");
+                graph.addValue((float) cash, "Testing...");
             }
             tf2.setText(world.getInformationTable());
             currentWindow.drawAll();
@@ -327,7 +343,7 @@ public class Client implements Runnable {
                     int value = JOptionPane.showOptionDialog(null, "Are you sure you want to end this game?\n(Any progress after last save will be lost)", "Question", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
                     if (value == JOptionPane.YES_OPTION) {
                         this.switchCurrentWindow(menuWindow);
-                        this.world = null;
+                        //this.world = null;
                         this.isGameRunning = false;
                         return;
                     }

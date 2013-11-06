@@ -202,6 +202,10 @@ public class World implements Serializable, Runnable {
     public void destroy() {
         this.isRunning = false;
     }
+    
+    public Company getCompany() {
+        return this.company;
+    }
 
     public String getInformationTable() {
         return "Date: " + this.getDate(gameTime)
