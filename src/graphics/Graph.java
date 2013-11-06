@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 public class Graph extends Sprite {
 
     private final int maxPoints;
-    DataValues[] dataValues;
+    private final DataValues[] dataValues;
     private boolean changed;
     private float minValue;
     private float maxValue;
@@ -28,7 +28,6 @@ public class Graph extends Sprite {
             maxPoints = 2; // Must always be two or above to avoid graphical issues...
         }
         this.dataValues = new DataValues[maxPoints];
-        //this.dataValues = new DataValues[]{new DataValues(-100, "Blah.."), new DataValues(300, "Lol"), new DataValues(320, "Lol"), new DataValues(-30, "Lol")};
         this.changed = false;
     }
 
@@ -101,21 +100,25 @@ public class Graph extends Sprite {
         }
         Line2D.Double[] lines = new Line2D.Double[dataValues.length - 1];
         for (int i = 0; i < lines.length; i++) {
-            if (dataValues[i] == null) continue;
+            if (dataValues[i] == null) {
+                continue;
+            }
             float x = this.xPos + margin + (i * (this.sizeX - 2 * margin) / (this.dataValues.length - 1));
-            float y = (this.yPos + 2*margin) + ((this.sizeY - 3 * margin) * ((this.dataValues[i].getValue() + Math.abs(minValue)) / (maxValue + Math.abs(minValue))));
+            float y = (this.yPos + 2 * margin) + ((this.sizeY - 3 * margin) * ((this.dataValues[i].getValue() + Math.abs(minValue)) / (maxValue + Math.abs(minValue))));
             float x2 = this.xPos + margin + ((i + 1) * (this.sizeX - 2 * margin) / (this.dataValues.length - 1));
-            float y2 = (this.yPos + 2*margin) + ((this.sizeY - 3 * margin) * ((this.dataValues[i + 1].getValue() + Math.abs(minValue)) / (maxValue + Math.abs(minValue))));
+            float y2 = (this.yPos + 2 * margin) + ((this.sizeY - 3 * margin) * ((this.dataValues[i + 1].getValue() + Math.abs(minValue)) / (maxValue + Math.abs(minValue))));
             lines[i] = new Line2D.Double(x, y, x2, y2);
         }
-        
+
         // Draws the value-lines on the graph...
         Line2D.Double origLine = new Line2D.Double(this.xPos + margin, origo, this.xPos + margin + (this.sizeX - 2 * margin), origo);
         GL11.glLineWidth(2);
         GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         for (Line2D.Double line : lines) {
-            if (line == null) continue;
+            if (line == null) {
+                continue;
+            }
             if (line.intersectsLine(origLine)) {
                 Point2D interSect = getIntersection(line, origLine);
                 if (line.getP1().getY() > origo) {
@@ -146,7 +149,7 @@ public class Graph extends Sprite {
         GL11.glEnd();
         GL11.glLineWidth(1);
         GL11.glShadeModel(GL11.GL_SMOOTH);
-       
+
         // Black lines around box inside the graph...
         GL11.glColor4f(0, 0, 0, 1);
         GL11.glBegin(GL11.GL_LINE_LOOP);
@@ -190,43 +193,22 @@ public class Graph extends Sprite {
             return label;
         }
     }
-    
+
     public static Point2D getIntersection(final Line2D.Double line1, final Line2D.Double line2) {
 
-        final double x1,y1, x2,y2, x3,y3, x4,y4;
-        x1 = line1.x1; y1 = line1.y1; x2 = line1.x2; y2 = line1.y2;
-        x3 = line2.x1; y3 = line2.y1; x4 = line2.x2; y4 = line2.y2;
-        final double x = (
-                (x2 - x1)*(x3*y4 - x4*y3) - (x4 - x3)*(x1*y2 - x2*y1)
-                ) /
-                (
-                (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4)
-                );
-        final double y = (
-                (y3 - y4)*(x1*y2 - x2*y1) - (y1 - y2)*(x3*y4 - x4*y3)
-                ) /
-                (
-                (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4)
-                );
-
+        final double x1, y1, x2, y2, x3, y3, x4, y4;
+        x1 = line1.x1;
+        y1 = line1.y1;
+        x2 = line1.x2;
+        y2 = line1.y2;
+        x3 = line2.x1;
+        y3 = line2.y1;
+        x4 = line2.x2;
+        y4 = line2.y2;
+        final double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3) * (x1 * y2 - x2 * y1))
+                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
+        final double y = ((y3 - y4) * (x1 * y2 - x2 * y1) - (y1 - y2) * (x3 * y4 - x4 * y3))
+                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
         return new Point2D.Double(x, y);
-
-    }
-
-    public static void main(String... args) {
-
-        Graph g = new Graph(10, 0, 0, 0, 0);
-
-        g.addValue(10, "hallo");
-        g.addValue(-2000, "Valla");
-        g.setMinMax();
-
-        for (int i = 0; i < g.dataValues.length; i++) {
-            if (g.dataValues[i] != null) {
-                System.out.println("Index: " + i + " ,Label: " + g.dataValues[i].getLabel() + " ,Value: " + g.dataValues[i].getValue());
-            }
-        }
-
-        System.out.println("Maxvalue: " + g.getMaxValue() + " ,Minvalue: " + g.getMinValue());
     }
 }

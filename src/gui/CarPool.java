@@ -94,7 +94,7 @@ public class CarPool extends Layer implements Runnable{
     }
     
     @Override
-    public synchronized void drawSprites() {
+    public synchronized void drawAll() {
         for (int i = 0; i < maxCars; i++) {
             if (generated[i] != null) generated[i].draw();
         }

@@ -14,46 +14,46 @@ import java.util.List;
  */
 public class Layer {
     private String description;
-    private List<Drawable> sprites;
+    private List<Drawable> drawables;
     
     public Layer() {
-        this.sprites = new ArrayList<>();
+        this.drawables = new ArrayList<>();
         this.description = "placeholder";
     }
     
     public Layer(String desc) {
-        this.sprites = new ArrayList<>();
+        this.drawables = new ArrayList<>();
         this.description = desc;
     }
     
     public void addSprite(Drawable s) {
-        this.sprites.add(s);
+        this.drawables.add(s);
     }
     
-    public void drawSprites() {
-        for (Drawable s : sprites) {
+    public void drawAll() {
+        for (Drawable s : drawables) {
             s.draw();
         }
     }
     
-    public void removeSprite(int indeks) {
-        this.sprites.remove(indeks);
+    public void removeDrawable(int indeks) {
+        this.drawables.remove(indeks);
     }
         
-    public Drawable getSprite(int indeks) {
-        return this.sprites.get(indeks);
+    public Drawable getDrawable(int indeks) {
+        return this.drawables.get(indeks);
     }
     
-    public void setSprite(List drawables) {
-        this.sprites = drawables;
+    public void setDrawable(List drawables) {
+        this.drawables = drawables;
     }
     
-    public int getNumberOfSprites() {
-        return this.sprites.size();
+    public int getSizeOfDrawables() {
+        return this.drawables.size();
     }
     
     @Override
     public String toString() {
-        return "Description: \"" + this.description + "\" ,number of sprites: " + sprites.size();
+        return "Description: \"" + this.description + "\" ,number of sprites: " + drawables.size();
     }
 }

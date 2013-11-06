@@ -161,7 +161,7 @@ public class Client implements Runnable {
                 106 * faktor,
                 73 * faktor);
         menuBackground.loadTexture("png", "res/images/startScreen.png");
-        menuWindow.addSpriteToLayer(layer01, menuBackground);
+        menuWindow.addDrawableToLayer(layer01, menuBackground);
 
         // Generate buttons...
         int buttonWidth = 300;
@@ -233,15 +233,15 @@ public class Client implements Runnable {
         TextType textFieldType2 = new TextType("res/font/clacon.ttf", 25f, true, new Color(0.0f, 0.25f, 1.0f, 0), TrueTypeFont.ALIGN_UPPER_LEFT);
         String text = "Employees: ";
         TextField tf = new TextField(10, 10, text, textFieldType);
-        this.gameWindow.addSpriteToLayer(bgLayer03, tf);
+        this.gameWindow.addDrawableToLayer(bgLayer03, tf);
         TextField tf2 = new TextField(10, this.heightWindow - 10, world.getInformationTable(), textFieldType2);
-        this.gameWindow.addSpriteToLayer(bgLayer03, tf2);
+        this.gameWindow.addDrawableToLayer(bgLayer03, tf2);
         
         float graphWidth = 600;
         
         Graph graph = new Graph(50, widthWindow - 10 - graphWidth, 10, graphWidth, 300);
         int graphLayer = this.currentWindow.addLayer();
-        this.gameWindow.addSpriteToLayer(graphLayer, graph);
+        this.gameWindow.addDrawableToLayer(graphLayer, graph);
 
         Button menuButton = new Button(widthWindow - 260, heightWindow - 70, 170, 50, menuText, "Menu");
         menuButton.loadAllStates("png", "res/images/menuButtonDefault.png");
@@ -257,9 +257,9 @@ public class Client implements Runnable {
         ColorPicker cp2 = new ColorPicker(new Color(1.0f, 0.0f, 0.0f), new Color(1f, 1f, 1f, 0.6f));
         textField.setShader(cp2);
 
-        gameWindow.addSpriteToLayer(bgLayer01, bg01);
-        gameWindow.addSpriteToLayer(bgLayer02, bg02);
-        gameWindow.addSpriteToLayer(bgLayer02, textField);
+        gameWindow.addDrawableToLayer(bgLayer01, bg01);
+        gameWindow.addDrawableToLayer(bgLayer02, bg02);
+        gameWindow.addDrawableToLayer(bgLayer02, textField);
 
         menuOverlayWin = new Window();
         int menuOverlay = menuOverlayWin.addLayer();
@@ -267,7 +267,7 @@ public class Client implements Runnable {
         int sizeY = 550;
 
         Sprite overlay = new Sprite(widthWindow / 2 - sizeX / 2, heightWindow / 2 - sizeY / 2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
-        menuOverlayWin.addSpriteToLayer(menuOverlay, overlay);
+        menuOverlayWin.addDrawableToLayer(menuOverlay, overlay);
         
         
         double cash = world.getCompany().getCash();

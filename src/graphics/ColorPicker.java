@@ -12,11 +12,11 @@ import org.newdawn.slick.Color;
  * @author Lars Aksel
  */
 public class ColorPicker extends Shader {
-    private Color picker;
-    private Color replace;
-    private int pickColorId = GL20.glGetUniformLocation(shaderProg, "pickColor");
-    private int replaceColorId = GL20.glGetUniformLocation(shaderProg, "replaceColor");
-    private int texture1 = GL20.glGetUniformLocation(shaderProg, "colorMap");
+    private final Color picker;
+    private final Color replace;
+    private final int pickColorId;
+    private final int replaceColorId;
+    private final int texture1;
     
     public ColorPicker(Color picker, Color replace) {
         super();

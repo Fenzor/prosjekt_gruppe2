@@ -23,8 +23,6 @@ public class Sprite extends AABB implements Drawable {
         super(xPos, yPos, sizeX, sizeY);
     }
     
-   
-    
     public Sprite(float xPos, float yPos, String filetype, String path) {
         super(xPos, yPos);
         try {

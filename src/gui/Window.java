@@ -44,7 +44,7 @@ public class Window {
     /*
      * Uses index to determine which layer to send the sprite to...
      */
-    public void addSpriteToLayer(int index, Drawable s) {
+    public void addDrawableToLayer(int index, Drawable s) {
         this.layers.get(index).addSprite(s);
     }
     
@@ -69,7 +69,7 @@ public class Window {
     
     public void drawAll() {
         for (Layer l : layers) {
-            l.drawSprites();
+            l.drawAll();
         }
         dLayer.drawButtons();
     }

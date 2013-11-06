@@ -72,15 +72,6 @@ public class AABB {
         return (xPos >= this.getX() && xPos <= (this.getX() + this.getSizeX()) && yPos >= this.getY() && yPos <= (this.getY() + this.getSizeY()));
     }
     
-    public boolean isInside(float xPos, float yPos, float sizeX, float sizeY) {
-        
-        float smallBit = 0.1f;
-        return (isInside(xPos + smallBit, yPos + smallBit) || 
-                isInside(xPos + smallBit, (yPos + sizeY) - smallBit) || 
-                isInside((xPos + sizeX) - smallBit, yPos + smallBit) || 
-                isInside((xPos + sizeX) - smallBit, (yPos + sizeY) - smallBit));
-        //return ((this.xPos + this.sizeX) >= xPos && this.xPos <= (xPos + sizeX) || (this.yPos + this.sizeY) >= yPos && this.yPos <= (yPos + sizeY));
-    }
     public boolean intersects(float xPos, float yPos, float sizeX, float sizeY) {
         Rectangle r = new Rectangle(this.xPos, this.yPos, this.sizeX, this.sizeY);
         Rectangle r2 = new Rectangle(xPos, yPos, sizeX, sizeY);
