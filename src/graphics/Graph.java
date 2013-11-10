@@ -17,7 +17,7 @@ public class Graph extends Sprite {
 
     private final int maxPoints;
     private final DataValues[] dataValues;
-    private boolean changed;
+    //private boolean changed;
     private float minValue;
     private float maxValue;
 
@@ -28,7 +28,7 @@ public class Graph extends Sprite {
             maxPoints = 2; // Must always be two or above to avoid graphical issues...
         }
         this.dataValues = new DataValues[maxPoints];
-        this.changed = false;
+        //this.changed = false;
     }
 
     public void addValue(float value, String label) {
@@ -36,7 +36,7 @@ public class Graph extends Sprite {
             dataValues[i - 1] = dataValues[i];
         }
         dataValues[dataValues.length - 1] = new DataValues(value, label);
-        this.changed = true;
+        //this.changed = true;
     }
 
     public void setMinMax() {
@@ -121,28 +121,28 @@ public class Graph extends Sprite {
             }
             if (line.intersectsLine(origLine)) {
                 Point2D interSect = getIntersection(line, origLine);
-                if (line.getP1().getY() > origo) {
+                if (line.y1 > origo) {
                     GL11.glColor4f(0, 1, 0, 1);
-                    GL11.glVertex2d(line.getP1().getX(), line.getP1().getY());
+                    GL11.glVertex2d(line.x1, line.y1);
                     GL11.glVertex2d(interSect.getX(), interSect.getY());
                     GL11.glColor4f(1, 0, 0, 1);
-                    GL11.glVertex2d(line.getP2().getX(), line.getP2().getY());
+                    GL11.glVertex2d(line.x2, line.y2);
                 } else {
                     GL11.glColor4f(1, 0, 0, 1);
-                    GL11.glVertex2d(line.getP1().getX(), line.getP1().getY());
+                    GL11.glVertex2d(line.x1, line.y1);
                     GL11.glVertex2d(interSect.getX(), interSect.getY());
                     GL11.glColor4f(0, 1, 0, 1);
-                    GL11.glVertex2d(line.getP2().getX(), line.getP2().getY());
+                    GL11.glVertex2d(line.x2, line.y2);
                 }
             } else {
-                if (line.getP1().getY() > origo) {
+                if (line.y1 > origo) {
                     GL11.glColor4f(0, 1, 0, 1);
-                    GL11.glVertex2d(line.getP1().getX(), line.getP1().getY());
-                    GL11.glVertex2d(line.getP2().getX(), line.getP2().getY());
+                    GL11.glVertex2d(line.x1, line.y1);
+                    GL11.glVertex2d(line.x2, line.y2);
                 } else {
                     GL11.glColor4f(1, 0, 0, 1);
-                    GL11.glVertex2d(line.getP1().getX(), line.getP1().getY());
-                    GL11.glVertex2d(line.getP2().getX(), line.getP2().getY());
+                    GL11.glVertex2d(line.x1, line.y1);
+                    GL11.glVertex2d(line.x2, line.y2);
                 }
             }
         }
@@ -159,7 +159,8 @@ public class Graph extends Sprite {
         GL11.glVertex2f(this.xPos + margin, this.yPos + this.sizeY - margin);
         GL11.glEnd();
 
-        this.changed = false;
+        //this.changed = false;
+        origLine = null;
         //}
     }
 
@@ -173,6 +174,23 @@ public class Graph extends Sprite {
 
     public float getMaxValue() {
         return maxValue;
+    }
+
+    public Point2D getIntersection(final Line2D.Double line1, final Line2D.Double line2) {
+        final double x1, y1, x2, y2, x3, y3, x4, y4;
+        x1 = line1.x1;
+        y1 = line1.y1;
+        x2 = line1.x2;
+        y2 = line1.y2;
+        x3 = line2.x1;
+        y3 = line2.y1;
+        x4 = line2.x2;
+        y4 = line2.y2;
+        final double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3) * (x1 * y2 - x2 * y1))
+                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
+        final double y = ((y3 - y4) * (x1 * y2 - x2 * y1) - (y1 - y2) * (x3 * y4 - x4 * y3))
+                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
+        return new Point2D.Double(x, y);
     }
 
     private class DataValues {
@@ -192,23 +210,5 @@ public class Graph extends Sprite {
         public String getLabel() {
             return label;
         }
-    }
-
-    public static Point2D getIntersection(final Line2D.Double line1, final Line2D.Double line2) {
-
-        final double x1, y1, x2, y2, x3, y3, x4, y4;
-        x1 = line1.x1;
-        y1 = line1.y1;
-        x2 = line1.x2;
-        y2 = line1.y2;
-        x3 = line2.x1;
-        y3 = line2.y1;
-        x4 = line2.x2;
-        y4 = line2.y2;
-        final double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3) * (x1 * y2 - x2 * y1))
-                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
-        final double y = ((y3 - y4) * (x1 * y2 - x2 * y1) - (y1 - y2) * (x3 * y4 - x4 * y3))
-                / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
-        return new Point2D.Double(x, y);
     }
 }

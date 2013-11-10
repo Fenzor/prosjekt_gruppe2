@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package graphics;
 
 import graphics.Sprite;
 import java.util.logging.Level;
@@ -26,7 +26,7 @@ public class Car extends Sprite {
     private boolean isExploded;
     private Animation animate;
     private SpriteSheet ss;
-    private final int duration = 25;
+    private static final int duration = 25;
 
     public Car(Car c) {
         super(c.xPos, c.yPos, c.sizeX, c.sizeY, c.image);
@@ -36,7 +36,7 @@ public class Car extends Sprite {
         this.speed = c.speed;
         this.isExploded = c.isExploded;
         this.ss = c.ss;
-        this.animate = new Animation(this.ss, duration);
+        this.animate = new Animation(c.ss, duration);
         this.animate.setAutoUpdate(false);
         this.animate.setLooping(false);
     }
@@ -80,6 +80,7 @@ public class Car extends Sprite {
         if (!isExploded) {
             new Thread(
                     new Runnable() {
+                        @Override
                         public void run() {
                             try {
                                 new Sound("res/sfx/explosion.ogg").play(1, 0.5f);

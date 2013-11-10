@@ -12,16 +12,13 @@ import java.util.ArrayList;
  * @author Rasmus
  */
 public class Team implements Serializable {
-
     private String name;
     private Employee leader;
-    private static int numberOfTeams;
     private ArrayList <Employee> members = new ArrayList();
     
     public Team(String name, Employee leader) {
         this.name = name;
         this.leader = leader;
-        numberOfTeams++;
     }
     
     public String getName(){
@@ -36,15 +33,12 @@ public class Team implements Serializable {
         this.leader = null;
         this.members.clear();
         this.name = null;
-        numberOfTeams--;
     }
     
     public void setLeader(Employee emp){
         this.leader = emp;
         emp.setPay(emp.getPay() + 2000);
     }
-    
-    
     
     public void addTeamMember(Employee emp){
         this.members.add(emp);
@@ -54,6 +48,7 @@ public class Team implements Serializable {
         this.members.remove(emp);
     }
     
+    // TODO - Kan det eksistere et team uten teamleder?? Lars Aksel
     public void removeTeamLeader() {
         if (this.leader != null) {
             this.leader.setPay(leader.getPay() - 2000);
@@ -69,10 +64,11 @@ public class Team implements Serializable {
         return this.members.get(i);
     }
     
-    public static int getNumberOfTeams(){
-        return numberOfTeams;
+    public int getNumberOfMembers() {
+        return members.size();
     }
     
+    @Override
     public String toString(){
         return "Team name: " + getName() + ", and their leader is: " + getLeader();
     }

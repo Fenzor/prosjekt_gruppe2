@@ -9,8 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import questions.Answer;
-import questions.Question;
+import quiz.Answer;
+import quiz.Question;
 
 /**
  *

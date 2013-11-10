@@ -18,7 +18,6 @@ import org.newdawn.slick.util.ResourceLoader;
  */
 public class TextType {
     private boolean antiAliased;
-    private Font awtFont;
     private TrueTypeFont ttFont;
     private Color textColor;
     private float fontSize;
@@ -29,12 +28,11 @@ public class TextType {
         this.fontSize = fontSize;
         this.antiAliased = antiAliased;
         this.textColor = new Color(1,1,1);
-        this.alignment = TrueTypeFont.ALIGN_LEFT;
         try {
             InputStream inputStream = ResourceLoader.getResourceAsStream(fontPath);
-            awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            Font awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             awtFont = awtFont.deriveFont(fontSize); // set font size
-            ttFont = new TrueTypeFont(awtFont, antiAliased);
+            ttFont = new TrueTypeFont(awtFont, antiAliased, null);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
@@ -46,10 +44,12 @@ public class TextType {
         this.textColor = textColor;
         this.alignment = alignment;
         try {
-            InputStream inputStream = ResourceLoader.getResourceAsStream(fontPath);
-            awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            Font awtFont;
+            try (InputStream inputStream = ResourceLoader.getResourceAsStream(fontPath)) {
+                awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            }
             awtFont = awtFont.deriveFont(fontSize); // set font size
-            ttFont = new TrueTypeFont(awtFont, antiAliased);
+            ttFont = new TrueTypeFont(awtFont, antiAliased, null);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }

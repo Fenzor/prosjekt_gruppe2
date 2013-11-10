@@ -11,8 +11,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import questions.Answer;
-import questions.Question;
+import quiz.Answer;
+import quiz.Question;
 
 /**
  *

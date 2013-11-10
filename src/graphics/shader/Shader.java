@@ -2,11 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package graphics;
+package graphics.shader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -71,15 +74,14 @@ public class Shader {
     
     private String readShaderProgram(String path) throws ParseException {
         StringBuilder sb = new StringBuilder();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while((line = br.readLine()) != null) {
                 sb.append(line);
                 sb.append('\n');
             }
-        } catch (Exception e) {
-            throw new ParseException("Shader could not be read! Path: \"" + path + "\"", 0);
+        } catch (IOException ex) {
+            Logger.getLogger(Shader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sb.toString();
     }

@@ -8,7 +8,7 @@ import game.Employee;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
-import questions.Question;
+import quiz.Question;
 
 /**
  *

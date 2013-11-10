@@ -4,7 +4,11 @@
  */
 package gui;
 
-import graphics.ColorPicker;
+import graphics.Car;
+import graphics.Button;
+import graphics.TextField;
+import tools.InputHandler;
+import graphics.shader.ColorPicker;
 import graphics.Graph;
 import graphics.Sprite;
 import game.Employee;
@@ -13,7 +17,6 @@ import game.World;
 import gui.swing.EmployeeDialog;
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -35,9 +38,9 @@ import sound.MusicLibrary;
  */
 public class Client implements Runnable {
 
-    private int widthWindow = 1280;
-    private int heightWindow = 720;
-    private final int maxFps = 120;
+    private static int widthWindow = 1280;
+    private static int heightWindow = 720;
+    private static final int maxFps = 120;
     private final Thread clientThread;
     private boolean fullscreen = false;
     private boolean isClientRunning;
@@ -109,7 +112,7 @@ public class Client implements Runnable {
 
         getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
-        
+
         Display.setVSyncEnabled(true);
 
         while (isClientRunning) {
@@ -136,7 +139,9 @@ public class Client implements Runnable {
                         if (w != null) {
                             this.world = w;
                             JOptionPane.showMessageDialog(null, "Game loaded succesfully!", "Hooray", JOptionPane.INFORMATION_MESSAGE);
-                        } else JOptionPane.showMessageDialog(null, "Game loaded UNSUCCESSFULLY!", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Game loaded UNSUCCESSFULLY!", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 } else if (b.equals(quitGame)) {
                     isClientRunning = false;
@@ -198,29 +203,29 @@ public class Client implements Runnable {
         float x = 200, y = 120;
         Car[] carCollection = {
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car01.png", new Vector2f(-2, -1)),
-            new Car(500, heightWindow - 1 ,x, y, speed, "png", "res/images/car02.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car02.png", new Vector2f(-2, -1)),
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car03.png", new Vector2f(-2, -1)),
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car04front.png", new Vector2f(-2, -1)),
-            new Car(500, heightWindow - 1 ,x, y, speed, "png", "res/images/car05front.png", new Vector2f(-2, -1)),
+            new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car05front.png", new Vector2f(-2, -1)),
             new Car(500, heightWindow - 1, x, y, speed, "png", "res/images/car06front.png", new Vector2f(-2, -1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
-            new Car(-x+1, heightWindow/2 - 120 , x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1))
+            new Car(-x + 1, heightWindow / 2 - 120, x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
+            new Car(-x + 1, heightWindow / 2 - 120, x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
+            new Car(-x + 1, heightWindow / 2 - 120, x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1)),
+            new Car(-x + 1, heightWindow / 2 - 120, x, y, speed, "png", "res/images/car04back.png", new Vector2f(2, 1)),
+            new Car(-x + 1, heightWindow / 2 - 120, x, y, speed, "png", "res/images/car05back.png", new Vector2f(2, 1)),
+            new Car(-x + 1, heightWindow / 2 - 120, x, y, speed, "png", "res/images/car06back.png", new Vector2f(2, 1))
         };
-        
+
         cars = new CarPool(widthWindow, heightWindow, 500, 1000, carCollection);
         cars.init();
-        
+
         gameWindow = new Window();
         this.switchCurrentWindow(gameWindow);
         int bgLayer01 = gameWindow.addLayer();
         int carLayer = gameWindow.addLayer(cars);
         int bgLayer02 = gameWindow.addLayer();
         int bgLayer03 = gameWindow.addLayer();
-        
+
         input.setLayer(carLayer);
 
         Sprite bg01 = new Sprite(0, 0, widthWindow, heightWindow, "png", "res/images/street.png");
@@ -236,9 +241,9 @@ public class Client implements Runnable {
         this.gameWindow.addDrawableToLayer(bgLayer03, tf);
         TextField tf2 = new TextField(10, this.heightWindow - 10, world.getInformationTable(), textFieldType2);
         this.gameWindow.addDrawableToLayer(bgLayer03, tf2);
-        
+
         float graphWidth = 600;
-        
+
         Graph graph = new Graph(50, widthWindow - 10 - graphWidth, 10, graphWidth, 300);
         int graphLayer = this.currentWindow.addLayer();
         this.gameWindow.addDrawableToLayer(graphLayer, graph);
@@ -268,8 +273,7 @@ public class Client implements Runnable {
 
         Sprite overlay = new Sprite(widthWindow / 2 - sizeX / 2, heightWindow / 2 - sizeY / 2, sizeX, sizeY, "png", "res/images/menuOverlay.png");
         menuOverlayWin.addDrawableToLayer(menuOverlay, overlay);
-        
-        
+
         double cash = world.getCompany().getCash();
         graph.addValue((float) cash, "Blah...");
         while (isGameRunning && isClientRunning) {
@@ -281,19 +285,18 @@ public class Client implements Runnable {
                     cars.setPaused(false);
                 }
                 if (b2.equals(employeeButton)) {
-                    Runnable r = new Runnable() {
+                    new Thread(new Runnable() {
+                        @Override
                         public void run() {
                             try {
-                                List<Employee> eList = xml.XMLReader.getEmployees();
+                                List<Employee> eList = world.getCompany().getEmployees();
                                 EmployeeDialog ed = new EmployeeDialog(eList, null, true);
                                 ed.setVisible(true);
                             } catch (Exception e) {
 
                             }
                         }
-                    };
-                    Thread t = new Thread(r);
-                    t.start();
+                    }).start();
                 }
             }
             if (cash != world.getCompany().getCash()) {
@@ -360,9 +363,9 @@ public class Client implements Runnable {
                     if (f != null) {
                         //String s = f.toString();
                         this.world = new World("test", "test");
-                         if (!SaveLoad.saveGame(this.world, f.getAbsolutePath())) {
-                             JOptionPane.showMessageDialog(null, "Game was not saved... :(", "Warning", JOptionPane.WARNING_MESSAGE);
-                         }
+                        if (!SaveLoad.saveGame(this.world, f.getAbsolutePath())) {
+                            JOptionPane.showMessageDialog(null, "Game was not saved... :(", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 }
                 if (b.equals(overlayButtonExitToWindows)) {
@@ -428,11 +431,15 @@ public class Client implements Runnable {
      * Is used to check for global input, this may be moved...
      */
     protected void checkGlobalInput() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
-            this.fullscreen = !this.fullscreen;
-            this.setDisplayMode(this.widthWindow, this.heightWindow, this.fullscreen);
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested()) {
+        while (Keyboard.next()) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+                this.fullscreen = !this.fullscreen;
+                this.setDisplayMode(this.widthWindow, this.heightWindow, this.fullscreen);
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Display.isCloseRequested()) {
+                this.isClientRunning = false;
+            }
+        }if (Display.isCloseRequested()) {
             this.isClientRunning = false;
         }
     }
@@ -554,8 +561,8 @@ public class Client implements Runnable {
         }
         return true;
     }
-    
-     private void setLookAndFeel() {
+
+    private void setLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -577,8 +584,12 @@ public class Client implements Runnable {
         input.destroy();
         AL.destroy();
         Display.destroy();
-        if (cars != null) cars.destroy();
-        if (world != null) world.destroy();
+        if (cars != null) {
+            cars.destroy();
+        }
+        if (world != null) {
+            world.destroy();
+        }
     }
 
     /*

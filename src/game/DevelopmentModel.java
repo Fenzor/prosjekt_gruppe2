@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-import questions.Question;
+import quiz.Question;
 import xml.QuestionMaster;
 
 /**
@@ -32,11 +32,12 @@ public class DevelopmentModel implements Serializable {
      */
     private Type type;
     public int modelId;
-    private ArrayList<Question> questions = new ArrayList();
-    private String fileName = "";
+    private final ArrayList<Question> questions;
+    private final String fileName = "";
     BufferedReader br = null;
 
     public DevelopmentModel(Type type, int modelId) {
+        this.questions = new ArrayList();
         this.type = type;
         this.modelId = modelId;
     }
@@ -54,36 +55,8 @@ public class DevelopmentModel implements Serializable {
 
         return el.getQuestionList();
     }
-/*
-    public ArrayList getRndQuestion(int id) throws Exception {
-        Random rg = new Random();
-        int numberOfIndexWithID = 0;
-        for(int i = 0; i < getQuestions().size(); i++){
-            if(getQuestions().get(i).getId() == id){
-                numberOfIndexWithID += 1;
-            }
-        }
-        
-        int randomNumber = rg.nextInt(numberOfIndexWithID - 1);
-        int numberOfAnswers = getQuestions().get(randomNumber).getAnswerList().size();
-        String question = getQuestions().get(randomNumber).getText();
-        int correctIndex = -1;
-        boolean correctAnswer = false;
-        for (int i = 0; i < numberOfAnswers; i++){
-            if(getQuestions().get(randomNumber).getAnswerList().get(i).getScore() == 1){
-                correctIndex = i;
-                correctAnswer = true;
-                 questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
-            }else{
-                questions.add(new Question(question,getQuestions().get(randomNumber).getAnswerList().get(i).getAnswerText(),correctAnswer));
-            }
-            
-        }
-        return questions;
-    }
-*/
+    
     public enum Type {
-
         UP, Scrum, Waterfall
     }
 
@@ -92,48 +65,9 @@ public class DevelopmentModel implements Serializable {
     }
 
     public DevelopmentModel() {
+        this.questions = new ArrayList();
     }
-
-//    public void readFile(String fileName) throws IOException{
-//        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/Dahl/NetBeansProjects/prosjekt_gruppe2/src/data/questions.txt"))){
-//            String currentLine;
-//            
-//            while((currentLine = reader.readLine()) != null){
-//                questions.add(currentLine);
-//            }
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//        
-//    }
-//    public void readFileIDK6() {
-//        try {
-//            String currentLine;
-//
-//            br = new BufferedReader(new FileReader("/Users/Dahl/NetBeansProjects/prosjekt_gruppe2/src/data/questions.txt"));
-//
-//            while ((currentLine = br.readLine()) != null) {
-//                questions.add(currentLine);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (br != null) {
-//                    br.close();
-//                }
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//    }
-
-//    public void getQuestions() {
-//        readFileIDK6();
-//        for (int i = 0; i < questions.size(); i++) {
-//            System.out.println(questions.get(i));
-//        }
-//    }
+    
     public String toString() {
         return "Model: " + getType() + ", and has the ID: " + getModelId();
     }

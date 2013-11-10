@@ -4,6 +4,7 @@
  */
 package gui;
 
+import graphics.Button;
 import java.util.ArrayList;
 
 /**

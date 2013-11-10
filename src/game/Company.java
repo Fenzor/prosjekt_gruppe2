@@ -128,7 +128,7 @@ public class Company implements Serializable {
     
     public void endProject(Project pro, World w){
         // Brukes til å avslutte et prosjekt og hente inn betaling for prosjektet avhengig av om det overholder tidsfristen eller ikke.
-        if (pro.getDeadline()>= w.getTime()){
+        if (pro.getDeadline()>= w.getGameTime()){
             if(rumor < 10){
                 rumor = rumor + pro.getComplexity()/10 + pro.getBrilliance()/10;
                 if (rumor > 10) rumor = 10;

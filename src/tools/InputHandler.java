@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-package gui;
+package tools;
 
-import java.awt.event.MouseAdapter;
-import org.lwjgl.LWJGLException;
+import graphics.Button;
+import gui.CarPool;
+import gui.Window;
 import org.lwjgl.input.Mouse;
 
 /**
@@ -20,6 +21,9 @@ public class InputHandler implements Runnable {
     private Thread inputThread;
     private Window window;
     private int carLayer;
+    private int xPos;
+    private int yPos;
+    private boolean mouseClicked;
     
     public InputHandler(Window window) {
         this.window = window;
@@ -36,8 +40,11 @@ public class InputHandler implements Runnable {
     public void run() {
         while (isRunning) {
             if (Mouse.isCreated()) {
+                this.xPos = Mouse.getX();
+                this.yPos = Mouse.getY();
+                this.mouseClicked = Mouse.isButtonDown(0);
                 checkButtons();
-                if (!window.getDynLayer().clickOnButton(Mouse.getX(), Mouse.getY())) {
+                if (!window.getDynLayer().clickOnButton(xPos, yPos)) {
                     checkLayer();
                 }
             }            
@@ -57,8 +64,8 @@ public class InputHandler implements Runnable {
     private synchronized void checkLayer() {
         if (this.carLayer < 0) return;
         if (window.getLayer(this.carLayer) instanceof CarPool) {
-            if (Mouse.isButtonDown(0)) {
-                ((CarPool) window.getLayer(this.carLayer)).checkCars(Mouse.getX(), Mouse.getY());
+            if (mouseClicked) {
+                ((CarPool) window.getLayer(this.carLayer)).checkCars(xPos, yPos);
             }
 
         }
@@ -69,7 +76,7 @@ public class InputHandler implements Runnable {
     }
     
     private synchronized boolean checkButtons() {
-        Button b = window.getDynLayer().checkButtonState(Mouse.getX(), Mouse.getY(), Mouse.isButtonDown(0));
+        Button b = window.getDynLayer().checkButtonState(xPos, yPos, mouseClicked);
         if (b != null) {
             this.setButtonPressed(b);
             return true;

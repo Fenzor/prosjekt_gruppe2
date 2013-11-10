@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-import questions.Question;
+import quiz.Question;
 
 /**
  *

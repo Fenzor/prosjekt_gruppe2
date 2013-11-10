@@ -5,6 +5,9 @@
  */
 package gui;
 
+import graphics.Car;
+import graphics.Car;
+import gui.Layer;
 import java.util.Random;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -14,15 +17,15 @@ import org.lwjgl.opengl.Display;
  *
  * @author Lars Aksel
  */
-public class CarPool extends Layer implements Runnable{
-    private Car[] collection;
-    private Car[] generated;
-    private int minWaiting;
-    private int maxWaiting;
-    private int maxCars = 20;
-    private int windowWidth;
-    private int windowHeight;
-    private Random rand;
+public class CarPool extends Layer implements Runnable {
+    private static final int maxCars = 20;
+    private final Car[] collection;
+    private final Car[] generated;
+    private final int minWaiting;
+    private final int maxWaiting;
+    private final int windowWidth;
+    private final int windowHeight;
+    private final Random rand;
     private Thread thread;
     private boolean isRunning;
     private boolean isPaused;

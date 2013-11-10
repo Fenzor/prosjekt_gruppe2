@@ -33,16 +33,15 @@ public class SaveLoad {
     }
 
     public static World loadGame(String filepath) {
-        World w = null;
         try {
             //Åpner filen som skal leses fra
             FileInputStream saveFile = new FileInputStream(filepath);
             //Lager en ObjectInputStream til å hente objekter fra den lagrede filen.
             ObjectInputStream save = new ObjectInputStream(saveFile);
-            w = (World) save.readObject();
+            return (World) save.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        return w;
+            return null;
+        }        
     }
 }

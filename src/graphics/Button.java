@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package graphics;
 
 import graphics.Sprite;
+import gui.TextType;
 import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
@@ -21,7 +22,6 @@ public class Button extends Sprite {
     private boolean isHovered;
     private boolean isClicked;
     private boolean wasClicked;
-    private boolean wasInside;
     private Texture defaultButtonState;
     private Texture hoveredButtonState;
     private Texture clickedButtonState;
@@ -149,7 +149,7 @@ public class Button extends Sprite {
 
     public Button checkButtonState(int xPos, int yPos, boolean isClicked) {
         if (this.isInside(xPos, yPos)) {
-            if (isClicked && !this.wasInside) {
+            if (isClicked) {
                 this.wasClicked = true;
                 this.setClickedState();
             } else if (this.wasClicked) {

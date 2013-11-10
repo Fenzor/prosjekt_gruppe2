@@ -11,18 +11,20 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Employee")
 @XmlType(propOrder = {"name", "sex", "skill", "xp", "pay", "isSick"})
-public class Employee implements Serializable, Comparable<Employee> {
+public class Employee implements Serializable, Comparable {
 
     private String name;
-    private int skill, xp, pay;
-    private Employee.sex sex;
+    private int skill;
+    private int xp;
+    private int pay;
+    private Employee.Sex sex;
     private boolean isSick;
     
     public Employee() {
         isSick = false;
     }
 
-    public Employee(String name, int skill, int xp, int pay, Employee.sex sex, boolean isSick) {
+    public Employee(String name, int skill, int xp, int pay, Employee.Sex sex, boolean isSick) {
         this.name = name;
         this.skill = skill;
         this.xp = xp;
@@ -31,7 +33,7 @@ public class Employee implements Serializable, Comparable<Employee> {
         this.isSick = isSick;
     }
 
-    public Employee(String namestring, Employee.sex sex, boolean sick) {
+    public Employee(String namestring, Employee.Sex sex, boolean sick) {
         name = namestring;
         Random rg = new Random();
         //Ferdighet settes til et tall mellom 0 og 10.
@@ -43,7 +45,7 @@ public class Employee implements Serializable, Comparable<Employee> {
         pay = (skill * 800) + rg.nextInt(4) * 1000;
     }
 
-    public Employee(String namestring, Employee.sex sex) {
+    public Employee(String namestring, Employee.Sex sex) {
         name = namestring;
         Random rg = new Random();
         skill = rg.nextInt(10);
@@ -62,13 +64,13 @@ public class Employee implements Serializable, Comparable<Employee> {
         isSick = employee.isIsSick();
     }
 
-    public enum sex {
-
-        male, female
+    @Override
+    public int compareTo(Object t) {
+        return name.compareTo(((Employee) t).name);
     }
-    
-    public int compareTo(Employee o) {
-        return this.name.compareTo(o.name);
+
+    public enum Sex {
+        male, female
     }
     
     public String getName() {
@@ -99,11 +101,11 @@ public class Employee implements Serializable, Comparable<Employee> {
         this.xp += Xp;
     }
 
-    public sex getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(sex sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
@@ -130,6 +132,7 @@ public class Employee implements Serializable, Comparable<Employee> {
         this.setPay(this.pay + skill*800);
     }
 
+    @Override
     public String toString() {
         return "Name: " + getName() + "\tSkill lvl: " + getSkill() + "\tXp: " + getXp() + "\tSex: " + getSex() + "\tPay: " + getPay() + "\tSick: " + isIsSick();
     }

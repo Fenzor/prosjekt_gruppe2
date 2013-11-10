@@ -1,4 +1,4 @@
-package questions;
+package quiz;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -93,9 +93,9 @@ public class Question {
     
     @Override
     public String toString() {
-        String t = text;
+        String t = text + "\n";
         for (Answer a:answerList) {
-            t += "\n\t"+a.toString();
+            t += a.toString() + "\n\t";
         }
         return t;
     }

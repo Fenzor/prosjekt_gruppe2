@@ -92,26 +92,16 @@ public class World implements Serializable, Runnable {
                     }
                 }
             } else {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+
+                }
             }
         }
     }
 
-    /*
-     public void testage(){
-       
-     if(gameTime==3){
-     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(0));
-     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(1));
-     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(4));
-     this.player.getCompany().assignTeam(player.getCompany().getTeam(0), player.getCompany().getEmployee(3));
-     }
-     if(gameTime==5){
-     this.player.getCompany().takeProject(player.getCompany().getProjectAtIndex(0));
-     this.player.getCompany().assignTeamToProject(player.getCompany().getTeam(0), player.getCompany().getProjectAtIndex(0));
-     }
-     }
-     */
-    public int getTime() {
+    public int getGameTime() {
         return gameTime;
     }
 
@@ -176,8 +166,8 @@ public class World implements Serializable, Runnable {
 
     }
 
-    private void endMonth() { //betale ansatte, beregne fortløpende kostnader på ulike prosjekt.
-
+    // Betale ansatte, beregne fortløpende kostnader på ulike prosjekt.
+    private void endMonth() {
         this.company.updateGlobalTimeUsed();
         for (int i = 0; i < this.company.getProjects().size(); i++) {
             Project p = this.company.getProjectAtIndex(i);
@@ -189,12 +179,12 @@ public class World implements Serializable, Runnable {
         this.company.payEmployees();
     }
 
-    public void pauseGame() {
+    public synchronized void pause() {
         System.out.println("Game Paused");
         this.paused = true;
     }
 
-    public void resumeGame() {
+    public synchronized void resume() {
         System.out.println("Game Resumed");
         this.paused = false;
     }
@@ -202,7 +192,7 @@ public class World implements Serializable, Runnable {
     public void destroy() {
         this.isRunning = false;
     }
-    
+
     public Company getCompany() {
         return this.company;
     }

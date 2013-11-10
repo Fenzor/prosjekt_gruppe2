@@ -4,6 +4,7 @@
  */
 package graphics;
 
+import graphics.shader.Shader;
 import java.io.IOException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;

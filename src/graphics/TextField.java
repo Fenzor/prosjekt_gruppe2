@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-package gui;
+package graphics;
 
 import graphics.Drawable;
 import graphics.AABB;
+import gui.TextType;
 
 /**
  *

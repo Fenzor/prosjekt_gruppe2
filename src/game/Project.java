@@ -25,7 +25,6 @@ public class Project implements Serializable {
     private String answer; //Viser til svaret fra brukeren
     private ArrayList<Team> teams = new ArrayList();
     private DevelopmentModel devMod;
-    private ProjectType ProType;
 
     public Project(String name, String info, int timeEstimated, int deadline, int complexity, int pay, DevelopmentModel devMod) {
         this.name = name;
@@ -116,7 +115,7 @@ public class Project implements Serializable {
     }
     
     public int setDeadlineProper(World w, int dl){ //setter deadline relativt til spilltid
-        return w.getTime()+dl;
+        return w.getGameTime()+dl;
     }
     
     public String getDeadlinePrint(World w){ //skriver ut deadline som spilldato
@@ -199,14 +198,6 @@ public class Project implements Serializable {
 
     public void setDevMod(DevelopmentModel devMod) {
         this.devMod = devMod;
-    }
-
-    public ProjectType getProType() {
-        return ProType;
-    }
-
-    public void setProType(ProjectType ProType) {
-        this.ProType = ProType;
     }
     
     @Override

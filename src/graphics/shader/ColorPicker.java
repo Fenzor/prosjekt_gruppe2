@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package graphics;
+package graphics.shader;
 
 import org.lwjgl.opengl.GL20;
 import org.newdawn.slick.Color;
